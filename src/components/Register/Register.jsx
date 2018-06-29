@@ -43,8 +43,11 @@ class Register extends Component {
           <button onClick={() => this.getData().message}>Hey</button>
           <form>
             <TextField label="Email" name="Email" />
+            <br/>
             <TextField label="Password" name="Password" />
+            <br/>
             <TextField label="Confirm Password" name="Password" />
+            <br/>
             <Button variant="contained" color="primary">
               Register
             </Button>
