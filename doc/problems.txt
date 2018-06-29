@@ -1,3 +1,5 @@
 Problems:
 
 - We need to figure out how to implement our newly created currency in the database. The attempt to create API address fields to appear that the currency data was coming from an api were not good since the address was being repeated and using an unnecessary space in the database as well as the value of our currency in the database. data. Filled in the currency tuple and blank for other currencies. It did not make sense thinking about normalizing data.
+
+- During the initial planning we decided to use a React frontend with a Rails backend (Active Record). We ended up with 2 servers running our frontend and one running the backend. We timeboxed the implementation, scrapped the complicated discovery and decided to go with what we were all stronger and more comfortable with
