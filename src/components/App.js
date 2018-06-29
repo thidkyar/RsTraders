@@ -5,8 +5,6 @@ import Login from "./Login/Login.jsx";
 import Register from "./Register/Register.jsx";
 import './App.css';
 import Crypto from './CryptoAPI/Crypto.jsx';
-import { AppBar } from '@material-ui/core';
-
 
 let Navigation = props => (
   <div>
