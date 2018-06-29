@@ -33,6 +33,7 @@ knex.select('*')
     console.error(error)
   });
 
+  //this show all coins
 app.get('/', (req, res) => {
   res.json({message: 'Hello World! from GET'});
   knex.select('*')
@@ -50,6 +51,11 @@ app.get('/', (req, res) => {
 })
 
 app.post('/block', (req, res) => {
+  console.log(req.body)
+  res.json({message: 'Hello World!, from POST'})
+})
+
+app.post('/users', (req, res) => {
   console.log(req.body)
   res.json({message: 'Hello World!, from POST'})
 })
