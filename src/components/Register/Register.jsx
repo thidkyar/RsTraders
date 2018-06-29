@@ -37,17 +37,19 @@ class Register extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className="App">
-        <button onClick={() => this.getData().message}>Hey</button>
-        <form>
-          <h1> Register </h1>
-          <TextField label="Email" name="Email" />
-          <TextField label="Password" name="Password" />
-          <TextField label="Confirm Password" name="Password" />
-          <Button variant="contained" color="primary">
-            Register
-          </Button>
-        </form>
+      <div className="session">
+      <h1>Create your Account</h1>
+        <div className="register-form">
+          <button onClick={() => this.getData().message}>Hey</button>
+          <form>
+            <TextField label="Email" name="Email" />
+            <TextField label="Password" name="Password" />
+            <TextField label="Confirm Password" name="Password" />
+            <Button variant="contained" color="primary">
+              Register
+            </Button>
+          </form>
+        </div>
       </div>
     );
   }
