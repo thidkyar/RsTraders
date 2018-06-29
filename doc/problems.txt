@@ -1,0 +1,3 @@
+Problems:
+
+- We need to figure out how to implement our newly created currency in the database. The attempt to create API address fields to appear that the currency data was coming from an api were not good since the address was being repeated and using an unnecessary space in the database as well as the value of our currency in the database. data. Filled in the currency tuple and blank for other currencies. It did not make sense thinking about normalizing data.
