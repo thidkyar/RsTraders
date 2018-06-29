@@ -30,9 +30,19 @@ class Crypto extends Component {
       <div>
         <h1> Top 20 cryptocurrency </h1>
         <div>
-          {this.state.items["data"]["2"].name} -
-          {this.state.items["data"]["2"].symbol} - 
+          <table>
+            <tr>
+              <td>
+          {this.state.items["data"]["2"].name}
+</td>
+<td>
+          {this.state.items["data"]["2"].symbol}
+          </td>
+          <td>
           {this.state.items["data"]["2"].rank}
+          </td>
+          </tr>
+          </table>
         </div>
         </div>
     )
