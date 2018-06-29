@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
       table.string('last_name');
       table.string('email').notNullable();
       table.string('password').notNullable();
-      table.integer('phone');
+      table.string('phone');
     })
   ]);
 };

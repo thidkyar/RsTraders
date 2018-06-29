@@ -3,7 +3,7 @@ exports.up = function(knex, Promise) {
     knex.schema
     .createTable('favorites', function(table) {
       table.increments('id').primary();
-      table.string('users_id').references('id').inTable('users');
+      table.integer('users_id').references('id').inTable('users');
       table.string('coin_id');
       table.integer('rank');
     })
