@@ -8,14 +8,6 @@ import './App.css';
 import { AppBar } from '@material-ui/core';
 
 
-// let Navigation = props => (
-//   <div>
-//     <Link to="/"> Home </Link> |
-//     <Link to="login"> Login </Link> | 
-//     <Link to="register"> Register </Link>
-//   </div>
-// )
-
 let Home = () => <h1>Yo</h1 >
 
 class App extends Component {
