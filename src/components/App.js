@@ -6,6 +6,7 @@ import Register from "./Register/Register.jsx";
 import './App.css';
 import Crypto from './CryptoAPI/Crypto.jsx';
 
+
 let Navigation = props => (
   <div>
     <Link to="/"> Home </Link> |
