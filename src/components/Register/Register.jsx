@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import "./Register.css";
 import { TextField } from "@material-ui/core";
+import axios from 'axios';
 
 const styles = theme => ({
   button: {
@@ -15,6 +16,34 @@ const styles = theme => ({
 });
 
 class Register extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      first_name: '',
+      last_name: '',
+      email: '',
+      password: '',
+      phone: ''
+    }
+  }
+
+  onChange = (e) => {
+    // Because we named the inputs to match their corresponding values in state, it's
+    // super easy to update the state
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    // get our form data out of state
+    const { first_name, last_name, password, email, phone } = this.state;
+
+    axios.post('http://localhost:4000/api/users/register', { first_name, last_name, password, email, phone })
+      .then((result) => {
+        console.log(result)
+      });
+  }
+
   getData = () => {
     return fetch("http://localhost:4000/")
       .then(res => res.json())
@@ -25,6 +54,7 @@ class Register extends Component {
       .catch(err => console.log(err));
   };
 
+  // <button onClick={() => this.getData().message}>Hey</button>
   //POST REQUEST
   // return fetch('http://localhost:4000/', {
   //   method: "POST",
@@ -36,19 +66,22 @@ class Register extends Component {
 
   render() {
     const { classes } = this.props;
+    const { first_name, last_name, password, email, phone } = this.state;
     return (
       <div className="session">
       <h1>Create your Account</h1>
         <div className="register-form">
-          <button onClick={() => this.getData().message}>Hey</button>
-          <form>
-            <TextField label="Email" name="Email" />
+          <form method='POST' action='http://localhost:4000/api/users/register'>
+            <TextField onChange={this.onChange} value= {first_name} label="First Name" name="first_name" />
             <br/>
-            <TextField label="Password" name="Password" />
+            <TextField onChange={this.onChange} value= {last_name} label="Last Name" name="last_name" />
             <br/>
-            <TextField label="Confirm Password" name="Password" />
+            <TextField onChange={this.onChange} value= {email} label="Email" name="email" />
             <br/>
-            <Button variant="contained" color="primary">
+            <TextField onChange={this.onChange} value= {password} label="Password" name="password" />
+            <br/>    
+            <TextField onChange={this.onChange} value={phone} label="Phone #" name="phone" />
+            <Button type='Submit' variant="contained" color="primary">
               Register
             </Button>
           </form>

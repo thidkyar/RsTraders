@@ -36,12 +36,15 @@ app.use("/api/users", usersRoutes(knex));
 app.use("/api/favorites", favoritesRoutes(knex));
 // app.use("/api/blockchain", blockchainRoutes(knex));
 
+app.post("/api/users/register", (req, res) => {
+  console.log('Hit')
+})
 
 knex.select('*')
   .from('users')
   .where('email', '=', 'a')
   .then(function(rows) {
-    console.log(rows[0].id);
+    console.log(rows);
   })
   .catch(function(error) {
     console.error(error)

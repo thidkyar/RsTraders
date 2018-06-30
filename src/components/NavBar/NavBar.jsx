@@ -11,15 +11,9 @@ class NavBar extends Component {
       <div className='nav'>
         <AppBar style={{ textDecorationColor: '#2196F3' }}>
           <Tabs>
-            <Tab label="Home" onClick={<Link to="/" />}>
               <Link to="/">Home</Link>
-            </Tab>
-            <Tab label="Login">
               <Link to="login">Login</Link>
-            </Tab>
-            <Tab label="Register">
               <Link to="register">Register</Link>
-            </Tab>
           </Tabs>
         </AppBar>
       </div>
