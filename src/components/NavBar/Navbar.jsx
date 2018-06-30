@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from "@reach/router";
+import React, { Component } from 'react';
+import { Router, Link } from "@reach/router";
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -12,7 +12,7 @@ const NavBar = () => {
             <AppBar position="static">
                 <Toolbar>
 
-                    <Typography variant="title">
+                    <Typography variant="title" color="white">
                         <Link to="/"> Home </Link> |
                         <Link to="login"> Login </Link> |
                         <Link to="register"> Register </Link>
