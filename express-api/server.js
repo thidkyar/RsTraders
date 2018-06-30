@@ -12,6 +12,10 @@ const bodyParser = require('body-parser')
 const express = require('express')
 const app         = express();
 
+// Basic database setup
+const MongoClient = require("mongodb").MongoClient;
+const MONGODB_URI = 'mongodb://localhost:27017/blockchain';
+
 // Configuration of Knex
 const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
@@ -26,26 +30,32 @@ app.use(cors())
 // Parses JSON Bodies in POST requests
 app.use(bodyParser.json())
 
+MongoClient.connect(MONGODB_URI, (err, db) => {
+  if (err) {
+    console.error(`Failed to connect: ${MONGODB_URI}`);
+    throw err;
+  }
+  const blockchainRoutes = require("./routes/blockchain")(db);
+  app.use("/api/blockchain", blockchainRoutes);
+});
+
 // Routes
 const usersRoutes = require("./routes/users");
 const favoritesRoutes = require("./routes/favorites");
-// const blockchainRoutes = require("./routes/blockchain");
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/favorites", favoritesRoutes(knex));
-// app.use("/api/blockchain", blockchainRoutes(knex));
 
-
-knex.select('*')
-  .from('users')
-  .where('email', '=', 'a')
-  .then(function(rows) {
-    console.log(rows[0].id);
-  })
-  .catch(function(error) {
-    console.error(error)
-  });
+// knex.select('*')
+//   .from('users')
+//   .where('email', '=', 'a')
+//   .then(function(rows) {
+//     console.log(rows[0].id);
+//   })
+//   .catch(function(error) {
+//     console.error(error)
+//   });
 
 //   //this show all coins
 // app.get('/', (req, res) => {
