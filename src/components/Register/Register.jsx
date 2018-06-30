@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import "./Register.css";
 import { TextField } from "@material-ui/core";
 import axios from "axios";
-import {Redirect} from "@reach/router"
+import {navigate} from "@reach/router"
 
 const styles = theme => ({
   button: {
@@ -47,9 +47,9 @@ class Register extends Component {
       },
       body: JSON.stringify(this.state)
     })
-      .then(result => result.json())
+      // .then(result => result.json())
       .then(info => {
-        console.log(info);
+        // console.log(info);
       });
   };
 
@@ -80,7 +80,7 @@ class Register extends Component {
       <div className="session">
         <h1>Create your Account</h1>
         <div className="register-form">
-          <form onSubmit={this.onSubmit}>
+          <form onSubmit={this.onSubmit }>
             <TextField onBlur={this.onChange} label="First Name" name="first_name" />
             <br />
             <TextField onBlur={this.onChange} label="Last Name" name="last_name" />
