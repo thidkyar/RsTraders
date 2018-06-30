@@ -4,7 +4,6 @@ class Crypto extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // items: [],
       coins: []
     }
   }
@@ -17,9 +16,7 @@ class Crypto extends Component {
       .then(res => res.json())
       .then(
         (result) => {
-          // debugger
           this.setState("Set state"[result]);
-          // this.setState({ items: result });
           console.log("Original Format", result);
           var coins = Object.values(result.data);
           this.setState({ coins: coins });
@@ -32,33 +29,32 @@ class Crypto extends Component {
   render() {
     return (
       <div className="Crypto-Ticker">
-<h1>         Top 20 cryptocurrencies </h1>
-         <table>
-           <thead>
+        <h1>         Top 20 cryptocurrencies </h1>
+        <table>
+          <thead>
             <tr>
-            <th>Rank</th>
-            <th>Symbol</th>
+              <th>Rank</th>
+              <th>Symbol</th>
               <th>Name</th>
               <th>Price</th>
-              <th>Change (24h)</th>  
-            </tr>         
-            </thead>
-            <tbody>
-                {/* <tr> */}
-                  {this.state.coins.map((coin, c) => {
-                    return (
-                      <tr key={c}>
-                                              <td>{coin.rank}</td>
-                                              <td>{coin.symbol}</td>
-                        <td>{coin.name}</td>
-                        <td>$ {Math.round((coin.quotes.CAD.price)*100)/100}</td>
-                        <td>{coin.quotes.CAD.percent_change_24h} %</td>
-                       </tr>
-                    ) })}
-                {/* </tr> */}
-                </tbody>
-          </table>
-        </div>
+              <th>Change (24h)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.coins.map((coin, c) => {
+              return (
+                <tr key={c}>
+                  <td>{coin.rank}</td>
+                  <td>{coin.symbol}</td>
+                  <td>{coin.name}</td>
+                  <td>$ {Math.round((coin.quotes.CAD.price) * 100) / 100}</td>
+                  <td>{coin.quotes.CAD.percent_change_24h} %</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
     )
   }
 }
