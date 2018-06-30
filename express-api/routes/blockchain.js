@@ -1,6 +1,6 @@
 const SHA256 = require('js-sha256');
 
-class Block {
+module.export = class Block {
   constructor(transactions, previousHash = '') {
     this.timestamp = Date.now();
     this.previousHash = previousHash;
@@ -111,39 +111,39 @@ class BlockChain{
 }
 
 class Transaction{
-  constructor(user_id, coin_id_from, coin_id_to, coin_value_from, coin_value_to, value_usd, date){
+  constructor(user_id, coin_id_from, coin_value_from, coin_id_to, coin_value_to, date){
     this.user_id = user_id;
     this.coin_id_from = coin_id_from;
     this.coin_id_to = coin_id_to;
     this.coin_value_from = coin_value_from;
     this.coin_value_to = coin_value_to;
-    this.value_usd = value_usd;
     this.date = date;
   }
 }
 
-  // Base web page to login into the system. If the user is login send session to /urls
-  // app.get("/users/:id/balance", (req, res) => {
-
-  //   RSTCoin.getBalanceOfUser(req.params.id)
-
-  // });
-
-
-let user1 = '1'
-let user2 = '2'
-
 let RSTCoin = new BlockChain();
 
-RSTCoin.addTransaction(new Transaction(user1,null,'RST',0, 1000,0,0));
-RSTCoin.addTransaction(new Transaction(user1,'RST','BTC',100, 10,0,0));
-RSTCoin.addTransaction(new Transaction(user1,'RST','BTC',900, 90,0,0));
-RSTCoin.addTransaction(new Transaction(user1,null,'RST',0, 1000,0,0));
-RSTCoin.addTransaction(new Transaction(user1,'RST','LTC',100, 10,0,0));
-RSTCoin.addTransaction(new Transaction(user1,'LTC','BTC',10, 90,0,0));
+// Base web page to login into the system. If the user is login send session to /urls
+app.get("/users/:id/balance", (req, res) => {
 
-console.log(RSTCoin.mineTransaction(user1));
+  //need return this information
+  RSTCoin.getBalanceOfUser(req.params.id)
 
-console.log(RSTCoin.getBalanceOfUser(user1));
+});
 
-console.log(RSTCoin.validateChain());
+app.post("/users/:id/transaction", (req, res) => {
+
+  RSTCoin.addTransaction(new Transaction(
+    req.params.id,
+    req.params.coin_id_from,
+    req.params.coin_value_from,
+    req.params.coin_id_to,
+    req.params.coin_value_to,
+    req.params.date
+  ));
+
+  RSTCoin.mineTransaction(req.params.id);
+
+  Console.log('The blockchain are valid? ',RSTCoin.validateChain());
+
+});

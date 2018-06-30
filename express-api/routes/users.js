@@ -11,6 +11,7 @@ module.exports = (knex) => {
     console.log("APP GET")
   })
 
+
   // Base web page to login into the system. If the user is login send session to /urls
   router.get("/login", (req, res) => {
     if (!req.session.user_id) {
