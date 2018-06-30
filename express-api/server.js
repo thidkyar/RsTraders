@@ -4,13 +4,14 @@ require('dotenv').config()
 
 const PORT = process.env.PORT || 4000
 
-const cookieSession = require("cookie-session");
 const bcrypt = require("bcrypt");
 const ENV         = process.env.ENV || "development";
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const express = require('express')
 const app         = express();
+const cookieSession = require("cookie-session");
+
 
 // Configuration of Knex
 const knexConfig  = require("./knexfile");
@@ -25,6 +26,12 @@ app.use(cors())
 
 // Parses JSON Bodies in POST requests
 app.use(bodyParser.json())
+app.use(
+  cookieSession({
+    name: "session",
+    keys: ["Dont worry how this is encrypted"]
+  })
+);
 
 // Routes
 const usersRoutes = require("./routes/users");
@@ -36,19 +43,12 @@ app.use("/api/users", usersRoutes(knex));
 app.use("/api/favorites", favoritesRoutes(knex));
 // app.use("/api/blockchain", blockchainRoutes(knex));
 
-app.post("/api/users/register", (req, res) => {
-  console.log('Hit')
-})
 
-knex.select('*')
-  .from('users')
-  .where('email', '=', 'a')
-  .then(function(rows) {
-    console.log(rows);
-  })
-  .catch(function(error) {
-    console.error(error)
-  });
+
+
+// app.post("/api/users/register", (req, res) => {
+//   console.log('Hit')
+// })
 
 //   //this show all coins
 // app.get('/', (req, res) => {

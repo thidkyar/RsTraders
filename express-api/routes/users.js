@@ -3,8 +3,10 @@
 const express = require('express');
 const router  = express.Router();
 const app         = express();
+const bcrypt = require('bcrypt')
 
 module.exports = (knex) => {
+  
   router.get("/", (res,req) => {
     console.log("APP GET")
   })
@@ -57,18 +59,21 @@ module.exports = (knex) => {
   router.post("/register", (req, res) => {
     console.log(req.body)
     console.log('Hit')
-    // if (!req.body.email || !req.body.password) { // test with user or password is blank
-    //   res.status(400).send(('Blank cannot be used for user or password.'));
-    // } else {
+    if (!req.body.email || !req.body.password) { // test with user or password is blank
+      res.status(400).send(('Blank cannot be used for user or password.'));
+    } else {
 
       knex.select('*')
       .from('users')
       .where('email', req.body.email)
       .then(function(results) {
+        console.log(results)
         if (results) { // test with user exist or not.
-          res.status(400).send(systemMessages('User exist. Choose another one.'));
+          res.status(400).send('User exist. Choose another one.');
         } else {
+          console.log('HEY')
             knex('users')
+            .returning('id')
             .insert([{
               first_name: req.body.first_name,
               last_name: req.body.last_name,
@@ -76,19 +81,20 @@ module.exports = (knex) => {
               email: req.body.email,
               password: bcrypt.hashSync(req.body.password, 15)
             }])
-            .returning('id')
             .then(function(id) {
+              console.log(req.session)
               req.session.user_id = id;
             })
             .catch(function(error) {
-              console.error(error)
+              console.error('ERROR1', error)
             });
           }
       })
       .catch(function(error) {
-        console.error(error)
+        console.error('ERROR2', error)
       });
-    // }
+      console.log('SUBMITTED')
+    }
   });
 
   router.post("/changePassword", (req, res) => {
