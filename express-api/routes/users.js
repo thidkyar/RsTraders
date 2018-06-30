@@ -7,7 +7,9 @@ const bcrypt = require('bcrypt')
 
 module.exports = (knex) => {
   
-  router.get("/", (res,req) => {
+  router.get("/:id", (res,req) => {
+    //return user profile
+    //
     console.log("APP GET")
   })
 

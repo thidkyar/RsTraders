@@ -127,14 +127,14 @@ let RSTCoin = new BlockChain();
 app.get("/users/:id/balance", (req, res) => {
 
   //need return this information
-  RSTCoin.getBalanceOfUser(req.params.id)
+  RSTCoin.getBalanceOfUser(req.params.id) // change to body
 
 });
 
 app.post("/users/:id/transaction", (req, res) => {
 
   RSTCoin.addTransaction(new Transaction(
-    req.params.id,
+    req.params.id, //change to body
     req.params.coin_id_from,
     req.params.coin_value_from,
     req.params.coin_id_to,

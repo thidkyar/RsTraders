@@ -16,3 +16,7 @@ module.exports = (knex) => {
 
   return router;
 }
+
+
+//post and get for favorites
+//
