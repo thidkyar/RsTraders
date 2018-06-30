@@ -6,23 +6,23 @@ const app         = express();
 
 module.exports = (knex) => {
 
-  // Base web page to login into the system. If the user is login send session to /urls
-  app.get("/login", (req, res) => {
-    if (!req.session.user_id) {
-      res.render("urls_login");
-    } else {
-      res.redirect("/urls");
-    }
-  });
+  // // Base web page to login into the system. If the user is login send session to /urls
+  // app.get("/login", (req, res) => {
+  //   if (!req.session.user_id) {
+  //     res.render("urls_login");
+  //   } else {
+  //     res.redirect("/urls");
+  //   }
+  // });
 
-  // Base web page to register a new user. If the user is login send the user to /urls.
-  app.get("/register", (req, res) => {
-    if (!req.session.user_id) {
-      res.render("urls_register");
-    } else {
-      res.redirect("/urls");
-    }
-  });
+  // // Base web page to register a new user. If the user is login send the user to /urls.
+  // app.get("/register", (req, res) => {
+  //   if (!req.session.user_id) {
+  //     res.render("urls_register");
+  //   } else {
+  //     res.redirect("/urls");
+  //   }
+  // });
 
   // Get information from login web page
   app.post("/login", (req, res) => {

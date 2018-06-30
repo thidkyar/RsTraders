@@ -1,34 +1,34 @@
 'use strict'
 
-require('dotenv').config()
+require('dotenv').config();
 
-const PORT = process.env.PORT || 4000
+const PORT = process.env.PORT || 4000;
 
 const cookieSession = require("cookie-session");
-const bcrypt = require("bcrypt");
-const ENV         = process.env.ENV || "development";
-const cors = require('cors')
-const bodyParser = require('body-parser')
-const express = require('express')
-const app         = express();
+const bcrypt        = require("bcrypt");
+const ENV           = process.env.ENV || "development";
+const cors          = require('cors');
+const bodyParser    = require('body-parser');
+const express       = require('express');
+const app           = express();
 
 // Basic database setup
-const MongoClient = require("mongodb").MongoClient;
-const MONGODB_URI = 'mongodb://localhost:27017/blockchain';
+const MongoClient   = require("mongodb").MongoClient;
+const MONGODB_URI   = 'mongodb://localhost:27017/blockchain';
 
 // Configuration of Knex
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
-const knexLogger  = require('knex-logger');
+const knexConfig    = require("./knexfile");
+const knex          = require("knex")(knexConfig[ENV]);
+const knexLogger    = require('knex-logger');
 
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
 // Add Proper CORS headers to all routes
-app.use(cors())
+app.use(cors());
 
 // Parses JSON Bodies in POST requests
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 MongoClient.connect(MONGODB_URI, (err, db) => {
   if (err) {
@@ -84,4 +84,4 @@ app.use("/api/favorites", favoritesRoutes(knex));
 //   res.json({message: 'Hello World!, from POST'})
 // })
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
+app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
