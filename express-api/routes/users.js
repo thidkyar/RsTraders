@@ -82,8 +82,9 @@ module.exports = (knex) => {
               password: bcrypt.hashSync(req.body.password, 15)
             }])
             .then(function(id) {
-              console.log(req.session)
               req.session.user_id = id;
+              console.log(req.session.user_id)
+
             })
             .catch(function(error) {
               console.error('ERROR1', error)

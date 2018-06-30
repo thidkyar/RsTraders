@@ -5,6 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import "./Register.css";
 import { TextField } from "@material-ui/core";
 import axios from "axios";
+import {Redirect} from "@reach/router"
 
 const styles = theme => ({
   button: {
