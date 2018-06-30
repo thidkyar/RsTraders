@@ -1,29 +1,23 @@
 import React, { Component } from 'react';
-import {Router, Link} from "@reach/router"
-import Login from "./Login/Login.jsx"
-import Register from "./Register/Register.jsx"
+import {Router} from "@reach/router";
+import Login from "./Login/Login.jsx";
+import Register from "./Register/Register.jsx";
+import Crypto from './CryptoAPI/Crypto.jsx';
+import NavBar from "./NavBar/NavBar.jsx";
+
 import './App.css';
 
-let Navigation = props => (
-  <div>
-    <Link to="/">Home</Link>
-    <Link to="login">Login</Link> 
-    <Link to="register">Register</Link>
-  </div>
-)
-
-let Home = () => <h1>Yo</h1 >
+let Home = () => <Crypto />
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Navigation> 
-        </Navigation>
+      <NavBar />
         <Router>
           <Home path="/" />
-          <Login path="/login" />
-          <Register path="/register" />
+          <Login path="login" />
+          <Register path="register" />
         </Router>
       </div>
     );

@@ -3,14 +3,13 @@ import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import "./Login.css";
 
-class Login extends Component {
+class Chart extends Component {
   render() {
     return (
     <div>
-    
     </div>
     );
   }
 }
 
-export default Login;
+export default Chart;
