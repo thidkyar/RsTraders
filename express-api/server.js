@@ -13,6 +13,10 @@ const app         = express();
 const cookieSession = require("cookie-session");
 
 
+// Basic database setup
+const MongoClient = require("mongodb").MongoClient;
+const MONGODB_URI = 'mongodb://localhost:27017/blockchain';
+
 // Configuration of Knex
 const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
@@ -33,10 +37,18 @@ app.use(
   })
 );
 
+MongoClient.connect(MONGODB_URI, (err, db) => {
+  if (err) {
+    console.error(`Failed to connect: ${MONGODB_URI}`);
+    throw err;
+  }
+  const blockchainRoutes = require("./routes/blockchain")(db);
+  app.use("/api/blockchain", blockchainRoutes);
+});
+
 // Routes
 const usersRoutes = require("./routes/users");
 const favoritesRoutes = require("./routes/favorites");
-// const blockchainRoutes = require("./routes/blockchain");
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
