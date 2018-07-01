@@ -3,7 +3,8 @@ import {Router} from "@reach/router";
 import Login from "./Login/Login.jsx";
 import Register from "./Register/Register.jsx";
 import Crypto from './CryptoAPI/Crypto.jsx';
-import NavBar from "./NavBar/NavBar.jsx";
+import CryptoNews from './CryptoNews/CryptoNews.jsx';
+import NavBar from "./NavBar/NavBar";
 
 import './App.css';
 
@@ -14,6 +15,8 @@ class App extends Component {
     return (
       <div className="App">
       <NavBar />
+      <CryptoNews />
+      <Crypto />
         <Router>
           <Home path="/" />
           <Login path="login" />
