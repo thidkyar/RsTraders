@@ -12,6 +12,7 @@ class NavBar extends Component {
         <AppBar style={{ textDecorationColor: '#2196F3' }}>
           <Tabs>
               <Link to="/">Home</Link>
+              <Link to="/chart">Charts</Link>
               <Link to="login">Login</Link>
               <Link to="register">Register</Link>
           </Tabs>
