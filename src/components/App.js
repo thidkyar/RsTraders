@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-<<<<<<< HEAD
 import {Router, Link} from "@reach/router"
 import Login from "./Login/Login.jsx"
 import Register from "./Register/Register.jsx"
 import NavBar from "./NavBar/NavBar.jsx"
 import Chart from "./Chart/Chart.jsx"
-=======
-import {Router} from "@reach/router";
-import Login from "./Login/Login.jsx";
-import Register from "./Register/Register.jsx";
-import Crypto from './CryptoAPI/Crypto.jsx';
-import NavBar from "./NavBar/NavBar.jsx";
-
->>>>>>> 9d617897b35a0d4061c0472671eb29341dae594c
-import './App.css';
+import Crypto from "./CryptoAPI/Crypto.jsx"
+import './App.css'; 
 
 let Home = () => <Crypto />
 
