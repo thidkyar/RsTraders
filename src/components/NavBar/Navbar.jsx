@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from "@reach/router";
+import React, { Component } from 'react';
+import { Router, Link } from "@reach/router";
 
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -20,5 +20,5 @@ const NavBar = () => {
             </AppBar>
         </div>
     )
-}
+} 
 export default NavBar;

@@ -7,7 +7,6 @@ class Crypto extends Component {
       coins: []
     }
   }
-
   componentDidMount() {
     //API to GET all cryptocurrency tickers
     const url = "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=500&sort=rank&structure=array";
@@ -17,18 +16,18 @@ class Crypto extends Component {
       .then(
         (result) => {
           this.setState("Set state"[result]);
-          console.log("Original Format", result);
+          // console.log("Original Format", result);
           var coins = Object.values(result.data);
           this.setState({ coins: coins });
-          console.log("Here's the array", coins);
+          // console.log("Here's the array", coins);
 
         }
       )
   }
-
   render() {
     return (
       <div className="Crypto-Ticker">
+
         <h1>         Top 20 cryptocurrencies </h1>
         <table>
           <thead>
@@ -51,9 +50,22 @@ class Crypto extends Component {
                   <td>{coin.quotes.CAD.percent_change_24h} %</td>
                 </tr>
               )
-            })}
+            })
+            }
           </tbody>
         </table>
+        <hr />
+        <marquee>This is text. This is a text. This is a text</marquee>
+        {/* <marquee>
+          {this.state.coins.map((coin, c) => {
+            return (
+              <li> key={c}></li>
+              <li> {coin.symbol} </li>
+          )
+          }
+          )
+          }
+        </marquee> */}
       </div>
     )
   }

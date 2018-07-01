@@ -12,7 +12,7 @@ const NavBar = () => {
             <AppBar position="static">
                 <Toolbar>
 
-                    <Typography variant="title" color="white">
+                    <Typography variant="title">
                         <Link to="/"> Home </Link> |
                         <Link to="login"> Login </Link> |
                         <Link to="register"> Register </Link>
@@ -21,5 +21,5 @@ const NavBar = () => {
             </AppBar>
         </div>
     )
-}
+} 
 export default NavBar;

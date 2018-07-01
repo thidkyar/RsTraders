@@ -11,7 +11,7 @@ class CryptoNews extends Component {
 
     componentDidMount() {
         //News API
-        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=10&from=2018-06-30&sortBy=popularity&Language=en&apiKey=39814515319242c8949940cc311d0121";
+        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=10&from=today&sortBy=popularity&Language=en&apiKey=39814515319242c8949940cc311d0121";
 
         fetch(url)
             .then(res => res.json())
@@ -27,10 +27,8 @@ class CryptoNews extends Component {
     }
     render() {
         return (
-            <div className="Crypto-News">
+            <div className="Crypto-News">            
             <h1>Crypto News</h1>
-              <marquee> This is some text. This is some text. </marquee>
-              <hr />
               <table>
               <thead>
                 <tr>
@@ -38,7 +36,6 @@ class CryptoNews extends Component {
                 </tr>
               </thead>
               <tbody>
-                
                 {this.state.news.map((ner, n) => {
                   return (
                     <tr key={n}>
@@ -48,6 +45,22 @@ class CryptoNews extends Component {
                 })}
               </tbody>
             </table>
+            <hr />
+            {/* News Scroller */}
+            {/* <marquee width="250" height="200" direction="up">               <table>
+              <thead>
+              </thead>
+              <tbody>
+                {this.state.news.map((ner, n) => {
+                  return (
+                    <tr key={n}>
+                      <td><b>{ner.title}:</b> {ner.description}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table> </marquee> */}
+
             </div>
         );
 }
