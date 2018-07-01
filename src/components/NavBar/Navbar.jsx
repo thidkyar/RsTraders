@@ -15,7 +15,7 @@ const NavBar = () => {
                     <Typography variant="title" color="white">
                         <Link to="/"> Home </Link> |
                         <Link to="login"> Login </Link> |
-                        <Link to="register"> Register </Link>
+                        <Link to="register"> Register </Link> |
                     </Typography>
                 </Toolbar>
             </AppBar>
