@@ -39,21 +39,24 @@ app.use(
   })
 );
 
-MongoClient.connect(MONGODB_URI, (err, db) => {
-  if (err) {
-    console.error(`Failed to connect: ${MONGODB_URI}`);
-    throw err;
-  }
-  const blockchainRoutes = require("./routes/blockchain")(db);
-  app.use("/api/blockchain", blockchainRoutes);
-});
+// MongoClient.connect(MONGODB_URI, (err, db) => {
+//   if (err) {
+//     console.error(`Failed to connect: ${MONGODB_URI}`);
+//     throw err;
+//   }
+//   const blockchainRoutes = require("./routes/blockchain")(db);
+//   app.use("/api/blockchain", blockchainRoutes);
+// });
+
+// const blockchainRoutes = require("./routes/blockchain");
+// app.use("/api/blockchain", blockchainRoutes);
 
 // Routes
-const usersRoutes = require("./routes/users");
+const usersRoutes     = require("./routes/users");
 const favoritesRoutes = require("./routes/favorites");
 
 // Mount all resource routes
-app.use("/api/users", usersRoutes(knex));
+app.use("/api/users",     usersRoutes(knex));
 app.use("/api/favorites", favoritesRoutes(knex));
 // app.use("/api/blockchain", blockchainRoutes(knex));
 
