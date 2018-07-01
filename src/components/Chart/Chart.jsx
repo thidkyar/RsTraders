@@ -122,12 +122,15 @@ class Chart extends Component {
     return (
       <div className="chart">
       <Grid container spacing={0}>
-        <Grid item xs={12} sm={6}>
+        <Grid item sm={2}>
           <Paper > 
           <h1>Bitcoin</h1>
+          <Button variant="outlined" color="primary"> Buy </Button>
+          <br/>
+          <Button variant="outlined" color="primary"> Sell</Button>
           </Paper>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item sm={10}>
           <Paper ><Line
           data={this.state.data}
           width={100}
