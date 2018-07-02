@@ -29,22 +29,6 @@ class CryptoNews extends Component {
         return (
             <div className="Crypto-News">            
             <h1>Crypto News</h1>
-              <table>
-              <thead>
-                <tr>
-                  <th>Headlines</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.state.news.map((ner, n) => {
-                  return (
-                    <tr key={n}>
-                      <td>{ner.title}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
             <hr />
             {/* News Scroller */} 
             <marquee width="250" height="200" direction="up">               <table>

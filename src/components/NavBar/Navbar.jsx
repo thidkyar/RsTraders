@@ -13,6 +13,7 @@ const NavBar = () => {
                 <Toolbar>
                     <Typography variant="title">
                         <Link to="/"> Home </Link> |
+                        <Link to="/chart"> Chart </Link> |
                         <Link to="login"> Login </Link> |
                         <Link to="register"> Register </Link>
                     </Typography>

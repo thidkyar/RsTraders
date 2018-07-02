@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router  = express.Router();
-const app         = express();
+// const app         = express();
 const bcrypt = require('bcrypt')
 
 module.exports = (knex) => {
@@ -34,11 +34,13 @@ module.exports = (knex) => {
 
   // Get information from login web page
   router.post("/login", (req, res) => {
-    
+    console.log('HIT LOGIN')
+    console.log(req.body)
     // test if the email or the password is blank or null and send a message to the user
     if (!req.body.email || req.body.email === '' && !req.body.password || req.body.password === '') {
-      res.status(400).send(systemMessages('Fields cannot be Empty.'));
+      res.status(400).send('Fields cannot be Empty.');
     } else { // for in to find the user into the database
+      console.log('after else')
       knex.select('*')
       .from('users')
       .where('email', '=', req.body.email)
@@ -53,7 +55,7 @@ module.exports = (knex) => {
       });
 
       // Send a message to the user if the login or the password is not correct
-      res.status(400).send(systemMessages('Login or password is not correct.'));
+      res.status(400).send('Login or password is not correct.');
     }
   });
 
@@ -70,7 +72,7 @@ module.exports = (knex) => {
       .from('users')
       .where('email', req.body.email)
       .then(function(results) {
-        console.log(results)
+        console.log('KASDKAJHSDKSAHDK', results)
         // if (results) { // test with user exist or not.
         //   res.status(400).send('User exist. Choose another one.');
         // } else {
@@ -86,12 +88,14 @@ module.exports = (knex) => {
             }])
             .then(function(id) {
               req.session.user_id = id;
+              res.status(201).redirect('http://localhost:3000/')
               console.log(req.session.user_id)
 
             })
             .catch(function(error) {
               console.error('ERROR1', error)
             });
+          
           // }
       })
       .catch(function(error) {

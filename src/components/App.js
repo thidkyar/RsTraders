@@ -5,6 +5,7 @@ import Register from "./Register/Register.jsx";
 import Crypto from './Crypto/Crypto.jsx';
 import CryptoNews from './CryptoNews/CryptoNews.jsx';
 import NavBar from "./NavBar/NavBar";
+import Chart from "./Chart/Chart.jsx";
 
 import './App.css';
 
@@ -18,6 +19,7 @@ class App extends Component {
       <CryptoNews />
       {/* <Crypto /> */}
         <Router>
+          <Chart path="/chart" />
           <Home path="/" />
           <Login path="login" />
           <Register path="register" />
