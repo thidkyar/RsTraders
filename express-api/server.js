@@ -39,14 +39,14 @@ app.use(
   })
 );
 
-// MongoClient.connect(MONGODB_URI, (err, db) => {
-//   if (err) {
-//     console.error(`Failed to connect: ${MONGODB_URI}`);
-//     throw err;
-//   }
-//   const blockchainRoutes = require("./routes/blockchain")(db);
-//   app.use("/api/blockchain", blockchainRoutes);
-// });
+MongoClient.connect(MONGODB_URI, (err, db) => {
+  if (err) {
+    console.error(`Failed to connect: ${MONGODB_URI}`);
+    throw err;
+  }
+  const blockchainRoutes = require("./routes/blockchain")(db);
+  app.use("/api/blockchain", blockchainRoutes);
+});
 
 // const blockchainRoutes = require("./routes/blockchain");
 // app.use("/api/blockchain", blockchainRoutes);
