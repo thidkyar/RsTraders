@@ -114,7 +114,30 @@ module.exports = (knex) => {
             .where('id', '=', req.session.user_id)
             .update({ password: bcrypt.hashSync(req.body.password, 15) })
         } else {
-          rres.json({
+          res.json({
+            redirect: false,
+            url: '/'
+          })
+        }
+      })
+      .catch(function(error) {
+        console.error('Error: The password doesnt match',error)
+      });
+
+    req.session = null;
+  });
+
+  router.post("/changePasswordEmail:email", (req, res) => {
+    knex.select('*')
+      .from('users')
+      .where('email', '=', req.session.email)
+      .then(function(results) {
+        if (results) {
+          knex('users')
+            .where('email', '=', req.session.email)
+            .update({ password: bcrypt.hashSync(req.body.password, 15) })
+        } else {
+          res.json({
             redirect: false,
             url: '/'
           })

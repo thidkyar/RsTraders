@@ -25,21 +25,6 @@ module.exports = (knex) => {
   // Get information from login web page
   router.post("/favorites/:id", (req, res) => {
     
-    if (!req.body.user_id) {
-      console.error('Error: User is not login.');
-      res.json({
-        redirect: true,
-        url: '/'
-      })
-    } else {
-
-      var query = knex("favorites")
-        .del()
-        .where('user_id', '=', req.body.user_id);
-      query.exec();
-
-      // do a for loop to how many coins and ranks
-
       knex('favorites')
         .insert([{
           users_id: req.body.user_id,
@@ -47,9 +32,21 @@ module.exports = (knex) => {
           rank: req.params.rank
         }])
         .catch(function(error) {
-          console.error('Error: Inserting the favorites',error)
+          console.error('Error: Inserting the favorites',error);
+          res.json({ sucess: false })
         });
-      }
+      res.json({ sucess: true });
+  });
+
+  router.post("/favorites/delete/:id", (req, res) => {
+
+      const query = knex("favorites")
+        .del()
+        .where('user_id', '=', req.body.user_id);
+      query.exec();
+      
+      res.json({ sucess: true });
+
   });
 
   return router;
