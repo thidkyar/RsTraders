@@ -72,7 +72,8 @@ module.exports = (knex) => {
     .from('users')
     .where('email', req.body.email)
     .then(function(results) {
-      if (results) { // test with user exist or not.
+      console.log(results);
+      if (results.length != 0) { // test with user exist or not.
         res.json({
           redirect: false,
           url: '/',
