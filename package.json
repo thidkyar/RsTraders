@@ -9,12 +9,14 @@
     "chart.js": "^2.7.2",
     "cors": "^2.8.4",
     "knex": "^0.14.6",
+    "nodemon": "^1.17.5",
     "pg": "^7.4.3",
     "react": "^16.4.1",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.4.1",
     "react-router": "^4.3.1",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "yarn": "^1.7.0"
   },
   "scripts": {
     "start": "react-scripts start",
