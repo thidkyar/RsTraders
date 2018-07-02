@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Crypto.css';
 
 class Crypto extends Component {
   constructor(props) {
@@ -20,15 +21,13 @@ class Crypto extends Component {
           var coins = Object.values(result.data);
           this.setState({ coins: coins });
           // console.log("Here's the array", coins);
-
         }
       )
   }
   render() {
     return (
       <div className="Crypto-Ticker">
-
-        <h1>         Top 20 cryptocurrencies </h1>
+        <h1>         Top 100 Cryptocurrencies </h1>
         <table>
           <thead>
             <tr>
@@ -54,20 +53,6 @@ class Crypto extends Component {
             }
           </tbody>
         </table>
-        <hr />
-        <marquee>This is text. This is a text. This is a text</marquee>
-        <marquee heght="10">{this.state.coins.map((coin, c) => {
-          return 
-          <p>
-          <p> key={c}></p>
-          <p> {coin.symbol} - {coin.percent_change_24h}</p>
-          </p>
-          // <ul>
-          // <li> key={c}></li>
-          // <li> {coin.symbol} Hello Text</li>
-          // <li>{coin.percent_change_24h}</li>
-          // </ul>
-        })} </marquee>
       </div>
     )
   }
