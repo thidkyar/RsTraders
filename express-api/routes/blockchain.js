@@ -124,29 +124,51 @@ class Transaction{
   }
 }
 
-let RSTCoin = new BlockChain();
+module.exports = function(blockchainRoutes) {
 
-// Base web page to login into the system. If the user is login send session to /urls
-app.get("/users/:id/balance", (req, res) => {
+  let RSTCoin = new BlockChain();
 
-  //need return this information
-  RSTCoin.getBalanceOfUser(req.params.id) // change to body
+  // Base web page to login into the system. If the user is login send session to /urls
+  router.get("/users/:id/balance", (req, res) => {
 
-});
+    blockchainRoutes.getBlockChain((err, RSTCoin) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        res.json(RSTCoin);
+      }
+    });
 
-app.post("/users/:id/transaction", (req, res) => {
+    //need return this information
+    RSTCoin.getBalanceOfUser(req.params.id) // change to body
 
-  RSTCoin.addTransaction(new Transaction(
-    req.params.id, //change to body
-    req.params.coin_id_from,
-    req.params.coin_value_from,
-    req.params.coin_id_to,
-    req.params.coin_value_to,
-    req.params.date
-  ));
+  });
 
-  RSTCoin.mineTransaction(req.params.id);
+  router.post("/users/:id/transaction", (req, res) => {
 
-  Console.log('The blockchain are valid? ',RSTCoin.validateChain());
+    RSTCoin.addTransaction(new Transaction(
+      req.params.id, //change to body
+      req.params.coin_id_from,
+      req.params.coin_value_from,
+      req.params.coin_id_to,
+      req.params.coin_value_to,
+      req.params.date
+    ));
 
-});
+    RSTCoin.mineTransaction(req.params.id);
+
+    Console.log('The blockchain are valid? ',RSTCoin.validateChain());
+
+    blockchainRoutes.saveBlockChain(RSTCoin, (err) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+      } else {
+        res.status(201).send();
+      }
+    });
+
+  });
+
+  return router
+
+}
