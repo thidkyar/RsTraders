@@ -37,9 +37,9 @@ module.exports = (knex) => {
     console.log('HIT LOGIN')
     console.log(req.body)
     // test if the email or the password is blank or null and send a message to the user
-    if (!req.body.email || req.body.email === '' && !req.body.password || req.body.password === '') {
-      res.status(400).send('Fields cannot be Empty.');
-    } else { // for in to find the user into the database
+    // if (!req.body.email || req.body.email === '' && !req.body.password || req.body.password === '') {
+    //   res.status(400).send('Fields cannot be Empty.');
+    // } else { // for in to find the user into the database
       console.log('after else')
       knex.select('*')
       .from('users')
@@ -47,16 +47,19 @@ module.exports = (knex) => {
       .then(function(results) {
         if (bcrypt.compareSync(req.body.password, results[0].password)) {
           req.session.user_id = results[0].id;
-          // return res.redirect("/urls");
+          res.json({
+            redirect: true,
+            url: '/'
+          })
         }
       })
       .catch(function(error) {
         console.error(error)
+        console.log("Adfasfdasfasdfsa")
+
       });
 
-      // Send a message to the user if the login or the password is not correct
-      res.status(400).send('Login or password is not correct.');
-    }
+    // }
   });
 
 
@@ -88,7 +91,10 @@ module.exports = (knex) => {
             }])
             .then(function(id) {
               req.session.user_id = id;
-              res.status(201).redirect('http://localhost:3000/')
+              res.json({
+                redirect: true,
+                url: '/'
+              })
               console.log(req.session.user_id)
 
             })
@@ -130,8 +136,12 @@ module.exports = (knex) => {
 
   // Get the information when the user clicked in logout button and turn the session to null and redirect the user to /urls.
   router.post("/logout", (req, res) => {
+    console.log('HITTTT')
     req.session = null;
-    // res.redirect("/urls");
+    res.json({
+      redirect: true,
+      url: '/'
+    })
   });
 
   return router;

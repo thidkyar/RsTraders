@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import "./Register.css";
 import { TextField } from "@material-ui/core";
-// import axios from "axios";
-import {navigate} from "@reach/router"
+import axios from "axios";
+import {redirect} from "@reach/router"
 
 const styles = theme => ({
   button: {
@@ -36,20 +36,24 @@ class Register extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(e);
+    console.log(e); 
     // get form data out of state
     const { first_name, last_name, password, email, phone } = this.state;
 
-    fetch("http://localhost:4000/api/users/register", {
+    fetch("/api/users/register", {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-type": "application/json"
       },
       body: JSON.stringify(this.state)
     })
-      // .then(result => result.json())
-      .then(info => {
-        // console.log(info);
+      .then(result => result.json())
+      .then(response => {
+        console.log(response);
+        if (response.redirect) {
+          window.location.replace(response.url)
+        }
       });
   };
 
@@ -80,16 +84,16 @@ class Register extends Component {
       <div className="session">
         <h1>Create your Account</h1>
         <div className="register-form">
-          <form onSubmit={this.onSubmit }>
-            <TextField onBlur={this.onChange} label="First Name" name="first_name" />
+          <form onSubmit={this.onSubmit}>
+            <TextField onBlur={this.onChange} label="First Name" name="first_name" required/>
             <br />
-            <TextField onBlur={this.onChange} label="Last Name" name="last_name" />
+            <TextField onBlur={this.onChange} label="Last Name" name="last_name" required/>
             <br />
-            <TextField onBlur={this.onChange} label="Email" name="email" />
+            <TextField onBlur={this.onChange} label="Email" name="email" required/>
             <br />
-            <TextField onBlur={this.onChange} label="Password" name="password" />
+            <TextField onBlur={this.onChange} label="Password" name="password" required/>
             <br />
-            <TextField onBlur={this.onChange} label="Phone #" name="phone" />
+            <TextField onBlur={this.onChange} label="Phone #" name="phone" required/>
             <Button
               type="Submit"
               variant="contained"
