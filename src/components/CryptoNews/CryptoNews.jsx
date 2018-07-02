@@ -46,8 +46,8 @@ class CryptoNews extends Component {
               </tbody>
             </table>
             <hr />
-            {/* News Scroller */}
-            {/* <marquee width="250" height="200" direction="up">               <table>
+            {/* News Scroller */} 
+            <marquee width="250" height="200" direction="up">               <table>
               <thead>
               </thead>
               <tbody>
@@ -59,7 +59,7 @@ class CryptoNews extends Component {
                   )
                 })}
               </tbody>
-            </table> </marquee> */}
+            </table> </marquee>
 
             </div>
         );
