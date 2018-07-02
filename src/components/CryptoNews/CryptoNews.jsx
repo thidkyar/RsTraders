@@ -27,26 +27,26 @@ class CryptoNews extends Component {
     }
     render() {
         return (
-            <div className="Crypto-News">            
-            <h1>Crypto News</h1>
-            <hr />
-            {/* News Scroller */} 
-            <marquee width="250" height="200" direction="up">               <table>
-              <thead>
-              </thead>
-              <tbody>
-                {this.state.news.map((ner, n) => {
-                  return (
-                    <tr key={n}>
-                      <td><b>{ner.title}:</b> {ner.description}</td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table> </marquee>
+            <div className="Crypto-News">
+                <h1>Crypto News</h1>
+                <hr />
+                {/* News Scroller */}
+                <marquee width="250" height="200" direction="up">               <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        {this.state.news.map((ner, n) => {
+                            return (
+                                <tr key={n}>
+                                    <td><b>{ner.title}:</b> {ner.description}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table> </marquee>
 
             </div>
         );
-}
     }
+}
 export default CryptoNews;

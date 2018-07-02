@@ -56,16 +56,18 @@ class Crypto extends Component {
         </table>
         <hr />
         <marquee>This is text. This is a text. This is a text</marquee>
-        {/* <marquee>
-          {this.state.coins.map((coin, c) => {
-            return (
-              <li> key={c}></li>
-              <li> {coin.symbol} </li>
-          )
-          }
-          )
-          }
-        </marquee> */}
+        <marquee heght="10">{this.state.coins.map((coin, c) => {
+          return 
+          <p>
+          <p> key={c}></p>
+          <p> {coin.symbol} - {coin.percent_change_24h}</p>
+          </p>
+          // <ul>
+          // <li> key={c}></li>
+          // <li> {coin.symbol} Hello Text</li>
+          // <li>{coin.percent_change_24h}</li>
+          // </ul>
+        })} </marquee>
       </div>
     )
   }
