@@ -74,8 +74,9 @@ module.exports = (knex) => {
     .then(function(results) {
       if (results) { // test with user exist or not.
         res.json({
-          redirect: true,
-          url: '/'
+          redirect: false,
+          url: '/',
+          message: 'user already exists'
         })
       } else {
         knex('users')
@@ -91,7 +92,8 @@ module.exports = (knex) => {
             req.session.user_id = id;
             res.json({
               redirect: true,
-              url: '/'
+              url: '/',
+              message: 'user created!'
             })
           })
           .catch(function(error) {

@@ -46,9 +46,9 @@ class Login extends Component {
       <h1>Sign in to RSTraders</h1>
       <div className="register-form">
         <form onSubmit={this.onSubmit}>
-          <TextField onBlur={this.onChange} label="Email" name="email" required/>
+          <TextField onBlur={this.onChange} type="email" label="Email" name="email" required/>
           <br />
-          <TextField onBlur={this.onChange} label="Password" name="password" required/>
+          <TextField onBlur={this.onChange} type="password" label="Password" name="password" required/>
           <br />
           <Button
             type="Submit"

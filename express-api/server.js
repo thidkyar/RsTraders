@@ -57,7 +57,7 @@ const favoritesRoutes = require("./routes/favorites");
 
 // Mount all resource routes
 app.use("/api/users",     usersRoutes(knex));
-app.use("/api/favorites", favoritesRoutes(knex));
+app.use("/api/", favoritesRoutes(knex));
 // app.use("/api/blockchain", blockchainRoutes(knex));
 
 

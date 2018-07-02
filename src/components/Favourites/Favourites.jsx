@@ -7,7 +7,8 @@ class Favourites extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      coins: []
+      coins: [],
+      currentRank: 1,
     };
   }
   callFromApi = () => {
@@ -18,25 +19,54 @@ class Favourites extends Component {
       .then(res => res.json())
       .then(result => {
         const resultObj = result.data;
-        const allCoins = [];
+        const allCoinData = [];
         resultObj.forEach(item => {
-          allCoins.push(item.name);
+          // console.log(item)
+          allCoinData.push(item);
         });
-        this.setState({ coins: allCoins });
+        console.log(allCoinData)
+        this.setState({ coins: allCoinData });
       });
   };
 
+  _favButtonEvent = e => {
+    const buttonText = (e.target.innerText).split('/')
+    // const favCoin = []
+    // favCoin.push(buttonText[0])
+    // console.log('1',favCoin)
+    // this.setState({favCoin: favCoin})
+    const params = {
+      coin_id: buttonText[0],
+      rank: this.state.currentRank
+    }
+    fetch("/api/favorites" , {
+      method: "POST",
+      credentials: 'include',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(params)
+      // body: params
+    })
+    .then(response => {
+      this.setState({currentRank: this.state.currentRank + 1})
+    })
+  }
   componentDidMount() {
     this.callFromApi();
   }
   render() {
+    console.log(this.state)
     return (
       <div>
+        <h1>Select your Favourite Crypto's!</h1>
             {this.state.coins.map(x => {
               return (
-                  <Button>
-                  {x}
+                <span>
+                  <Button onClick={this._favButtonEvent} variant="outlined">
+                  {x.symbol}/{x.name}
                   </Button>
+                  </span>
               );
             })}
       </div>
