@@ -25,16 +25,19 @@ class Login extends Component {
     e.preventDefault();
     const {password, email} = this.state;
 
-    fetch("http://localhost:4000/api/users/login", {
+    fetch("/api/users/login", {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-type": "application/json"
       },
       body: JSON.stringify(this.state)
     })
-    // .then(result => result.json())
-      .then(info => {
-        console.log(info);
+    .then(result => result.json())
+      .then(response => {
+        if (response.redirect) {
+          window.location.replace(response.url)
+        }
       });
   }
   render() {
@@ -43,9 +46,9 @@ class Login extends Component {
       <h1>Sign in to RSTraders</h1>
       <div className="register-form">
         <form onSubmit={this.onSubmit}>
-          <TextField onBlur={this.onChange} label="Email" name="email" />
+          <TextField onBlur={this.onChange} label="Email" name="email" required/>
           <br />
-          <TextField onBlur={this.onChange} label="Password" name="password" />
+          <TextField onBlur={this.onChange} label="Password" name="password" required/>
           <br />
           <Button
             type="Submit"
