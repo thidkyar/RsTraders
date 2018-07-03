@@ -6,7 +6,7 @@ const router  = express.Router();
 module.exports = (knex) => {
 
   router.get("/favorites", (req, res) => {
-    if (!req.body.user_id) {
+    if (!req.session.user_id) {
       res.json({
         redirect: true,
         url: '/'
@@ -15,7 +15,7 @@ module.exports = (knex) => {
       knex
         .select("*")
         .from('favorites')
-        .where('user_id', '=', req.body.user_id)
+        .where('users_id', req.session.user_id[0])
         .then((results) => {
           res.json(results);
       });
