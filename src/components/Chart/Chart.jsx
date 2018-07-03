@@ -39,7 +39,7 @@ class Chart extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this._setLabelDatafromAPI();
   }
 
@@ -60,7 +60,6 @@ class Chart extends Component {
     this.state.coinCodes.forEach(coinCode => {
       const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
       console.log("URL", url);
-
       fetch(url)
         .then(res => res.json())
         .then(result => {
@@ -139,9 +138,9 @@ class Chart extends Component {
       headers: {
         "Content-type": "application/json"
       },
-      body: JSON.stringify(buyData)
+      // body: JSON.stringify(buyData)
     })
-      .then(res => res.json())
+      // .then(res => res.json())
       .then(response => {
         
       });
@@ -181,12 +180,12 @@ class Chart extends Component {
     return (
       <div className="chart">
         <p> Your current balance: ${balance}</p>
-        {this.state.coinCodes.map(x => {
+        {/* {this.state.coinCodes.map(x => { */}
           return (
             <Grid container spacing={0}>
               <Grid item xs={10} sm={2}>
                 <Paper>
-                  <h1>{x}</h1>
+                  <h1></h1>
                   <Button
                     onClick={this._onBuyButtonClick}
                     variant="contained"
@@ -250,7 +249,7 @@ class Chart extends Component {
               </Grid>
             </Grid>
           );
-        })}
+        {/* })} */}
       </div>
     );
   }
