@@ -41,6 +41,7 @@ class Chart extends Component {
 
   componentWillMount() {
     this._setLabelDatafromAPI();
+    // this._setChartState();
   }
 
   _setLabelDatafromAPI = () => {
@@ -85,7 +86,7 @@ class Chart extends Component {
           // console.log(costData);
           let labels = this.state.data.labels;
           let dataSetData = { ...this.state.data.datasets[0].data };
-          console.log("before update", dataSetData);
+          // console.log("before update", dataSetData);
           dataSetData = costCloseData;
           this.setState({
             data: {
@@ -181,7 +182,7 @@ class Chart extends Component {
       <div className="chart">
         <p> Your current balance: ${balance}</p>
         {/* {this.state.coinCodes.map(x => { */}
-          return (
+          {/* return ( */}
             <Grid container spacing={0}>
               <Grid item xs={10} sm={2}>
                 <Paper>
@@ -248,7 +249,7 @@ class Chart extends Component {
                 </Paper>
               </Grid>
             </Grid>
-          );
+          {/* ); */}
         {/* })} */}
       </div>
     );
