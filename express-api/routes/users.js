@@ -49,10 +49,16 @@ module.exports = (knex) => {
     .from('users')
     .where('email', '=', req.body.email)
     .then(function(results) {
+      console.log(results[0]);
       if (bcrypt.compareSync(req.body.password, results[0].password)) {
         req.session.user_id = results[0].id;
         res.json({
           redirect: true,
+          url: '/'
+        })
+      } else {
+        res.json({
+          redirect: false,
           url: '/'
         })
       }
