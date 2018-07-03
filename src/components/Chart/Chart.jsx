@@ -7,11 +7,13 @@ import "./Chart.css";
 
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import { ENGINE_METHOD_DIGESTS } from "constants";
 
 class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      coinCodes: [],
       data: {
         labels: [],
         datasets: [
@@ -36,11 +38,24 @@ class Chart extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this._setLabelDatafromAPI();
   }
 
   _setLabelDatafromAPI = () => {
+    fetch("/api/favorites", {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => {
+        const coinCodes = [];
+        data.forEach(x => {
+          coinCodes.push(x.coin_id);
+        });
+        this.setState({ coinCodes: coinCodes });
+      });
+    const coinCodes = this.state.coinCodes;
+    console.log(coinCodes);
     const coinCode = "BTC";
     const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
 
@@ -105,6 +120,51 @@ class Chart extends Component {
       });
   };
 
+  _onBuyButtonClick = (e) => {
+    console.log(e)
+    const buyAt = this.state.data
+    console.log(buyAt)
+    const buyData = {
+      coin_id: this.state.coinCodes,
+      coin_value: buyAt,
+      date: new Date()
+    }
+
+    fetch("/api/blockchain/transaction" , {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(buyData)
+    })
+    .then(res => res.json())
+    .then(response => {
+
+    })
+  }
+
+  _onSellButtonClick = (e) => {
+    const sellAt = this.state.data.datasets[0]
+    const sellData = {
+      coin_id: this.state.coinCodes,
+      coin_value: sellAt,
+      date: new Date()
+    }
+
+    fetch("/api/blockchain/transaction" , {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(sellData)
+    })
+    .then(res => res.json())
+    .then(response => {
+
+    })
+  }
   render() {
     const styles = theme => ({
       root: {
@@ -122,13 +182,11 @@ class Chart extends Component {
           <Grid item xs={10} sm={2}>
             <Paper>
               <h1>Bitcoin</h1>
-              <Button variant="contained" color="primary">
-                {" "}
-                Buy{" "}
+              <Button onClick={this._onBuyButtonClick} variant="contained" color="primary">
+                Buy
               </Button>
               <br />
               <Button variant="contained" color="primary">
-                {" "}
                 Sell
               </Button>
             </Paper>
@@ -159,11 +217,11 @@ class Chart extends Component {
                       {
                         gridLines: {
                           display: true,
-                          color: '#707073'
+                          color: "#707073"
                         },
                         position: "right",
                         ticks: {
-                          fontColor: "white",
+                          fontColor: "white"
                         }
                       }
                     ],
