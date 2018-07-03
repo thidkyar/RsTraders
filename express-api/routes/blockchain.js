@@ -129,7 +129,7 @@ module.exports = function(blockchainRoutes) {
   let RSTCoin = new BlockChain();
 
   // Base web page to login into the system. If the user is login send session to /urls
-  router.get("/users/:id/balance", (req, res) => {
+  router.get("/balance", (req, res) => {
 
     blockchainRoutes.getBlockChain((err, RSTCoin) => {
       if (err) {
@@ -140,19 +140,24 @@ module.exports = function(blockchainRoutes) {
     });
 
     //need return this information
-    RSTCoin.getBalanceOfUser(req.params.id) // change to body
+    res.json({
+      message: RSTCoin.getBalanceOfUser(req.params.id),
+      url: '/'
+    })
+
+    // RSTCoin.getBalanceOfUser(req.params.id) // change to body
 
   });
 
-  router.post("/users/:id/transaction", (req, res) => {
+  router.post("/transaction", (req, res) => {
 
     RSTCoin.addTransaction(new Transaction(
-      req.params.id, //change to body
-      req.params.coin_id_from,
-      req.params.coin_value_from,
-      req.params.coin_id_to,
-      req.params.coin_value_to,
-      req.params.date
+      req.session.id, //change to body
+      req.body.coin_id_from,
+      req.body.coin_value_from,
+      req.body.coin_id_to,
+      req.body.coin_value_to,
+      req.body.date
     ));
 
     RSTCoin.mineTransaction(req.params.id);
