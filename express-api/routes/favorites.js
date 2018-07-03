@@ -23,11 +23,11 @@ module.exports = (knex) => {
   });
 
   // Get information from login web page
-  router.post("/favorites/", (req, res) => {
-    
+  router.post("/favorites", (req, res) => {
+    console.log(req.session.user_id)
       knex('favorites')
         .insert([{
-          users_id: req.session.user_id,
+          users_id: req.session.user_id[0],
           coin_id: req.body.coin_id,
           rank: req.body.rank
         }])

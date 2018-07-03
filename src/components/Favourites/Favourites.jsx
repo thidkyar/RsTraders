@@ -9,6 +9,7 @@ class Favourites extends Component {
     this.state = {
       coins: [],
       currentRank: 1,
+      favCount: 0
     };
   }
   callFromApi = () => {
@@ -49,7 +50,7 @@ class Favourites extends Component {
       // body: params
     })
     .then(response => {
-      this.setState({currentRank: this.state.currentRank + 1})
+      this.setState({currentRank: this.state.currentRank + 1, favCount: this.state.favCount + 1})
     })
   }
   componentDidMount() {
@@ -60,6 +61,7 @@ class Favourites extends Component {
     return (
       <div>
         <h1>Select your Favourite Crypto's!</h1>
+        <h3>You have {this.state.favCount} favorites </h3>
             {this.state.coins.map(x => {
               return (
                 <span>

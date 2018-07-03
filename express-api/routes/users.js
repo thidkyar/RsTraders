@@ -72,11 +72,12 @@ module.exports = (knex) => {
     .from('users')
     .where('email', req.body.email)
     .then(function(results) {
-      if (results) { // test with user exist or not.
+      console.log(results);
+      if (results.length != 0) { // test with user exist or not.
         res.json({
           redirect: false,
           url: '/',
-          message: 'user already exists'
+          message: 'Error: The user exist!'
         })
       } else {
         knex('users')
@@ -93,7 +94,7 @@ module.exports = (knex) => {
             res.json({
               redirect: true,
               url: '/',
-              message: 'user created!'
+              message: 'User created'
             })
           })
           .catch(function(error) {
@@ -140,7 +141,7 @@ module.exports = (knex) => {
             .update({ password: bcrypt.hashSync(req.body.password, 15) })
         } else {
           res.json({
-            redirect: false,
+            redirect: true,
             url: '/'
           })
         }
