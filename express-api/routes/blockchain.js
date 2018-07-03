@@ -131,14 +131,6 @@ module.exports = function(blockchainRoutes) {
   // Base web page to login into the system. If the user is login send session to /urls
   router.get("/balance", (req, res) => {
 
-    blockchainRoutes.getBlockChain((err, RSTCoin) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-      } else {
-        res.json(RSTCoin);
-      }
-    });
-
     //need return this information
     res.json({
       message: RSTCoin.getBalanceOfUser(req.params.id),
@@ -148,6 +140,7 @@ module.exports = function(blockchainRoutes) {
     // RSTCoin.getBalanceOfUser(req.params.id) // change to body
 
   });
+
 
   router.post("/transaction", (req, res) => {
 
@@ -160,17 +153,14 @@ module.exports = function(blockchainRoutes) {
       req.body.date
     ));
 
-    RSTCoin.mineTransaction(req.params.id);
+    RSTCoin.mineTransaction(req.session.id);
 
-    Console.log('The blockchain are valid? ',RSTCoin.validateChain());
+    // Console.log('The blockchain are valid? ',RSTCoin.validateChain());
 
-    blockchainRoutes.saveBlockChain(RSTCoin, (err) => {
-      if (err) {
-        res.status(500).json({ error: err.message });
-      } else {
-        res.status(201).send();
-      }
-    });
+    res.json({
+      redirect: true,
+      url: '/'
+    })
 
   });
 
