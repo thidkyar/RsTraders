@@ -8,7 +8,7 @@ class Favourites extends Component {
     super(props);
     this.state = {
       coins: [],
-      currentRank: 1,
+      currentRank: 0,
     };
   }
   callFromApi = () => {
@@ -39,6 +39,7 @@ class Favourites extends Component {
       coin_id: buttonText[0],
       rank: this.state.currentRank
     }
+    this.setState({currentRank: this.state.currentRank + 1})
     fetch("/api/favorites" , {
       method: "POST",
       credentials: 'include',
@@ -49,7 +50,7 @@ class Favourites extends Component {
       // body: params
     })
     .then(response => {
-      this.setState({currentRank: this.state.currentRank + 1})
+      this.setState({currentRank: this.state.currentRank})
     })
   }
   componentDidMount() {
@@ -60,6 +61,7 @@ class Favourites extends Component {
     return (
       <div>
         <h1>Select your Favourite Crypto's!</h1>
+        <h3>You have {this.state.currentRank} Favorites </h3>
             {this.state.coins.map(x => {
               return (
                 <span>
