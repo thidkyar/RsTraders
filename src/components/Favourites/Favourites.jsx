@@ -40,6 +40,7 @@ class Favourites extends Component {
       coin_id: buttonText[0],
       rank: this.state.currentRank
     }
+    this.setState({currentRank: this.state.currentRank + 1})
     fetch("/api/favorites" , {
       method: "POST",
       credentials: 'include',
