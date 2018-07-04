@@ -159,6 +159,7 @@ module.exports = function(blockchainRoutes) {
 
     res.json({
       redirect: true,
+      message: RSTCoin.getBalanceOfUser(req.params.id),
       url: '/'
     })
 
