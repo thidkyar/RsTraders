@@ -58,7 +58,7 @@ class Chart extends Component {
       });
   };
   _setChartState() {
-    this.state.coinCodes.forEach(coinCode => {
+    const { coinCode } = this.props;
       const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
       console.log("URL", url);
       fetch(url)
@@ -120,7 +120,6 @@ class Chart extends Component {
             }
           });
         });
-    });
   }
 
   _onBuyButtonClick = e => {

@@ -33,9 +33,9 @@ class Charts extends Component {
     console.log('this',this.state.coinCodes)
     return (
       <div>
-        {this.state.coinCodes.map(x=>{
+        {this.state.coinCodes.map(coinCode => {
           return (
-        <Chart />
+            <Chart coinCode={coinCode} />
           )
       })}
       </div>
