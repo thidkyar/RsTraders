@@ -131,13 +131,10 @@ module.exports = function(blockchainRoutes) {
   // Base web page to login into the system. If the user is login send session to /urls
   router.get("/balance", (req, res) => {
 
-    //need return this information
     res.json({
-      message: RSTCoin.getBalanceOfUser(req.session.id),
+      message: RSTCoin.getBalanceOfUser(req.session.user_id),
       url: '/'
     })
-
-    // RSTCoin.getBalanceOfUser(req.params.id) // change to body
 
   });
 
@@ -145,7 +142,7 @@ module.exports = function(blockchainRoutes) {
   router.post("/transaction", (req, res) => {
 
     RSTCoin.addTransaction(new Transaction(
-      req.session.id, //change to body
+      req.session.user_id, //change to body
       req.body.coin_id_from,
       req.body.coin_value_from,
       req.body.coin_id_to,
