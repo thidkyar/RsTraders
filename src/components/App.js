@@ -6,6 +6,7 @@ import Login from "./Login/Login.jsx"
 import Register from "./Register/Register.jsx"
 import NavBar from "./NavBar/NavBar.jsx"
 import Chart from "./Chart/Chart.jsx"
+import Charts from "./Chart/Charts.jsx"
 import Crypto from "./CryptoAPI/Crypto.jsx"
 import Favourites from "./Favourites/Favourites.jsx"
 //import CSS
@@ -17,7 +18,7 @@ class App extends Component {
       <div className="App">
       <NavBar />
         <Router>
-          <Chart path="/chart" />
+          <Charts path="/chart" />
           <Home path="/" />
           <Login path="login" />
           <Register path="register" />
