@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import {Router} from "@reach/router";
-import Login from "./Login/Login.jsx";
-import Register from "./Register/Register.jsx";
-import Crypto from './Crypto/Crypto.jsx';
-import CryptoNews from './CryptoNews/CryptoNews.jsx';
-import NavBar from "./NavBar/NavBar";
-import Chart from "./Chart/Chart.jsx";
-import ResetPassword from "./ResetPassword/ResetPassword.jsx";
-
-import './App.css';
-
-let Home = () => <Crypto />
+import {Router, Link} from "@reach/router"
+//import components
+import Home from "./Home/Home.jsx"
+import Login from "./Login/Login.jsx"
+import Register from "./Register/Register.jsx"
+import NavBar from "./NavBar/NavBar.jsx"
+import Chart from "./Chart/Chart.jsx"
+import Charts from "./Chart/Charts.jsx"
+import Crypto from "./CryptoAPI/Crypto.jsx"
+import Favourites from "./Favourites/Favourites.jsx"
+//import CSS
+import './App.css'; 
 
 class App extends Component {
   render() {
@@ -19,11 +19,11 @@ class App extends Component {
       <NavBar />
       {/* <CryptoNews /> */}
         <Router>
-          <Chart path="/chart" />
+          <Charts path="/chart" />
           <Home path="/" />
           <Login path="login" />
           <Register path="register" />
-          <ResetPassword path="/login/resetpassword" />
+          <Favourites path="favourites" />
         </Router>
       </div>
     );

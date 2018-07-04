@@ -89,11 +89,11 @@ class Register extends Component {
             <br />
             <TextField onBlur={this.onChange} label="Last Name" name="last_name" required/>
             <br />
-            <TextField onBlur={this.onChange} label="Email" name="email" required/>
+            <TextField onBlur={this.onChange} type="email" label="Email" name="email" required/>
             <br />
-            <TextField onBlur={this.onChange} label="Password" name="password" required/>
+            <TextField onBlur={this.onChange} type="password" label="Password" name="password" required/>
             <br />
-            <TextField onBlur={this.onChange} label="Phone #" name="phone" required/>
+            <TextField onBlur={this.onChange} type="number" label="Phone #" name="phone" required/>
             <Button
               type="Submit"
               variant="contained"

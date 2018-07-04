@@ -34,14 +34,77 @@ module.exports = (knex) => {
 
   // Get information from login web page
   router.post("/login", (req, res) => {
-    console.log('HIT LOGIN')
-    console.log(req.body)
-    // test if the email or the password is blank or null and send a message to the user
-    // if (!req.body.email || req.body.email === '' && !req.body.password || req.body.password === '') {
-    //   res.status(400).send('Fields cannot be Empty.');
-    // } else { // for in to find the user into the database
-      console.log('after else')
-      knex.select('*')
+    knex.select('*')
+    .from('users')
+    .where('email', '=', req.body.email)
+    .then(function(results) {
+      if (bcrypt.compareSync(req.body.password, results[0].password)) {
+        console.log('results is', results);
+        req.session.user_id = results[0].id;
+        res.json({
+          redirect: true,
+          url: '/'
+        })
+      } else {
+        res.json({
+          redirect: false,
+          url: '/'
+        })
+      }
+    })
+    .catch(function(error) {
+      console.error(error)
+      res.json({
+        redirect: false,
+        url: '/'
+      })
+    });
+  });
+
+  // Get the information from web page register new user.
+  router.post("/register", (req, res) => {
+    knex.select('*')
+    .from('users')
+    .where('email', req.body.email)
+    .then(function(results) {
+      console.log(results);
+      if (results.length != 0) { // test with user exist or not.
+        res.json({
+          redirect: false,
+          url: '/',
+          message: 'Error: The user exist!'
+        })
+      } else {
+        knex('users')
+          .returning('id')
+          .insert([{
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            phone: req.body.phone,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 10)
+          }])
+          .then(function(id) {
+            req.session.user_id = id[0];
+            console.log('req session after register', id);
+            res.json({
+              redirect: true,
+              url: '/',
+              message: 'User created'
+            })
+          })
+          .catch(function(error) {
+            console.error('Error: Inserting the user', error)
+          });
+      }
+    })
+    .catch(function(error) {
+      console.error('Error: The user already have a user in the system', error)
+    });
+  });
+
+  router.post("/changePassword", (req, res) => {
+    knex.select('*')
       .from('users')
       .where('email', '=', req.body.email)
       .then(function(results) {

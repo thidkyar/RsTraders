@@ -57,8 +57,10 @@ class NavBar extends Component {
               <Link to="/"> Home </Link> |
               <Link to="/chart"> Chart </Link> |
               <Link to="login"> Login </Link> |
-              <Link to="register"> Register </Link> |<form onSubmit={this._onSubmit}><Button type="Submit" varient="outlined" color="secondary" >Logout </Button>
-              </form>
+              {/* <Link to="register"> Register </Link> |<form onSubmit={this._onSubmit}><Button type="Submit" varient="outlined" color="secondary" >Logout </Button>
+              </form> */}
+              <Link to="register"> Register </Link> |
+              <Link to="favourites"> Fav </Link>
             </Typography>
           </Toolbar>
         </AppBar>
