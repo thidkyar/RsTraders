@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Crypto from "../CryptoAPI/Crypto.jsx"
+import Crypto from "../Crypto/Crypto.jsx"
 
 
 class Home extends Component {
