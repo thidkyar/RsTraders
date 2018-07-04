@@ -6,7 +6,7 @@ const bcrypt   = require('bcrypt')
 
 module.exports = (knex) => {
   
-  router.get("/userprofile", (res,req) => {
+  router.get("/userprofile", (req, res) => {
     if (!req.session.user_id) {
       res.json({
         redirect: true,
@@ -17,6 +17,7 @@ module.exports = (knex) => {
       .from('users')
       .where('id', '=', req.session.user_id)
       .then(function(results) {
+        console.log("********", results);
           res.json({
             message: results
           })
