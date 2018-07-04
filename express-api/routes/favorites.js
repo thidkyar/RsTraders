@@ -15,7 +15,7 @@ module.exports = (knex) => {
       knex
         .select("*")
         .from('favorites')
-        .where('users_id', req.session.user_id[0])
+        .where('users_id', req.session.user_id)
         .then((results) => {
           res.json(results);
       });
@@ -24,10 +24,10 @@ module.exports = (knex) => {
 
   // Get information from login web page
   router.post("/favorites", (req, res) => {
-    console.log(req.session.user_id)
+    console.log('HEY', req.session.user_id)
       knex('favorites')
         .insert([{
-          users_id: req.session.user_id[0],
+          users_id: req.session.user_id,
           coin_id: req.body.coin_id,
           rank: req.body.rank
         }])

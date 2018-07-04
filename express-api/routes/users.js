@@ -49,8 +49,8 @@ module.exports = (knex) => {
     .from('users')
     .where('email', '=', req.body.email)
     .then(function(results) {
-      console.log(results[0]);
       if (bcrypt.compareSync(req.body.password, results[0].password)) {
+        console.log('results is', results);
         req.session.user_id = results[0].id;
         res.json({
           redirect: true,
@@ -93,10 +93,11 @@ module.exports = (knex) => {
             last_name: req.body.last_name,
             phone: req.body.phone,
             email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 15)
+            password: bcrypt.hashSync(req.body.password, 10)
           }])
           .then(function(id) {
-            req.session.user_id = id;
+            req.session.user_id = id[0];
+            console.log('req session after register', id);
             res.json({
               redirect: true,
               url: '/',
