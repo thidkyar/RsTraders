@@ -34,19 +34,22 @@ module.exports = (knex) => {
         .select("*")
         .from('favorites')
         .where('users_id', req.session.user_id)
-        .where('coin_id', req.session.coin_id)
+        .where('coin_id', req.body.coin_id)
         .then((results) => {
-          if (results.length != 0) {
+          if (results.length === 0) {
             knex('favorites')
+              .returning('id')
               .insert([{
                 users_id: req.session.user_id,
                 coin_id: req.body.coin_id,
                 rank: req.body.rank
               }])
+              .then(
+                res.json({ sucess: true })
+              )
               .catch(function(error) {
-                res.json({ sucess: false, message: error })
+                console.error('Error: Inserting the user', error)
               });
-              res.json({ sucess: true });
           } else {
             res.json({ sucess: false });
           }
