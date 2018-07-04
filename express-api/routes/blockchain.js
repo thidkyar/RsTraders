@@ -133,7 +133,7 @@ module.exports = function(blockchainRoutes) {
 
     //need return this information
     res.json({
-      message: RSTCoin.getBalanceOfUser(req.params.id),
+      message: RSTCoin.getBalanceOfUser(req.session.id),
       url: '/'
     })
 
@@ -159,7 +159,7 @@ module.exports = function(blockchainRoutes) {
 
     res.json({
       redirect: true,
-      message: RSTCoin.getBalanceOfUser(req.params.id),
+      message: RSTCoin.getBalanceOfUser(req.session.id),
       url: '/'
     })
 
