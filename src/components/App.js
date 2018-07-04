@@ -7,7 +7,7 @@ import Register from "./Register/Register.jsx"
 import NavBar from "./NavBar/NavBar.jsx"
 import Chart from "./Chart/Chart.jsx"
 import Charts from "./Chart/Charts.jsx"
-import Crypto from "./Crypto/Crypto.jsx"
+import Crypto from "./CryptoAPI/Crypto.jsx"
 import Favourites from "./Favourites/Favourites.jsx"
 //import CSS
 import './App.css'; 
@@ -17,7 +17,6 @@ class App extends Component {
     return (
       <div className="App">
       <NavBar />
-      {/* <CryptoNews /> */}
         <Router>
           <Charts path="/chart" />
           <Home path="/" />

@@ -2,7 +2,7 @@ const SHA256      = require('js-sha256');
 const express     = require('express');
 const router      = express.Router();
 const app         = express();
-
+ 
 class Block {
   constructor(transactions, previousHash = '') {
     this.timestamp = Date.now();

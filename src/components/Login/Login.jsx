@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { TextField } from '@material-ui/core';
 import "./Login.css";
-import { Router, Link } from "@reach/router";
-import ResetPassword from '../ResetPassword/ResetPassword';
-
 
 class Login extends Component {
   constructor(props) {
@@ -60,9 +57,6 @@ class Login extends Component {
           >
             Login
           </Button>
-          <br />
-          <br />
-          <Link to="resetpassword">Reset Password</Link>
         </form>
       </div>
     </div>
