@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import { Router, Link } from "@reach/router";
 
+import $ from 'jquery'; 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      coins: []
+    }
+  }
   _onSubmit = e => {
       e.preventDefault()
       fetch("/api/users/logout", {
@@ -24,7 +31,22 @@ class NavBar extends Component {
           }
         });
     };
-  
+    componentDidMount() {
+      //API to GET all cryptocurrency tickers
+      const url = "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=100&sort=rank&structure=array";
+      //fetch data from API
+      fetch(url)
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState("Set state"[result]);
+            // console.log("Original Format", result);
+            var coins = Object.values(result.data);
+            this.setState({ coins: coins });
+            // console.log("Here's the array", coins);
+          }
+        )
+    }
 
   render() {
     return (
@@ -36,14 +58,25 @@ class NavBar extends Component {
               <Link to="/chart"> Chart </Link> |
               <Link to="login"> Login </Link> |
               <Link to="register"> Register </Link> |
-              <Link to="favourites"> Fav </Link>
+              <Link to="favourites"> Fav </Link> | 
+              <Link to="profile"> Profile </Link>
+              <form onSubmit={this._onSubmit}>
+        <Button type="Submit" varient="outlined" color="secondary" >Logout </Button>
+              </form>
             </Typography>
           </Toolbar>
         </AppBar>
-        <form onSubmit={this._onSubmit}>
-        <Button type="Submit" varient="outlined" color="secondary" >Logout </Button>
 
-              </form>
+        <marquee className="coin-container" >
+            {this.state.coins.map((coin, c) => {
+              return (
+                <span className="sym" style={{
+                  padding: '10px'}} key={c}> {coin.symbol}: {coin.quotes.CAD.percent_change_24h} %  </span>
+              )
+            })
+            }
+          </marquee>
+          <hr />
       </div>
     );
   }
