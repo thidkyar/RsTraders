@@ -177,7 +177,6 @@ class Chart extends Component {
       }
     });
     const balance = this.state.currentBalance.toLocaleString();
-
     return (
       <div className="chart">
         <p> Your current balance: ${balance}</p>
@@ -186,7 +185,7 @@ class Chart extends Component {
             <Grid container spacing={0}>
               <Grid item xs={10} sm={2}>
                 <Paper>
-                  <h1>{this.props.coinCode}</h1>
+                  <h1></h1>
                   <Button
                     onClick={this._onBuyButtonClick}
                     variant="contained"
@@ -210,7 +209,7 @@ class Chart extends Component {
                       title: {
                         display: true,
                         fontColor: "white",
-                        text: this.props.coinCode
+                        text: "BITCOIN"
                       },
                       tooltips: {
                         mode: "index",
