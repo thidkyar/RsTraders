@@ -76,7 +76,11 @@ class BlockChain{
     // console.log('lastBlock.hash',this.chain[this.chain.length - 1].hashCalculate());
     let test = this.chain.length - 1;
     this.chain[test].hash = this.chain[test].hashCalculate();
+<<<<<<< HEAD
     // Reward wont be utilized // If is on this is the first transaction on block
+=======
+console.log(block);
+>>>>>>> b355f750454def33c71d8a5ac4f71bee55891097
     this.pendingTransactions = [ new Transaction(null, miningRewardUser, this.miningReward) ];
     // writeFile("./blocks/"+file,block);
   }
@@ -92,6 +96,7 @@ class BlockChain{
   }
 
   getBalanceOfUser(user){
+
     const amountTotal = {};
     var totalTransactions = [];
     //For to search the blocks
@@ -100,6 +105,7 @@ class BlockChain{
       for(const trans of block.transactions){
 
         if(trans.user_id === user) {
+          console.log(trans.user_id);
           let tt = {
                   coin_id_from: trans.coin_id_from,
                   coin_value_from: trans.coin_value_from,
@@ -107,13 +113,14 @@ class BlockChain{
                   coin_value_to: trans.coin_value_to,
                   date: trans.date
                 };
+                console.log(tt);
           totalTransactions.push(tt);
 
           //withdraw coin from
           if(trans.coin_id_from) {
             amountTotal[trans.coin_id_from] = amountTotal[trans.coin_id_from] - trans.coin_value_from;
           }
-          //deposit in coin to
+          // deposit in coin to
           if(!amountTotal[trans.coin_id_to]) {
             amountTotal[trans.coin_id_to] = trans.coin_value_to;
           } else {
@@ -123,11 +130,19 @@ class BlockChain{
       }
     }
     //clean the coin with 0 of amount
+<<<<<<< HEAD
     for(let i = 0; i < Object.keys(amountTotal).length;i++) {
       if(Object.values(amountTotal)[i] === 0 && Object.keys(amountTotal)[i] !== 'RST') {
         delete amountTotal[Object.keys(amountTotal)[i]];
       }
     }
+=======
+    // for(let i = 0; i < Object.keys(amountTotal).length;i++) {
+    //   if(Object.values(amountTotal)[i] === 0 && Object.keys(amountTotal)[i] != 'RST') {
+    //     delete amountTotal[Object.keys(amountTotal)[i]];
+    //   }
+    // }
+>>>>>>> b355f750454def33c71d8a5ac4f71bee55891097
     return {'amountTotal': amountTotal, 'totalTransactions': totalTransactions};
   }
 
@@ -179,21 +194,22 @@ module.exports = function(blockchainRoutes) {
   router.post("/transaction", (req, res) => {
 
     RSTCoin.addTransaction(new Transaction(
-      req.session.user_id, //change to body
-      req.body.coin_id_from,
-      req.body.coin_value_from,
-      req.body.coin_id_to,
-      req.body.coin_value_to,
-      req.body.date
+
+      req.session.user_id, //
+      req.body.coin_id_from, //USD
+      req.body.coin_value_from, //USD - $10
+      req.body.coin_id_to, //RST 
+      req.body.coin_value_to, //RST- get market rate - *1,000
+      req.body.date //
+
     ));
 
-    RSTCoin.mineTransaction(req.session.id);
+    RSTCoin.mineTransaction(req.session.user_id);
 
     // Console.log('The blockchain are valid? ',RSTCoin.validateChain());
-
     res.json({
       redirect: true,
-      message: RSTCoin.getBalanceOfUser(req.session.id),
+      message: RSTCoin.getBalanceOfUser(req.session.user_id),
       url: '/'
     })
 

@@ -21,7 +21,8 @@
     "knex": "^0.14.6",
     "knex-logger": "^0.1.0",
     "mongodb": "^3.1.0",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "stripe": "^6.2.1"
   },
   "devDependencies": {
     "nodemon": "^1.17.5"

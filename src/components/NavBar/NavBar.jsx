@@ -37,6 +37,7 @@ class NavBar extends Component {
               <Link to="login"> Login </Link> |
               <Link to="register"> Register </Link> |
               <Link to="favourites"> Fav </Link>
+              <Link to="stripe">Stripe</Link>
             </Typography>
           </Toolbar>
         </AppBar>
