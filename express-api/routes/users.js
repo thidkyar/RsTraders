@@ -6,7 +6,7 @@ const bcrypt   = require('bcrypt')
 
 module.exports = (knex) => {
   
-  router.get("/userprofile", (res,req) => {
+  router.get("/userprofile", (req,res) => {
     if (!req.session.user_id) {
       res.json({
         redirect: true,
@@ -137,7 +137,7 @@ module.exports = (knex) => {
         if (bcrypt.compareSync(req.body.password, results[0].password)) {
           knex('users')
             .where('id', '=', req.session.user_id)
-            .update({ password: bcrypt.hashSync(req.body.password, 15) })
+            .update({ password: bcrypt.hashSync(req.body.password, 10) })
         } else {
           res.json({
             redirect: false,
@@ -160,10 +160,10 @@ module.exports = (knex) => {
         if (results) {
           knex('users')
             .where('email', '=', req.session.email)
-            .update({ password: bcrypt.hashSync(req.body.password, 15) })
+            .update({ password: bcrypt.hashSync(req.body.password, 10) })
         } else {
           res.json({
-            redirect: true,
+            redirect: false,
             url: '/'
           })
         }

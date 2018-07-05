@@ -134,26 +134,25 @@ module.exports = function(blockchainRoutes) {
   // Base web page to login into the system. If the user is login send session to /urls
   router.get("/balance", (req, res) => {
 
-    
-    //  let test = RSTCoin.getBalanceOfUser(req.params.id)
-    //need return this 
     res.json({
-        message: RSTCoin.getBalanceOfUser(req.session.user_id),
-        url: '/'
-      })
-    // RSTCoin.getBalanceOfUser(req.params.id) // change to body
+      message: RSTCoin.getBalanceOfUser(req.session.user_id),
+      url: '/'
+    })
+
   });
 
 
   router.post("/transaction", (req, res) => {
 
     RSTCoin.addTransaction(new Transaction(
+
       req.session.user_id, //
       req.body.coin_id_from, //USD
       req.body.coin_value_from, //USD - $10
       req.body.coin_id_to, //RST 
       req.body.coin_value_to, //RST- get market rate - *1,000
       req.body.date //
+
     ));
 
     RSTCoin.mineTransaction(req.session.user_id);
