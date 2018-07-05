@@ -139,7 +139,7 @@ module.exports = (knex) => {
         if (bcrypt.compareSync(req.body.password, results[0].password)) {
           knex('users')
             .where('id', '=', req.session.user_id)
-            .update({ password: bcrypt.hashSync(req.body.password, 15) })
+            .update({ password: bcrypt.hashSync(req.body.password, 10) })
         } else {
           res.json({
             redirect: false,
@@ -174,8 +174,6 @@ module.exports = (knex) => {
                 messsage: req.body.email
               })
             })
-            // console.log("RESPONSE OF REQ BODY EMAIL", req.body.email);
-          // .update({ email: bcrypt.hashSync(req.body.password, 10) })
         } else {
           res.json({
             redirect: true,
@@ -194,7 +192,6 @@ module.exports = (knex) => {
   //*******Change Phone Number*******
   router.post("/changePhone", (req, res) => {
     const id = req.session.user_id;
-    // console.log("USER ID*******", id)
     knex.select('*')
       .from('users')
       .where('id', '=', id)
@@ -205,17 +202,14 @@ module.exports = (knex) => {
             .where({ 'id': id })
             .update({ phone: req.body.phone })
             .then(function(results){
-              // console.log("RESULTS OF THE UPDATE FUNCTION", req.body);
               res.json({
                 redirect: false,
                 messsage: req.body.phone
               })
             })
-            // console.log("RESPONSE OF REQ BODY EMAIL", req.body.email);
-          // .update({ email: bcrypt.hashSync(req.body.password, 10) })
         } else {
           res.json({
-            redirect: true,
+            redirect: false,
             url: '/'
           })
         }
@@ -227,7 +221,6 @@ module.exports = (knex) => {
 
     req.session = null;
   });
-  //************END**********************/
 
   // Get the information when the user clicked in logout button and turn the session to null and redirect the user to /urls.
   router.post("/logout", (req, res) => {
