@@ -1,11 +1,11 @@
 "use strict";
 
-const express  = require('express');
-const router   = express.Router();
-const bcrypt   = require('bcrypt')
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcrypt')
 
 module.exports = (knex) => {
-  
+
   router.get("/userprofile", (req, res) => {
     if (!req.session.user_id) {
       res.json({
@@ -14,17 +14,18 @@ module.exports = (knex) => {
       })
     } else {
       knex.select('*')
-      .from('users')
-      .where('id', '=', req.session.user_id)
-      .then(function(results) {
-        console.log("********", results);
+        .from('users')
+        .where('id', '=', req.session.user_id)
+        .then(function (results) {
+          console.log("********", results);
           res.json({
-            message: results
+            message: results,
+            redirect: false
           })
-      })
-      .catch(function(error) {
-        console.error(error)
-      });
+        })
+        .catch(function (error) {
+          console.error(error)
+        });
     }
   })
 
@@ -62,79 +63,79 @@ module.exports = (knex) => {
   // Get information from login web page
   router.post("/login", (req, res) => {
     knex.select('*')
-    .from('users')
-    .where('email', '=', req.body.email)
-    .then(function(results) {
-      if (bcrypt.compareSync(req.body.password, results[0].password)) {
-        console.log('results is', results);
-        req.session.user_id = results[0].id;
-        res.json({
-          redirect: true,
-          url: '/'
-        })
-      } else {
+      .from('users')
+      .where('email', '=', req.body.email)
+      .then(function (results) {
+        if (bcrypt.compareSync(req.body.password, results[0].password)) {
+          console.log('results is', results);
+          req.session.user_id = results[0].id;
+          res.json({
+            redirect: true,
+            url: '/'
+          })
+        } else {
+          res.json({
+            redirect: false,
+            url: '/'
+          })
+        }
+      })
+      .catch(function (error) {
+        console.error(error)
         res.json({
           redirect: false,
           url: '/'
         })
-      }
-    })
-    .catch(function(error) {
-      console.error(error)
-      res.json({
-        redirect: false,
-        url: '/'
-      })
-    });
+      });
   });
 
   // Get the information from web page register new user.
   router.post("/register", (req, res) => {
     knex.select('*')
-    .from('users')
-    .where('email', req.body.email)
-    .then(function(results) {
-      console.log(results);
-      if (results.length != 0) { // test with user exist or not.
-        res.json({
-          redirect: false,
-          url: '/',
-          message: 'Error: The user exist!'
-        })
-      } else {
-        knex('users')
-          .returning('id')
-          .insert([{
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            phone: req.body.phone,
-            email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 10)
-          }])
-          .then(function(id) {
-            req.session.user_id = id[0];
-            console.log('req session after register', id);
-            res.json({
-              redirect: true,
-              url: '/',
-              message: 'User created'
-            })
+      .from('users')
+      .where('email', req.body.email)
+      .then(function (results) {
+        console.log(results);
+        if (results.length != 0) { // test with user exist or not.
+          res.json({
+            redirect: false,
+            url: '/',
+            message: 'Error: The user exist!'
           })
-          .catch(function(error) {
-            console.error('Error: Inserting the user', error)
-          });
-      }
-    })
-    .catch(function(error) {
-      console.error('Error: The user already have a user in the system', error)
-    });
+        } else {
+          knex('users')
+            .returning('id')
+            .insert([{
+              first_name: req.body.first_name,
+              last_name: req.body.last_name,
+              phone: req.body.phone,
+              email: req.body.email,
+              password: bcrypt.hashSync(req.body.password, 10)
+            }])
+            .then(function (id) {
+              req.session.user_id = id[0];
+              console.log('req session after register', id);
+              res.json({
+                redirect: true,
+                url: '/',
+                message: 'User created'
+              })
+            })
+            .catch(function (error) {
+              console.error('Error: Inserting the user', error)
+            });
+        }
+      })
+      .catch(function (error) {
+        console.error('Error: The user already have a user in the system', error)
+      });
   });
 
   router.post("/changePassword", (req, res) => {
     knex.select('*')
       .from('users')
       .where('id', '=', req.session.user_id)
-      .then(function(results) {
+      .then(function (results) {
         if (bcrypt.compareSync(req.body.password, results[0].password)) {
           knex('users')
             .where('id', '=', req.session.user_id)
@@ -146,35 +147,87 @@ module.exports = (knex) => {
           })
         }
       })
-      .catch(function(error) {
-        console.error('Error: The password doesnt match',error)
+      .catch(function (error) {
+        console.error('Error: The password doesnt match', error)
       });
 
     req.session = null;
   });
 
-  router.post("/changePasswordEmail:email", (req, res) => {
+  // router.post("/changePasswordEmail:email", (req, res) => {
+  router.post("/changeEmail", (req, res) => {
+    const id = req.session.user_id;
+    console.log("USER ID*******", id)
     knex.select('*')
       .from('users')
-      .where('email', '=', req.session.email)
-      .then(function(results) {
+      .where('id', '=', id)
+      .then(function (results) {
+        console.log(results);
         if (results) {
           knex('users')
-            .where('email', '=', req.session.email)
-            .update({ password: bcrypt.hashSync(req.body.password, 15) })
+            .where({ 'id': id })
+            .update({ email: req.body.email })
+            .then(function(results){
+              console.log("RESULTS OF THE UPDATE FUNCTION", req.body);
+              res.json({
+                redirect: false,
+                messsage: req.body.email
+              })
+            })
+            // console.log("RESPONSE OF REQ BODY EMAIL", req.body.email);
+          // .update({ email: bcrypt.hashSync(req.body.password, 10) })
         } else {
           res.json({
             redirect: true,
             url: '/'
           })
         }
+        console.log("")
       })
-      .catch(function(error) {
-        console.error('Error: The password doesnt match',error)
+      .catch(function (error) {
+        console.error('Error: The password doesnt match', error)
       });
 
     req.session = null;
   });
+
+  //*******Change Phone Number*******
+  router.post("/changePhone", (req, res) => {
+    const id = req.session.user_id;
+    // console.log("USER ID*******", id)
+    knex.select('*')
+      .from('users')
+      .where('id', '=', id)
+      .then(function (results) {
+        // console.log(results);
+        if (results) {
+          knex('users')
+            .where({ 'id': id })
+            .update({ phone: req.body.phone })
+            .then(function(results){
+              // console.log("RESULTS OF THE UPDATE FUNCTION", req.body);
+              res.json({
+                redirect: false,
+                messsage: req.body.phone
+              })
+            })
+            // console.log("RESPONSE OF REQ BODY EMAIL", req.body.email);
+          // .update({ email: bcrypt.hashSync(req.body.password, 10) })
+        } else {
+          res.json({
+            redirect: true,
+            url: '/'
+          })
+        }
+        console.log("")
+      })
+      .catch(function (error) {
+        console.error('Error: The password doesnt match', error)
+      });
+
+    req.session = null;
+  });
+  //************END**********************/
 
   // Get the information when the user clicked in logout button and turn the session to null and redirect the user to /urls.
   router.post("/logout", (req, res) => {

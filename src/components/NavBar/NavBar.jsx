@@ -63,6 +63,7 @@ class NavBar extends Component {
               <form onSubmit={this._onSubmit}>
         <Button type="Submit" varient="outlined" color="secondary" >Logout </Button>
               </form>
+              <Link to="stripe">Stripe</Link>
             </Typography>
           </Toolbar>
         </AppBar>
