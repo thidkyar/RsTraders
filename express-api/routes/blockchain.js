@@ -1,8 +1,14 @@
 const SHA256      = require('js-sha256');
 const express     = require('express');
+const fs          = require("fs");
 const router      = express.Router();
 const app         = express();
- 
+
+
+var writeFile = function (file, value) {
+  fs.writeFileSync(file, JSON.stringify(value) , 'utf-8'); 
+}
+
 class Block {
   constructor(transactions, previousHash = '') {
     this.timestamp = Date.now();
@@ -18,7 +24,7 @@ class Block {
 
   //Crustruct a new block
   mineBlock(difficulty) { 
-    let timeCount = Date.now();
+    // let timeCount = Date.now();
     // console.log('Mining block - Start', timeCount );
     //refactor this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")
     for(let nOnce = 0 ; this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0") ; nOnce++) {
@@ -37,22 +43,56 @@ class BlockChain{
     this.mineReward = 1; //reward to the bank who confirm or generate the block
   }
 
+  // loadBlocks() {
+  //   fs.readdir('./blocks/', (err, files) => {
+  //     let count = files.length;
+  //     for(let block = 1; block < count;block++) {
+  //       let blockFile = fs.readFileSync("./blocks/"+block, "utf-8");
+  //       console.log(JSON.parse(blockFile));
+  //       this.chain.push(JSON.parse(blockFile));
+  //     }
+  //     // console.log(this.chain);
+  //   });
+  // }
+
+  loadTransaction() {
+    fs.readdir('./../blocks/', (err, files) => {
+      for(let count = 0;count < files.length;count ++) {
+        this.pendingTransactions.push(JSON.parse(fs.readFileSync("./../blocks/"+count, "utf-8")));
+        RSTCoin.mineTransaction(user1);
+      }
+    });
+  }
+
   mineTransaction(miningRewardUser){
     let lastBlock = this.chain[this.chain.length - 1];
-    console.log('lastBlock.hash',lastBlock.hash);
+    let file = this.chain.length;
+    // console.log('lastBlock.hash',lastBlock.hash);
     let block = new Block(this.pendingTransactions, lastBlock.hash);
     block.mineBlock(this.difficulty);
-
+// console.log('Block',block);
     this.chain.push(block);
+
     // console.log('lastBlock.hash',this.chain[this.chain.length - 1].hashCalculate());
     let test = this.chain.length - 1;
     this.chain[test].hash = this.chain[test].hashCalculate();
+<<<<<<< HEAD
+    // Reward wont be utilized // If is on this is the first transaction on block
+=======
 console.log(block);
+>>>>>>> b355f750454def33c71d8a5ac4f71bee55891097
     this.pendingTransactions = [ new Transaction(null, miningRewardUser, this.miningReward) ];
+    // writeFile("./blocks/"+file,block);
   }
 
   addTransaction(transaction){
-    this.pendingTransactions.push(transaction);
+    var files = fs.readdirSync('./../blocks/');
+    // fs.readdir('./../blocks/', (err, files) => {
+      var count = files.length;
+      console.log(files.length);
+        writeFile("./../blocks/"+count,transaction);
+        this.pendingTransactions.push(transaction);
+    // });
   }
 
   getBalanceOfUser(user){
@@ -90,11 +130,19 @@ console.log(block);
       }
     }
     //clean the coin with 0 of amount
+<<<<<<< HEAD
+    for(let i = 0; i < Object.keys(amountTotal).length;i++) {
+      if(Object.values(amountTotal)[i] === 0 && Object.keys(amountTotal)[i] !== 'RST') {
+        delete amountTotal[Object.keys(amountTotal)[i]];
+      }
+    }
+=======
     // for(let i = 0; i < Object.keys(amountTotal).length;i++) {
     //   if(Object.values(amountTotal)[i] === 0 && Object.keys(amountTotal)[i] != 'RST') {
     //     delete amountTotal[Object.keys(amountTotal)[i]];
     //   }
     // }
+>>>>>>> b355f750454def33c71d8a5ac4f71bee55891097
     return {'amountTotal': amountTotal, 'totalTransactions': totalTransactions};
   }
 
@@ -117,7 +165,7 @@ console.log(block);
 }
 
 class Transaction{
-  constructor(user_id, coin_id_from, coin_value_from, coin_id_to, coin_value_to, date){
+  constructor(user_id, coin_id_from, coin_id_to, coin_value_from, coin_value_to, date){
     this.user_id = user_id;
     this.coin_id_from = coin_id_from;
     this.coin_id_to = coin_id_to;
@@ -130,6 +178,7 @@ class Transaction{
 module.exports = function(blockchainRoutes) {
 
   let RSTCoin = new BlockChain();
+  RSTCoin.loadTransaction();
 
   // Base web page to login into the system. If the user is login send session to /urls
   router.get("/balance", (req, res) => {
