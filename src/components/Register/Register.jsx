@@ -5,7 +5,7 @@ import { withStyles } from "@material-ui/core/styles";
 import "./Register.css";
 import { TextField } from "@material-ui/core";
 import axios from "axios";
-import {redirect} from "@reach/router"
+import { redirect } from "@reach/router";
 
 const styles = theme => ({
   button: {
@@ -31,18 +31,18 @@ class Register extends Component {
     // Because we named the inputs to match their corresponding values in state, it's
     // super easy to update the state
     this.setState({ [e.target.name]: e.target.value });
-    console.log(this)
+    console.log(this);
   };
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(e); 
+    console.log(e);
     // get form data out of state
     const { first_name, last_name, password, email, phone } = this.state;
 
     fetch("/api/users/register", {
       method: "POST",
-      credentials: 'include',
+      credentials: "include",
       headers: {
         "Content-type": "application/json"
       },
@@ -50,13 +50,37 @@ class Register extends Component {
     })
       .then(result => result.json())
       .then(response => {
-        console.log(response);
-        if (response.redirect) {
-          window.location.replace(response.url)
-        }
+        this._sendUserBalanceToBlockChain(()=> {
+          if (response.redirect) {
+            window.location.replace(response.url);
+          }
+        });
       });
   };
 
+  _sendUserBalanceToBlockChain = (cb) => {
+    const userData = {
+      coin_id_from: null, //USD
+      coin_value_from: null, //USD - $10
+      coin_id_to: "RST", //RST
+      coin_value_to: 10000, //RST- get market rate - *1,000
+      date: Date.now() //
+    };
+
+    fetch("/api/blockchain/transaction", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(userData)
+    })
+    .then(result => {
+      cb()
+    })
+  };
+  
+  
   // getData = () => {
   //   return fetch("http://localhost:4000/")
   //     .then(res => res.json())
@@ -85,20 +109,44 @@ class Register extends Component {
         <h1>Create your Account</h1>
         <div className="register-form">
           <form onSubmit={this.onSubmit}>
-            <TextField onBlur={this.onChange} label="First Name" name="first_name" required/>
+            <TextField
+              onBlur={this.onChange}
+              label="First Name"
+              name="first_name"
+              required
+            />
             <br />
-            <TextField onBlur={this.onChange} label="Last Name" name="last_name" required/>
+            <TextField
+              onBlur={this.onChange}
+              label="Last Name"
+              name="last_name"
+              required
+            />
             <br />
-            <TextField onBlur={this.onChange} type="email" label="Email" name="email" required/>
+            <TextField
+              onBlur={this.onChange}
+              type="email"
+              label="Email"
+              name="email"
+              required
+            />
             <br />
-            <TextField onBlur={this.onChange} type="password" label="Password" name="password" required/>
+            <TextField
+              onBlur={this.onChange}
+              type="password"
+              label="Password"
+              name="password"
+              required
+            />
             <br />
-            <TextField onBlur={this.onChange} type="number" label="Phone #" name="phone" required/>
-            <Button
-              type="Submit"
-              variant="contained"
-              color="primary"
-            >
+            <TextField
+              onBlur={this.onChange}
+              type="number"
+              label="Phone #"
+              name="phone"
+              required
+            />
+            <Button type="Submit" variant="contained" color="primary">
               Register
             </Button>
           </form>
@@ -109,4 +157,3 @@ class Register extends Component {
 }
 
 export default Register;
- 

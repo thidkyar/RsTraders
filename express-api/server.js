@@ -12,7 +12,7 @@ const bodyParser    = require('body-parser')
 const express       = require('express')
 const app           = express();
 const cookieSession = require("cookie-session");
-
+const stripe        = require('stripe')('sk_test_XVZlxQv9c4myjvGm2G2y7aWW')
 
 // Basic database setup
 const MongoClient   = require("mongodb").MongoClient;
