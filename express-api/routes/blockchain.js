@@ -3,6 +3,7 @@ const express     = require('express');
 const fs          = require("fs");
 const router      = express.Router();
 const app         = express();
+const adminUser   = '1';
 
 
 var writeFile = function (file, value) {
@@ -55,13 +56,18 @@ class BlockChain{
   //   });
   // }
 
-  loadTransaction() {
-    fs.readdir('./../blocks/', (err, files) => {
-      for(let count = 0;count < files.length;count ++) {
-        this.pendingTransactions.push(JSON.parse(fs.readFileSync("./../blocks/"+count, "utf-8")));
-        RSTCoin.mineTransaction(user1);
-      }
-    });
+  // loadTransaction() {
+  //   fs.readdir('../../blocks/', (err, files) => {
+  //     console.log(files);
+  //     for(let count = 0;count < files.length;count ++) {
+  //       this.pendingTransactions.push(JSON.parse(fs.readFileSync("../../blocks/"+count, "utf-8")));
+  //       RSTCoin.mineTransaction();
+  //     }
+  //   });
+  // }
+
+  loadTransactions(value) {
+    this.pendingTransactions.push(value);
   }
 
   mineTransaction(miningRewardUser){
@@ -76,23 +82,16 @@ class BlockChain{
     // console.log('lastBlock.hash',this.chain[this.chain.length - 1].hashCalculate());
     let test = this.chain.length - 1;
     this.chain[test].hash = this.chain[test].hashCalculate();
-<<<<<<< HEAD
     // Reward wont be utilized // If is on this is the first transaction on block
-=======
-console.log(block);
->>>>>>> b355f750454def33c71d8a5ac4f71bee55891097
     this.pendingTransactions = [ new Transaction(null, miningRewardUser, this.miningReward) ];
     // writeFile("./blocks/"+file,block);
   }
 
   addTransaction(transaction){
-    var files = fs.readdirSync('./../blocks/');
-    // fs.readdir('./../blocks/', (err, files) => {
-      var count = files.length;
-      console.log(files.length);
-        writeFile("./../blocks/"+count,transaction);
-        this.pendingTransactions.push(transaction);
-    // });
+    var files = fs.readdirSync('./blocks/');
+    var count = files.length;
+    writeFile("./blocks/"+count,transaction);
+    this.pendingTransactions.push(transaction);
   }
 
   getBalanceOfUser(user){
@@ -105,7 +104,7 @@ console.log(block);
       for(const trans of block.transactions){
 
         if(trans.user_id === user) {
-          console.log(trans.user_id);
+          // console.log(trans.user_id);
           let tt = {
                   coin_id_from: trans.coin_id_from,
                   coin_value_from: trans.coin_value_from,
@@ -113,7 +112,7 @@ console.log(block);
                   coin_value_to: trans.coin_value_to,
                   date: trans.date
                 };
-                console.log(tt);
+                // console.log(tt);
           totalTransactions.push(tt);
 
           //withdraw coin from
@@ -130,19 +129,11 @@ console.log(block);
       }
     }
     //clean the coin with 0 of amount
-<<<<<<< HEAD
     for(let i = 0; i < Object.keys(amountTotal).length;i++) {
       if(Object.values(amountTotal)[i] === 0 && Object.keys(amountTotal)[i] !== 'RST') {
         delete amountTotal[Object.keys(amountTotal)[i]];
       }
     }
-=======
-    // for(let i = 0; i < Object.keys(amountTotal).length;i++) {
-    //   if(Object.values(amountTotal)[i] === 0 && Object.keys(amountTotal)[i] != 'RST') {
-    //     delete amountTotal[Object.keys(amountTotal)[i]];
-    //   }
-    // }
->>>>>>> b355f750454def33c71d8a5ac4f71bee55891097
     return {'amountTotal': amountTotal, 'totalTransactions': totalTransactions};
   }
 
@@ -178,7 +169,17 @@ class Transaction{
 module.exports = function(blockchainRoutes) {
 
   let RSTCoin = new BlockChain();
-  RSTCoin.loadTransaction();
+  // RSTCoin.loadTransaction();
+
+
+  fs.readdir('./blocks/', (err, files) => {
+    // console.log(files);
+    for(let count = 0;count < files.length;count ++) {
+      RSTCoin.loadTransactions(JSON.parse(fs.readFileSync("./blocks/"+count, "utf-8")));
+      // this.pendingTransactions.push(JSON.parse(fs.readFileSync("../../blocks/"+count, "utf-8")));
+      RSTCoin.mineTransaction(adminUser);
+    }
+  });
 
   // Base web page to login into the system. If the user is login send session to /urls
   router.get("/balance", (req, res) => {
@@ -204,7 +205,7 @@ module.exports = function(blockchainRoutes) {
 
     ));
 
-    RSTCoin.mineTransaction(req.session.user_id);
+    RSTCoin.mineTransaction(adminUser);
 
     // Console.log('The blockchain are valid? ',RSTCoin.validateChain());
     res.json({
