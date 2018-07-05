@@ -24,7 +24,7 @@ class Stripe extends Component {
     console.log('THAT', this.state.inputAmount)
     let inputAmount = (this.state.inputAmount)/100
     if (token.id) {
-      this.setState({amount: this.state.amount + inputAmount})
+      this.setState({amount: this.state.amount + (inputAmount*1000)})
       this._sendUserBalanceToBlockChain()
     }
   };
@@ -36,7 +36,7 @@ class Stripe extends Component {
       coin_id_from: null, //USD
       coin_value_from: null, //USD - $10
       coin_id_to: "RST", //RST
-      coin_value_to: amount, //RST- get market rate - *1,000
+      coin_value_to: amount * 1000, //RST- get market rate - *1,000
       date: Date.now() //
     };
 
@@ -79,15 +79,14 @@ class Stripe extends Component {
     console.log('thisone', this.state.amount)
     return (
       <div>
-      <h3> Your Current Balance ${amount}</h3>
-      <form>
+      <h3> Your Current Balance RST:{amount}</h3>
+      <p> *** $1 USD = 1000 RST ***</p>
       <TextField
               onChange={this._onChange}
               label="Amount"
               name="amount"
               required
             />
-        </form>
         <StripeCheckout
           token={this.onToken}
           amount={this.state.inputAmount}
