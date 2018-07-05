@@ -156,11 +156,12 @@ module.exports = function(blockchainRoutes) {
       req.body.date //
     ));
 
-    RSTCoin.mineTransaction(req.session.id);
+    RSTCoin.mineTransaction(req.session.user_id);
 
     // Console.log('The blockchain are valid? ',RSTCoin.validateChain());
     res.json({
       redirect: true,
+      message: RSTCoin.getBalanceOfUser(req.session.user_id),
       url: '/'
     })
 

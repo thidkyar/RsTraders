@@ -6,10 +6,25 @@ const bcrypt   = require('bcrypt')
 
 module.exports = (knex) => {
   
-  router.get("/:id", (res,req) => {
-    //return user profile
-    //
-    console.log("APP GET")
+  router.get("/userprofile", (res,req) => {
+    if (!req.session.user_id) {
+      res.json({
+        redirect: true,
+        url: '/login'
+      })
+    } else {
+      knex.select('*')
+      .from('users')
+      .where('id', '=', req.session.user_id)
+      .then(function(results) {
+          res.json({
+            message: results
+          })
+      })
+      .catch(function(error) {
+        console.error(error)
+      });
+    }
   })
 
 
