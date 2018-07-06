@@ -8,6 +8,7 @@ import NavBar from "./NavBar/NavBar.jsx"
 import Charts from "./Chart/Charts.jsx"
 import Crypto from "./CryptoAPI/Crypto.jsx"
 import Favourites from "./Favourites/Favourites.jsx"
+import Profile from "./Profile/Profile.jsx";
 import Stripe from "./Stripe/Stripe.jsx"
 //import CSS
 import './App.css'; 
@@ -23,6 +24,7 @@ class App extends Component {
           <Login path="login" />
           <Register path="register" />
           <Favourites path="favourites" />
+          <Profile path="profile" />
           <Stripe path="stripe" />
         </Router>
       </div>
