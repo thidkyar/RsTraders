@@ -56,19 +56,17 @@ class BlockChain{
   //   });
   // }
 
-  // loadTransaction() {
-  //   fs.readdir('../../blocks/', (err, files) => {
-  //     console.log(files);
-  //     for(let count = 0;count < files.length;count ++) {
-  //       this.pendingTransactions.push(JSON.parse(fs.readFileSync("../../blocks/"+count, "utf-8")));
-  //       RSTCoin.mineTransaction();
-  //     }
-  //   });
-  // }
-
-  loadTransactions(value) {
-    this.pendingTransactions.push(value);
+  loadTransaction() {
+    let files = fs.readdirSync("./blocks/");
+    for(let count = 0;count < files.length;count ++) {
+      this.pendingTransactions.push(JSON.parse(fs.readFileSync("./blocks/"+count, "utf-8")));
+      this.mineTransaction(adminUser);
+    }
   }
+
+  // loadTransactions(value) {
+  //   this.pendingTransactions.push(value);
+  // }
 
   mineTransaction(miningRewardUser){
     let lastBlock = this.chain[this.chain.length - 1];
@@ -169,13 +167,15 @@ class Transaction{
 module.exports = function(blockchainRoutes) {
 
   let RSTCoin = new BlockChain();
-  // RSTCoin.loadTransaction();
+  RSTCoin.loadTransaction();
+
+  RSTCoin.mineTransaction(adminUser);
 
 
   fs.readdir('./blocks/', (err, files) => {
     // console.log(files);
     for(let count = 0;count < files.length;count ++) {
-      RSTCoin.loadTransactions(JSON.parse(fs.readFileSync("./blocks/"+count, "utf-8")));
+      RSTCoin.loadTransaction(JSON.parse(fs.readFileSync("./blocks/"+count, "utf-8")));
       // this.pendingTransactions.push(JSON.parse(fs.readFileSync("../../blocks/"+count, "utf-8")));
       RSTCoin.mineTransaction(adminUser);
     }
