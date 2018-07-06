@@ -127,12 +127,12 @@ class BlockChain{
       }
     }
     //clean the coin with 0 of amount
-    for (let coin of amountTotal) {
-    // for(let i = 0; i < Object.keys(amountTotal).length;i++) {
-      if(amountTotal[coin] === 0 && amountTotal[coin] !== 'RST') {
-        delete amountTotal[coin];
-      }
-    }
+    // for (let coin of amountTotal) {
+    // // for(let i = 0; i < Object.keys(amountTotal).length;i++) {
+    //   if(amountTotal[coin] === 0 && amountTotal[coin] !== 'RST') {
+    //     delete amountTotal[coin];
+    //   }
+    // }
     return {'amountTotal': amountTotal, 'totalTransactions': totalTransactions};
   }
 
