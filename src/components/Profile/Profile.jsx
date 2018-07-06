@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+export const match = matchName => (value, allValues, props) =>
+value !== allValues[matchName] ? `This field must match with ${matchName} field`: undefined;
+
 class Profile extends Component {
     constructor(props) {
         super(props);
@@ -13,14 +16,31 @@ class Profile extends Component {
         };
     }
 
-    //Handles the event of the change in state of email 
+//sets the state of the email
     onChangeEmail = (e) => {
         this.setState({ email: e.target.value });
     }
 
-    //Handles the even of the change of password
-    onChangePassword = (e) => {
+//sets the state of the password match
+onMatchPassword = (e) => {
+    if()
+    this.setState({ password: e.target.value });
+
     }
+
+//sets the state of the email
+onChangePassword = (e) => {
+        this.setState({ password: e.target.value })
+    }
+
+    //Handles setting the new password
+    onSetPassword = (e) => {
+    }
+    //Handles the matching of the new password
+    onConfirmPassword = (e) => {
+    }
+
+
 
     //Handles the event of the change of phone number
     onChangePhone = (e) => {
@@ -47,6 +67,13 @@ class Profile extends Component {
                 console.log("Here's the value of the amount", data.message.amountTotal.RST);
             });
     };
+
+    //Match Password function
+    matchPassword = matchName => (
+        value, allValues, props) => 
+
+
+
 
     //Handles event of Submit Button
     // onSubmit
@@ -92,20 +119,35 @@ class Profile extends Component {
 
     onSubmitPassword = e => {
         e.preventDefault();
-        console.log("***Password EVENT***", e);
+        console.log("***PASSWORD EVENT***", e);
         const { password } = this.state;
 
-        fetch("/api/users/changePassword", {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(this.state)
-        })
+        // fetch("/api/users/matchPassword", {
+        //     method: "POST",
+        //     credentials: 'include',
+        //     headers: {
+        //         "Content-type": "application/json"
+        //     },
+        //     body: JSON.stringify(this.state)
+        // })
+        //     .then(result => result.json())
+        //     .then(response => {
+        //         console.log("It's a Match", response);
+        //     })
+
+        fetch("/api/users/changePassword",
+            {
+                method: "POST",
+                credentials: 'include',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(this.state)
+            })
             .then(result => result.json())
             .then(response => {
-                console.log("Password Response", response);
+
+                console.log("It's been updated", response);
             })
     }
 
@@ -123,15 +165,15 @@ class Profile extends Component {
                 } else {
                     let data = res.message[0];
                     this.setState({
-                        
+
                         email: data.email, last_name: data.last_name, first_name: data.first_name, phone: data.phone
-                    
+
                     })
                 }
                 this._getBalance();
 
             })
-            
+
 
     }
     render() {
@@ -167,15 +209,13 @@ class Profile extends Component {
                 <div className="user-settings">
                     <form className="password-change" onSubmit={this.onSubmitPassword}>
                         <label> Current Password </label>
-                        <input type="password" required onChange={this.onChangePassword} defaultValue={this.state.password} />
-                        <br />
+                        <input type="password" required name="current_pwd" onChange={this.onMatchPassword} defaultValue={this.state.password} />
+                        <br /> 
                         <label> New Password </label>
-                        <input type="password" onChange={this.onChangePassword} required id="newpswd" />
-                        <input type="text" label="email" onChange={this.onChangeEmail} defaultValue={this.state.email} />
-
+                        <input type="password" onChange={this.onChangePassword} required name="new_pwd" /> 
 
                         <label> Confirm Password </label>
-                        <input type="password" onChange={this.onChangePassword} required id="repswd" required />
+                        <input type="password" onChange={this.onChangePassword}  name="rep_pwd" validate={[required, matchPassword]} />
                         <button type="Submit"> Change Password </button>
                     </form>
                     <br />

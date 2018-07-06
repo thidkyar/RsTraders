@@ -133,6 +133,58 @@ module.exports = (knex) => {
       })
   });
 
+  //*************COMPARE PASSWORD**************** */
+  router.post("/matchPassword", (req, res) => {
+    knex.select('*')
+      .from('users')
+      .where('id', '=', req.session.user_id)
+      .then(function (results) {
+        if (bcrypt.compareSync(req.body.password, results[0].password)) {
+          console.log('results is', results);
+          req.session.user_id = results[0].id;
+          res.json({
+            message: "it's a match"
+          })
+        } else {
+          res.json({
+            message: "it's not a match"
+          })
+        }
+      })
+      .catch(function (error) {
+        console.error(error)
+        res.json({
+          redirect: false,
+          url: '/'
+        })
+      });
+  });
+
+
+  router.post("/changeThePassword", (req, res) => {
+    knex.select('*')
+    .from('users')
+    .where('email', '=', req.body.email)
+    .then(function (results) {
+      if (!results) {
+        res.json({ message: 'Bad Match' })
+      }else{
+      // if (req.session.user_id = results[0].id) {
+        console.log("CHANGE PASSWORD", res);
+    knex.select('*')
+      .from('users')
+      .where('id', '=', req.session.user_id)
+      .update({ password: bcrypt.hashSync(req.body.password, 10) })
+      // .then( res.json({ messsage: bcrypt.hashSync(req.body.password, 10) }) )
+    // }
+  }
+    })
+  })
+  
+
+    
+
+  //********************** */
 
   router.post("/changeEmail", (req, res) => {
     knex.select('*')
