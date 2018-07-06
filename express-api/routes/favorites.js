@@ -61,7 +61,8 @@ module.exports = (knex) => {
 
       const query = knex("favorites")
         .del()
-        .where('user_id', '=', req.session.user_id);
+        .where('user_id', '=', req.session.user_id)
+        .where('coin_id', '=', req.session.coin_id);
       query.exec();
       
       res.json({ sucess: true });
