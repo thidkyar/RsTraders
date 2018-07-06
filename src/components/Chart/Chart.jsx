@@ -17,6 +17,7 @@ class Chart extends Component {
       userBalance: 0,
       numberOfContracts: 0,
       coinCodes: [],
+      allCoins: {},
       data: {
         labels: [],
         datasets: [
@@ -152,7 +153,9 @@ class Chart extends Component {
       body: JSON.stringify(userData)
     })
       // .then(res => res.json())
-      .then(response => {});
+      .then(response => {
+        this._getBalance();
+      });
     } else {
       const ableToBuy = this.state.userBalance/this.state.data.datasets[0].data.slice(-1)[0]
       alert(`not enough funds, You can only buy ${ableToBuy} ${this.props.coinCode}`)
@@ -180,7 +183,9 @@ class Chart extends Component {
       body: JSON.stringify(userData)
     })
       // .then(res => res.json())
-      .then(response => {});
+      .then(response => {
+        this._getBalance();
+      });
   };
 
   //get balance of user from blockchain
@@ -190,13 +195,25 @@ class Chart extends Component {
     })
       .then(res => res.json())
       .then(data => {
+        console.log(data)
         // console.log(data.message.amountTotal.RST)
-        this.setState({ userBalance: data.message.amountTotal.RST });
+        this.setState({ userBalance: data.message.amountTotal.RST, allCoins: data.message.amountTotal });
       });
   };
 
   _getNumberOfContracts = (e) => {
     this.setState({numberOfContracts: e.target.value})
+  }
+
+  renderObject = () => {
+    const items = [];
+    for (let key in this.state.allCoins) {
+      if (this.state.allCoins.hasOwnProperty(key)) {
+        items.push(<p key={key}>{key}: {this.state.allCoins[key]}</p>);
+      }
+    }
+
+    return items;
   }
 
   render() {
@@ -212,9 +229,12 @@ class Chart extends Component {
     });
     const balance = this.state.userBalance.toLocaleString();
 
+    
+
     return (
       <div className="chart">
         <p> Your current balance: {balance}</p>
+        {this.renderObject()}
         <Grid container spacing={0}>
           <Grid item xs={10} sm={2}>
             <Paper>
