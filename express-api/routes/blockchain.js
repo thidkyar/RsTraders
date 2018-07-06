@@ -127,11 +127,12 @@ class BlockChain{
       }
     }
     //clean the coin with 0 of amount
-    for(let i = 0; i < Object.keys(amountTotal).length;i++) {
-      if(Object.values(amountTotal)[i] === 0 && Object.keys(amountTotal)[i] !== 'RST') {
-        delete amountTotal[Object.keys(amountTotal)[i]];
-      }
-    }
+    // for (let coin of amountTotal) {
+    // // for(let i = 0; i < Object.keys(amountTotal).length;i++) {
+    //   if(amountTotal[coin] === 0 && amountTotal[coin] !== 'RST') {
+    //     delete amountTotal[coin];
+    //   }
+    // }
     return {'amountTotal': amountTotal, 'totalTransactions': totalTransactions};
   }
 
@@ -154,11 +155,11 @@ class BlockChain{
 }
 
 class Transaction{
-  constructor(user_id, coin_id_from, coin_id_to, coin_value_from, coin_value_to, date){
+  constructor(user_id, coin_id_from, coin_value_from, coin_id_to, coin_value_to, date){
     this.user_id = user_id;
     this.coin_id_from = coin_id_from;
-    this.coin_id_to = coin_id_to;
     this.coin_value_from = coin_value_from;
+    this.coin_id_to = coin_id_to;
     this.coin_value_to = coin_value_to;
     this.date = date;
   }
@@ -173,7 +174,7 @@ module.exports = function(blockchainRoutes) {
 
 
   fs.readdir('./blocks/', (err, files) => {
-    // console.log(files);
+    console.log(files);
     for(let count = 0;count < files.length;count ++) {
       RSTCoin.loadTransaction(JSON.parse(fs.readFileSync("./blocks/"+count, "utf-8")));
       // this.pendingTransactions.push(JSON.parse(fs.readFileSync("../../blocks/"+count, "utf-8")));
@@ -185,8 +186,7 @@ module.exports = function(blockchainRoutes) {
   router.get("/balance", (req, res) => {
 
     res.json({
-      message: RSTCoin.getBalanceOfUser(req.session.user_id),
-      url: '/'
+      message: RSTCoin.getBalanceOfUser(req.session.user_id)
     })
 
   });

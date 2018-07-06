@@ -123,12 +123,16 @@ module.exports = (knex) => {
       .from('users')
       .where('id', '=', req.session.user_id)
       .then(function (results) {
-        if (bcrypt.compareSync(req.body.password, results[0].password)) {
-          knex('users')
-            .where('id', '=', req.session.user_id)
-            .update({ password: bcrypt.hashSync(req.body.password, 10) })
+        if (req.body.new_pwd === req.body.rep_pwd) {
+          if (bcrypt.compareSync(req.body.password, results[0].password) ) {
+            knex('users')
+              .where('id', '=', req.session.user_id)
+              .update({ password: bcrypt.hashSync(req.body.password, 10) })
+          } else {
+            res.json({ message: "Error: The password doesn't match" }) 
+          }
         } else {
-          res.json({ message: 'Error: The password doesnt match' }) 
+          res.json({ message: "Error: The new passwords doesn't match" }) 
         }
       })
   });

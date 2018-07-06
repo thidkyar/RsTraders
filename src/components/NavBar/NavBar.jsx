@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Router, Link } from "@reach/router";
+<<<<<<< HEAD
 
+=======
+>>>>>>> 640c43ffc5c7fe9a1e01aa4e97cbb2b223a891ba
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
