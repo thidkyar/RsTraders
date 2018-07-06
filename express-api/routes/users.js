@@ -128,11 +128,19 @@ module.exports = (knex) => {
             knex('users')
               .where('id', '=', req.session.user_id)
               .update({ password: bcrypt.hashSync(req.body.password, 10) })
+              .then( res.json({ error: false, message: "The password was changed" })  );
           } else {
+<<<<<<< HEAD
             res.json({ message: "Error: The password doesn't match" }) 
           }
         } else {
           res.json({ message: "Error: The new passwords doesn't match" }) 
+=======
+            res.json({ error: true, message: "Error: The password doesn't match" }) 
+          }
+        } else {
+          res.json({ error: true, message: "Error: The new password doesn't match" }) 
+>>>>>>> 5b4e931cd68a3e4dd6cb264608dc3e111ca9fed9
         }
       })
   });
