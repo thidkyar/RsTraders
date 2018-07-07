@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Router, Link} from "@reach/router"
+import {Router} from "@reach/router"
 //import components
 import Home from "./Home/Home.jsx"
 import Login from "./Login/Login.jsx"
@@ -11,6 +11,7 @@ import Favourites from "./Favourites/Favourites.jsx"
 import Profile from "./Profile/Profile.jsx";
 import Stripe from "./Stripe/Stripe.jsx"
 import UserSettings from "./UserSettings/UserSettings.jsx";
+import CryptoNews from "./CryptoNews/CryptoNews.jsx";
 //import CSS
 import './App.css'; 
 
@@ -28,6 +29,7 @@ class App extends Component {
           <Profile path="profile" />
           <Stripe path="stripe" />
           <UserSettings path="usersettings" />
+          <CryptoNews path="cryptonews" />
         </Router>
       </div>
     );

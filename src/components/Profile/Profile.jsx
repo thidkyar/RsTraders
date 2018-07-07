@@ -20,7 +20,7 @@ class Profile extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        
+
         const transData = []
         const allTransactions = data.message.totalTransactions
         allTransactions.forEach(x => {
@@ -35,7 +35,7 @@ class Profile extends Component {
   };
 
 
-  //FETCH DETAILS FOR USER DETAILS
+  //FETCH for User details(name, wallet amount, transaction details
   _getUserDetails = () => {
     fetch("/api/users/userprofile", {
       method: "GET",
@@ -102,9 +102,9 @@ class Profile extends Component {
           })}
         </div>
         <hr />
-        </div>
-        );
-      }
-    }
-    
-    export default Profile;
+      </div>
+    );
+  }
+}
+
+export default Profile;
