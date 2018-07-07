@@ -10,6 +10,7 @@ import Crypto from "./CryptoAPI/Crypto.jsx"
 import Favourites from "./Favourites/Favourites.jsx"
 import Profile from "./Profile/Profile.jsx";
 import Stripe from "./Stripe/Stripe.jsx"
+import UserSettings from "./UserSettings/UserSettings.jsx";
 //import CSS
 import './App.css'; 
 
@@ -26,6 +27,7 @@ class App extends Component {
           <Favourites path="favourites" />
           <Profile path="profile" />
           <Stripe path="stripe" />
+          <UserSettings path="usersettings" />
         </Router>
       </div>
     );

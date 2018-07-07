@@ -10,7 +10,9 @@ class Favourites extends Component {
       coins: [],
       favCoins: [],
       currentRank: 1,
-      favCount: 0
+      favCount: 0,
+      coinCodes: [],
+
     };
   }
   callFromApi = () => {
@@ -30,6 +32,48 @@ class Favourites extends Component {
         this.setState({ coins: allCoinData });
       });
   };
+
+  _getFavorites = () => {
+    fetch("/api/favorites", {
+        credentials: "include"
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            const coinCodes = [];
+            data.forEach(x => {
+                coinCodes.push(x.coin_id);
+            });
+            console.log(coinCodes);
+            //set state then callback _setChartState function
+            this.setState({ coinCodes: coinCodes });
+        });
+};
+
+_deleteFavorites = (e) => {
+    console.log(e.target.id)
+    const favDetails = {
+        coin_id: e.target.id
+    }
+    fetch("/api/favorites/delete", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(favDetails)
+    })
+        .then(result => result.json())
+        .then(res => {
+            console.log(res)
+            if (res.success === true) {
+                this._getFavorites()
+            } else {
+                alert('delete failed')
+            }
+        });
+}
+
 
   _favButtonEvent = e => {
     const buttonText = e.target.innerText.split("/");
@@ -61,6 +105,8 @@ class Favourites extends Component {
     });
   };
   componentDidMount() {
+    this._getFavorites();
+
     this.callFromApi();
   }
   render() {
@@ -94,8 +140,25 @@ class Favourites extends Component {
                 {x.symbol}/{x.name}
               </Button>
             </span>
+            
           );
+          
         })}
+                        <hr />
+
+<h1> Favourites </h1>
+{this.state.coinCodes.map(coin => {
+    return (
+        <div>
+            <p> {coin} </p>
+            <button id={coin} onClick={this._deleteFavorites}> Delete </button>
+        </div>
+    );
+})}
+<br />
+<br />
+<br />
+<hr />
       </div>
     );
   }

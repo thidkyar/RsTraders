@@ -124,27 +124,35 @@ module.exports = (knex) => {
       .where('id', '=', req.session.user_id)
       .then(function (results) {
         if (req.body.new_pwd === req.body.rep_pwd) {
-          if (bcrypt.compareSync(req.body.password, results[0].password) ) {
+          console.log("REPEATED PWD", req.body.rep_pwd)
+          if (bcrypt.compareSync(req.body.current_pwd, results[0].password) ) {
             knex('users')
               .where('id', '=', req.session.user_id)
-              .update({ password: bcrypt.hashSync(req.body.password, 10) })
-              .then( res.json({ error: false, message: "The password was changed" })  );
+              .update({ password: bcrypt.hashSync(req.body.new_pwd, 10) })
+              .then( function (results) {
+                res.json({ 
+                  error: false, 
+                  message: "The password was changed" });})
+
           } else {
-            res.json({ error: true, message: "Error: The password doesn't match" }) 
+            res.json({ 
+              error: true, 
+              message: "Error: The password doesn't match" }) 
           }
         } else {
-          res.json({ error: true, message: "Error: The new password doesn't match" }) 
+          res.json({ 
+            error: true, 
+            message: "Error: The new password doesn't match" }) 
         }
       })
   });
-
 
   router.post("/changeEmail", (req, res) => {
     knex.select('*')
     .from('users')
     .where('email', '=', req.body.email)
     .then(function (results) {
-      if (results) {
+      if (!results) {
         if (req.session.user_id === results[0].id) {
           res.json({ message: 'The user is trying change his email but dont change a char' })
         } else {
@@ -154,7 +162,7 @@ module.exports = (knex) => {
         knex('users')
         .where({ 'id': req.session.user_id })
         .update({ email: req.body.email })
-        .then( res.json({ messsage: req.body.email }) )
+        .then(res.json({ messsage: req.body.email }) )
       }
     });
   });
