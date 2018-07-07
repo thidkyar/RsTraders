@@ -59,11 +59,11 @@ class NavBar extends Component {
               <Link to="register"> Register </Link> |
               <Link to="favourites"> Fav </Link> | 
               <Link to="profile"> Profile </Link> | 
-              <Link to="usersettings">User Settings</Link>
+              <Link to="usersettings">User Settings</Link> | 
+              <Link to="stripe">Stripe</Link>
               <form onSubmit={this._onSubmit}>
         <Button type="Submit" varient="outlined" color="secondary" >Logout </Button>
               </form>
-              <Link to="stripe">Stripe</Link>
             </Typography>
           </Toolbar>
         </AppBar>

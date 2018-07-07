@@ -7,8 +7,9 @@ import "./Chart.css";
 
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { ENGINE_METHOD_DIGESTS } from "constants";
+import { ENGINE_METHOD_DIGESTS, WSAECONNRESET } from "constants";
 import { TextField } from "@material-ui/core";
+import { DEFAULT_ECDH_CURVE } from "tls";
 
 class Chart extends Component {
   constructor(props) {
@@ -42,10 +43,13 @@ class Chart extends Component {
     };
   }
 
-  componentWillMount() {
-    this._setLabelDatafromAPI();
-    // this._setChartState();
+  componentDidMount() {
     this._getBalance();
+    this._setLabelDatafromAPI();
+  }
+  componentWillMount() {
+    // this._setChartState();
+    clearInterval(this.puller);
   }
 
   //get user favorites from database -- then callback setchartstate function to update state
@@ -114,7 +118,8 @@ class Chart extends Component {
                 label: "High",
                 borderColor: "#3e95cd",
                 lineTension: 0,
-                fill: false
+                fill: false,
+                hidden: true
               },
               {
                 ...this.state.data.datasets,
@@ -122,7 +127,8 @@ class Chart extends Component {
                 label: "Low",
                 borderColor: "#308D8C",
                 lineTension: 0,
-                fill: false
+                fill: false,
+                hidden: true
               }
             ]
           }
@@ -132,60 +138,75 @@ class Chart extends Component {
 
   //event handler to create sell transaction in blockchain
   _onBuyButtonClick = e => {
-    const numberOfContracts = this.state.numberOfContracts
-    const marketValue = this.state.data.datasets[0].data.slice(-1)[0]
+    const numberOfContracts = this.state.numberOfContracts;
+    const marketValue = this.state.data.datasets[0].data.slice(-1)[0];
     // const lastItem = marketValue.slice(-1)[0]
-    if (this.state.userBalance > (marketValue*numberOfContracts)) { 
-    const userData = {
-      coin_id_from: "RST", //USD
-      coin_value_from: marketValue * this.state.numberOfContracts, //USD - $10
-      coin_id_to: this.props.coinCode, //RST
-      coin_value_to: marketValue * this.state.numberOfContracts, //RST- get market rate - *1,000
-      date: Date.now() //
-    };
-
-    fetch("/api/blockchain/transaction", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(userData)
-    })
-      // .then(res => res.json())
-      .then(response => {
-        this._getBalance();
-      });
-    } else {
-      const ableToBuy = this.state.userBalance/this.state.data.datasets[0].data.slice(-1)[0]
-      alert(`not enough funds, You can only buy ${ableToBuy} ${this.props.coinCode}`)
+    if (
+      this.state.userBalance > marketValue * numberOfContracts &&
+      numberOfContracts >= 0
+    ) {
+      const userData = {
+        coin_id_from: "RST", //USD
+        coin_value_from: marketValue * this.state.numberOfContracts, //USD - $10
+        coin_id_to: this.props.coinCode, //RST
+        coin_value_to: marketValue * this.state.numberOfContracts, //RST- get market rate - *1,000
+        date: Date.now() //
       };
+
+      fetch("/api/blockchain/transaction", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      })
+        // .then(res => res.json())
+        .then(response => {
+          this._getBalance();
+        });
+    } else {
+      const ableToBuy =
+        this.state.userBalance / this.state.data.datasets[0].data.slice(-1)[0];
+      alert(
+        `Invalid amount, You can only buy ${ableToBuy} ${this.props.coinCode}`
+      );
     }
+  };
 
   //event handler to create sell transaction in blockchain
   _onSellButtonClick = e => {
-    const sellAt = this.state.data.datasets[0];
-    const marketValue = this.state.data.datasets[0].data.slice(-1)[0]
-    const userData = {
-      coin_id_from: this.props.coinCode, //USD
-      coin_value_from: marketValue * this.state.numberOfContracts, //USD - $10
-      coin_id_to: "RST", //RST
-      coin_value_to: marketValue * this.state.numberOfContracts, //RST- get market rate - *1,000
-      date: Date.now() //
-    };
+    const marketValue = this.state.data.datasets[0].data.slice(-1)[0];
+    const currentCoin = this.props.coinCode;
+    const sellamount = marketValue * this.state.numberOfContracts;
+    console.log(marketValue);
+    console.log(this.state.allCoins);
+    console.log("log this", this.state.allCoins[currentCoin]);
+    if (
+      this.state.allCoins[currentCoin] &&
+      this.state.allCoins[currentCoin] - sellamount >= 0
+    ) {
+      const userData = {
+        coin_id_from: this.props.coinCode, //USD
+        coin_value_from: marketValue * this.state.numberOfContracts, //USD - $10
+        coin_id_to: "RST", //RST
+        coin_value_to: marketValue * this.state.numberOfContracts, //RST- get market rate - *1,000
+        date: Date.now() //
+      };
 
-    fetch("/api/blockchain/transaction", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-type": "application/json"
-      },
-      body: JSON.stringify(userData)
-    })
-      // .then(res => res.json())
-      .then(response => {
-        this._getBalance();
-      });
+      fetch("/api/blockchain/transaction", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(userData)
+      })
+        // .then(res => res.json())
+        .then(response => {});
+    } else {
+      alert("invalid input");
+    }
   };
 
   //get balance of user from blockchain
@@ -195,27 +216,52 @@ class Chart extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
+        console.log(data);
         // console.log(data.message.amountTotal.RST)
-        this.setState({ userBalance: data.message.amountTotal.RST, allCoins: data.message.amountTotal });
+        this.setState({
+          userBalance: data.message.amountTotal.RST,
+          allCoins: data.message.amountTotal
+        });
+        this.puller = setTimeout(this._getBalance, 5 * 1000);
       });
   };
 
-  _getNumberOfContracts = (e) => {
-    this.setState({numberOfContracts: e.target.value})
-  }
+  _getNumberOfContracts = e => {
+    this.setState({ numberOfContracts: e.target.value });
+  };
 
   renderObject = () => {
     const items = [];
     for (let key in this.state.allCoins) {
       if (this.state.allCoins.hasOwnProperty(key)) {
-        items.push(<p key={key}>{key}: {this.state.allCoins[key]}</p>);
+        items.push(
+          <p key={key}>
+            {key}: {this.state.allCoins[key]}
+          </p>
+        );
       }
     }
 
     return items;
+  };
+
+  _minButtonClick = (e) => {
+    const { coinCode } = this.props
+    const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=CAD&limit=100`;
+    return url
   }
 
+  _hourButtonClick = (e) => {
+    const { coinCode } = this.props
+    const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=CAD&limit=100`;
+    return url
+  }
+
+  _dayButtonClick = (e) => {
+    const { coinCode } = this.props
+    const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
+    return url
+  }
   render() {
     const styles = theme => ({
       root: {
@@ -229,85 +275,93 @@ class Chart extends Component {
     });
     const balance = this.state.userBalance.toLocaleString();
 
-    
-
     return (
-      <div className="chart">
+      <div>
         <p> Your current balance: {balance}</p>
         {this.renderObject()}
-        <Grid container spacing={0}>
-          <Grid item xs={10} sm={2}>
-            <Paper>
-              <div>
-                <h1>{this.props.coinCode}</h1>
-                <TextField onChange={this._getNumberOfContracts} label="Number"> </TextField>
+        <div className="chart">
+          <Grid container spacing={0}>
+            <Grid item xs={10} sm={2}>
+              <Paper>
+                <div>
+                  <h1>{this.props.coinCode}</h1>
+                  <TextField
+                    onChange={this._getNumberOfContracts}
+                    label="Number"
+                  >
+                    {" "}
+                  </TextField>
+                  <Button
+                    onClick={this._onBuyButtonClick}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Buy
+                  </Button>
+                </div>
+                <br />
                 <Button
-                  onClick={this._onBuyButtonClick}
+                  onClick={this._onSellButtonClick}
                   variant="contained"
                   color="primary"
                 >
-                  Buy
+                  Sell
                 </Button>
-              </div>
-              <br />
-              <Button
-                onClick={this._onSellButtonClick}
-                variant="contained"
-                color="primary"
-              >
-                Sell
-              </Button>
-            </Paper>
-          </Grid>
-          <Grid item xs={10} sm={10}>
-            <Paper>
-              <Line
-                data={this.state.data}
-                width={100}
-                height={300}
-                options={{
-                  title: {
-                    display: true,
-                    fontColor: "white",
-                    text: this.props.coinCode
-                  },
-                  tooltips: {
-                    mode: "index",
-                    intersect: false
-                  },
-                  legend: {
-                    labels: {
-                      fontColor: "white"
-                    }
-                  },
-                  scales: {
-                    yAxes: [
-                      {
-                        gridLines: {
-                          display: true,
-                          color: "#707073"
-                        },
-                        position: "right",
-                        ticks: {
-                          fontColor: "white"
-                        }
+              </Paper>
+            </Grid>
+            <Grid item xs={10} sm={10}>
+              <Paper>
+                <Line
+                  data={this.state.data}
+                  width={100}
+                  height={300}
+                  options={{
+                    title: {
+                      display: true,
+                      fontColor: "white",
+                      text: this.props.coinCode
+                    },
+                    tooltips: {
+                      mode: "index",
+                      intersect: false
+                    },
+                    legend: {
+                      labels: {
+                        fontColor: "white",
                       }
-                    ],
-                    xAxes: [
-                      {
-                        ticks: {
-                          fontColor: "white",
-                          maxTicksLimit: 8
+                    },
+                    scales: {
+                      yAxes: [
+                        {
+                          gridLines: {
+                            display: true,
+                            color: "#707073"
+                          },
+                          position: "right",
+                          ticks: {
+                            fontColor: "white"
+                          }
                         }
-                      }
-                    ]
-                  },
-                  maintainAspectRatio: false
-                }}
-              />
-            </Paper>
+                      ],
+                      xAxes: [
+                        {
+                          ticks: {
+                            fontColor: "white",
+                            maxTicksLimit: 8
+                          }
+                        }
+                      ]
+                    },
+                    maintainAspectRatio: false
+                  }}
+                />
+              </Paper>
+              <button onClick={this._minButtonClick}>min</button>
+              <button onClick={this._hourButtonClick}>hour</button>
+              <button onClick={this._dayButtonClick}>day</button>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
     );
   }

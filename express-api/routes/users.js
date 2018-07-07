@@ -152,7 +152,7 @@ module.exports = (knex) => {
     .from('users')
     .where('email', '=', req.body.email)
     .then(function (results) {
-      if (results) {
+      if (!results) {
         if (req.session.user_id === results[0].id) {
           res.json({ message: 'The user is trying change his email but dont change a char' })
         } else {
@@ -162,7 +162,7 @@ module.exports = (knex) => {
         knex('users')
         .where({ 'id': req.session.user_id })
         .update({ email: req.body.email })
-        .then( res.json({ messsage: req.body.email }) )
+        .then(res.json({ messsage: req.body.email }) )
       }
     });
   });
