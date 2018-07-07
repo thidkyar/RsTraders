@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-
+import React, { Component } from "react";
 
 // //GET USERS BALANCE FROM THE BLOCKCHAIN
 //     _getBalance = () => {
@@ -12,9 +11,6 @@ import React, { Component } from 'react';
 //                 this.setState({ amount: data.message.amountTotal.RST });
 //             });
 //     };
-
-   
-
 
 // onFavouriteHandler(){}
 // favouritesHandler() {
@@ -91,145 +87,215 @@ import React, { Component } from 'react';
 
 // }
 class Profile extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            first_name: "",
-            last_name: "",
-            email: "",
-            phone: "",
-            password: "",
-            amount: 0
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
+      password: "",
+      amount: 0,
+      coinCodes: []
+    };
+  }
 
-    onChangeEmail = (e) => {
-        // console.log("DATA IS HERE", e.currentTarget.value);
-        this.setState({ email: e.target.value });
+  onChangeEmail = e => {
+    // console.log("DATA IS HERE", e.currentTarget.value);
+    this.setState({ email: e.target.value });
+  };
+  //handles phone number change
+  onPhoneChange = e => {
+    this.setState({ phone: e.target.value });
+  };
 
-    }
-//handles phone number change
-    onPhoneChange = (e) => {
-this.setState({ phone: e.target.value});
-    }
+  //Handles event of Submit Button
+  // onSubmit
+  onSubmitPhone = e => {
+    e.preventDefault();
+    console.log("***EVENT***", e);
+    const { phone } = this.state;
 
-        //Handles event of Submit Button
-    // onSubmit
-    onSubmitPhone = e => {
-        e.preventDefault();
-        console.log("***EVENT***", e);
-        const { phone } = this.state;
+    fetch("/api/users/changePhone", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(this.state)
+    })
+      .then(result => result.json())
+      .then(response => {
+        console.log("Phone Response", response);
+      });
+  };
 
-        fetch("/api/users/changePhone", {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(this.state)
-        })
-            .then(result => result.json())
-            .then(response => {
-                console.log("Phone Response", response);
-            })
-    }
+  _getFavorites = () => {
+    fetch("/api/favorites", {
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        const coinCodes = [];
+        data.forEach(x => {
+          coinCodes.push(x.coin_id);
+        });
+        console.log(coinCodes);
+        //set state then callback _setChartState function
+        this.setState({ coinCodes: coinCodes });
+      });
+  };
 
-    //Handles event of Submit Button
-    // onSubmit
-    onSubmitEmail = e => {
-        e.preventDefault();
-        console.log("***EVENT***", e);
-        const { email } = this.state;
+  _deleteFavorites = (e) => {
+      console.log(e.target.id)
+      const favDetails = {
+        coin_id: e.target.id
+      }
+    fetch("/api/users/favorites/delete", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(favDetails)
+    })
+      .then(result => result.json())
+      .then(res => {
+        if(res.success === true) {
+            this._getFavorites()
+        }
+        alert('delete failed')
+      });
+  }
 
-        fetch("/api/users/changeEmail", {
-            method: "POST",
-            credentials: 'include',
-            headers: {
-                "Content-type": "application/json"
-            },
-            body: JSON.stringify(this.state)
-        })
-            .then(result => result.json())
-            .then(response => {
-                console.log("Email Response", response);
-            })
-    }
+  //Handles event of Submit Button
+  // onSubmit
+  onSubmitEmail = e => {
+    e.preventDefault();
+    console.log("***EVENT***", e);
+    const { email } = this.state;
 
+    fetch("/api/users/changeEmail", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(this.state)
+    })
+      .then(result => result.json())
+      .then(response => {
+        console.log("Email Response", response);
+      });
+  };
 
-    componentDidMount() {
-        // this._getBalance();
+  componentDidMount() {
+    // this._getBalance();
+    this._getUserDetails();
+    this._getFavorites();
+  }
+  //FETCH DETAILS FOR USER DETAILS
+  _getUserDetails = () => {
+    fetch("/api/users/userprofile", {
+      method: "GET",
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(res => {
+        if (res.redirect === true) {
+          window.location.replace(res.url);
+        } else {
+          let data = res.message[0];
+          this.setState({
+            email: data.email,
+            last_name: data.last_name,
+            first_name: data.first_name,
+            phone: data.phone
+          });
+        }
+      });
+  };
 
-        //FETCH DETAILS FOR USER DETAILS
-        fetch("/api/users/userprofile", {
-            method: "GET",
-            credentials: "include"
-        })
-            .then(res => res.json())
-            .then(res => {
-                if (res.redirect === true) {
-                    window.location.replace(res.url);
-                } else {
-                    let data = res.message[0];
-                    this.setState({
-                        email: data.email, last_name: data.last_name, first_name: data.first_name, phone: data.phone
-                    })
-                }
-            })
-    }
-    render() {
-        return (
-            <div className="user-dashboard">
-                <div className="user-profile">
-                    <h1> Display Profile Picture</h1>
+  render() {
+    console.log(this.state.coinCodes);
+    return (
+      <div className="user-dashboard">
+        <div className="user-profile">
+          <h1> Display Profile Picture</h1>
 
-                    <h2>First Name: </h2>
-                    <label id="fName" onChange={this.onChange}> {this.state.first_name}</label>
-                    <h2> Last Name: </h2>{this.state.last_name}
-                    <hr />
-                    <p>Total Balance</p>
-                    {/* <p>{_getBalance()}</p> */}
-                    <p>Your Portfolio (List all Transactions)</p>
-                    {/* <div _getBalance = {this.amount}></div> */}
-                    <p>Your Portfolio (Chart of total balance)</p>
-                </div>
-                <hr />
-                <div className="user-settings">
-                    <form className="password-change" onSubmit={this.onSubmitPassword}>
-                        <label> Current Password </label>
-                        <input type="password" required defaultValue={this.state.password} />
-                        <br />
-                        <label> New Password </label>
-                        <input type="password" required id="newpswd" />
-                        <label> Confirm Password </label>
-                        <input type="password" required id="repswd" required />
-                        <button type="Submit"> Change Password </button>
-                    </form>
-                    <br />
-                    <hr />
-                    <form id="update-email" onSubmit={this.onSubmitEmail}>
-                        <label> Update Email Address </label>
-                        <input type="text" label="email" onChange={this.onChangeEmail} defaultValue={this.state.email} />
-                        <button>Save</button>
-                    </form>
-                    <br />
-                    <hr />
-                    <form className="phone-number" onSubmit={this.onSubmitPhone}>
-                        <label> Update Phone Number</label>
-                        <input type="text" label="email" onChange={this.onPhoneChange} defaultValue={this.state.phone} />
-                        <button>Save</button>
-                    </form>
-                    <br />
-                    <hr />
-                    <h1> Favourites </h1>
-                    {this.state.favourites}
-                    <label> Delete Favourites </label>
-                    <br />
-                    <br />
-                    <hr />
-                </div>
-            </div>
-        );
-    }
+          <h2>First Name: </h2>
+          <label id="fName" onChange={this.onChange}>
+            {" "}
+            {this.state.first_name}
+          </label>
+          <h2> Last Name: </h2>
+          {this.state.last_name}
+          <hr />
+          <p>Total Balance</p>
+          {/* <p>{_getBalance()}</p> */}
+          <p>Your Portfolio (List all Transactions)</p>
+          {/* <div _getBalance = {this.amount}></div> */}
+          <p>Your Portfolio (Chart of total balance)</p>
+        </div>
+        <hr />
+        <div className="user-settings">
+          <form className="password-change" onSubmit={this.onSubmitPassword}>
+            <label> Current Password </label>
+            <input
+              type="password"
+              required
+              defaultValue={this.state.password}
+            />
+            <br />
+            <label> New Password </label>
+            <input type="password" required id="newpswd" />
+            <label> Confirm Password </label>
+            <input type="password" required id="repswd" required />
+            <button type="Submit"> Change Password </button>
+          </form>
+          <br />
+          <hr />
+          <form id="update-email" onSubmit={this.onSubmitEmail}>
+            <label> Update Email Address </label>
+            <input
+              type="text"
+              label="email"
+              onChange={this.onChangeEmail}
+              defaultValue={this.state.email}
+            />
+            <button>Save</button>
+          </form>
+          <br />
+          <hr />
+          <form className="phone-number" onSubmit={this.onSubmitPhone}>
+            <label> Update Phone Number</label>
+            <input
+              type="text"
+              label="email"
+              onChange={this.onPhoneChange}
+              defaultValue={this.state.phone}
+            />
+            <button>Save</button>
+          </form>
+          <br />
+          <hr />
+          <h1> Favourites </h1>
+          {this.state.coinCodes.map(coin => {
+            return (
+              <div>
+                <p> {coin} </p>
+                <button id={coin} onClick={this._deleteFavorites}> Delete </button>
+              </div>
+            );
+          })}
+          <br />
+          <br />
+          <hr />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Profile;
