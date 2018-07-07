@@ -11,8 +11,7 @@ class Favourites extends Component {
       favCoins: [],
       currentRank: 1,
       favCount: 0,
-      coinCodes: [],
-
+      coinCodes: []
     };
   }
   callFromApi = () => {
@@ -35,45 +34,44 @@ class Favourites extends Component {
 
   _getFavorites = () => {
     fetch("/api/favorites", {
-        credentials: "include"
+      credentials: "include"
     })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            const coinCodes = [];
-            data.forEach(x => {
-                coinCodes.push(x.coin_id);
-            });
-            console.log(coinCodes);
-            //set state then callback _setChartState function
-            this.setState({ coinCodes: coinCodes });
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        const coinCodes = [];
+        data.forEach(x => {
+          coinCodes.push(x.coin_id);
         });
-};
+        console.log(coinCodes);
+        //set state then callback _setChartState function
+        this.setState({ coinCodes: coinCodes });
+      });
+  };
 
-_deleteFavorites = (e) => {
-    console.log(e.target.id)
+  _deleteFavorites = e => {
+    console.log(e.target.id);
     const favDetails = {
-        coin_id: e.target.id
-    }
+      coin_id: e.target.id
+    };
     fetch("/api/favorites/delete", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-            "Content-type": "application/json"
-        },
-        body: JSON.stringify(favDetails)
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(favDetails)
     })
-        .then(result => result.json())
-        .then(res => {
-            console.log(res)
-            if (res.success === true) {
-                this._getFavorites()
-            } else {
-                alert('delete failed')
-            }
-        });
-}
-
+      .then(result => result.json())
+      .then(res => {
+        console.log(res);
+        if (res.success === true) {
+          this._getFavorites();
+        } else {
+          alert("delete failed");
+        }
+      });
+  };
 
   _favButtonEvent = e => {
     const buttonText = e.target.innerText.split("/");
@@ -95,40 +93,37 @@ _deleteFavorites = (e) => {
       body: JSON.stringify(params)
       // body: params
     }).then(response => {
-      const newFavCoins = this.state.favCoins;
+      const newFavCoins = this.state.coinCodes;
+      if (!newFavCoins.includes(params.coin_id)) {
       newFavCoins.push(params.coin_id);
       this.setState({
         currentRank: this.state.currentRank + 1,
         favCount: this.state.favCount + 1,
         favCoins: newFavCoins
       });
+    } else {
+      alert('already in your favorites!')
+    }
     });
   };
   componentDidMount() {
     this._getFavorites();
-
     this.callFromApi();
   }
   render() {
-    console.log(this.state.favCoins);
-
+    console.log('check this',this.state.favCoins);
+    const numberOfCoins = this.state.coinCodes
     return (
       <div>
         <h1>Select your Favourite Crypto's!</h1>
-        <h3>You have {this.state.favCount} favorites </h3>
-        {this.state.favCoins.map(x => {
-          return (
-            <p>{x}</p>
-          )
-        })}
-
+        <h3>You have {numberOfCoins.length} favorites </h3>
         {this.state.coins.map(x => {
           const buttonStyle = {
             variant: "outlined"
           };
           if (this.state.favCoins.includes(x)) {
             buttonStyle.variant = "contained";
-            console.log(buttonStyle)
+            console.log(buttonStyle);
           }
           return (
             <span>
@@ -140,25 +135,26 @@ _deleteFavorites = (e) => {
                 {x.symbol}/{x.name}
               </Button>
             </span>
-            
           );
-          
         })}
-                        <hr />
+        <hr />
 
-<h1> Favourites </h1>
-{this.state.coinCodes.map(coin => {
-    return (
-        <div>
-            <p> {coin} </p>
-            <button id={coin} onClick={this._deleteFavorites}> Delete </button>
-        </div>
-    );
-})}
-<br />
-<br />
-<br />
-<hr />
+        <h1> Favourites </h1>
+        {this.state.coinCodes.map(coin => {
+          return (
+            <div>
+              <p> {coin} </p>
+              <button id={coin} onClick={this._deleteFavorites}>
+                {" "}
+                Delete{" "}
+              </button>
+            </div>
+          );
+        })}
+        <br />
+        <br />
+        <br />
+        <hr />
       </div>
     );
   }
