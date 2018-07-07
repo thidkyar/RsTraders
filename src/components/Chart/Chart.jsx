@@ -19,6 +19,7 @@ class Chart extends Component {
       numberOfContracts: 0,
       coinCodes: [],
       allCoins: {},
+      url: `https://min-api.cryptocompare.com/data/histoday?fsym=${this.props.coinCode}&tsym=CAD&limit=100`,
       data: {
         labels: [],
         datasets: [
@@ -64,14 +65,14 @@ class Chart extends Component {
           coinCodes.push(x.coin_id);
         });
         //set state then callback _setChartState function
-        this.setState({ coinCodes: coinCodes }, this._setChartState);
+        this.setState({ coinCodes: coinCodes , url: this.state.url}, this._setChartState);
       });
   };
 
   //set chart state from API call for coinCode passed from Charts component as prop
   _setChartState() {
     const { coinCode } = this.props;
-    const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
+    const url = this.state.url
     console.log("URL", url);
     fetch(url)
       .then(res => res.json())
@@ -248,19 +249,19 @@ class Chart extends Component {
   _minButtonClick = (e) => {
     const { coinCode } = this.props
     const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=CAD&limit=100`;
-    return url
+    this.setState({url: url})
   }
 
   _hourButtonClick = (e) => {
     const { coinCode } = this.props
     const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=CAD&limit=100`;
-    return url
+    this.setState({url: url})
   }
 
   _dayButtonClick = (e) => {
     const { coinCode } = this.props
     const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
-    return url
+    this.setState({url: url})
   }
   render() {
     const styles = theme => ({
@@ -274,7 +275,7 @@ class Chart extends Component {
       }
     });
     const balance = this.state.userBalance.toLocaleString();
-
+    console.log(this.state.url)
     return (
       <div>
         <p> Your current balance: {balance}</p>
