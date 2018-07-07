@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import { Router, Link } from "@reach/router";
-<<<<<<< HEAD
 
-=======
->>>>>>> 640c43ffc5c7fe9a1e01aa4e97cbb2b223a891ba
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -61,8 +58,8 @@ class NavBar extends Component {
               <Link to="login"> Login </Link> |
               <Link to="register"> Register </Link> |
               <Link to="favourites"> Fav </Link> | 
-              <Link to="profile"> Profile </Link>
-              <Link to="usersettings"></Link>
+              <Link to="profile"> Profile </Link> | 
+              <Link to="usersettings">User Settings</Link>
               <form onSubmit={this._onSubmit}>
         <Button type="Submit" varient="outlined" color="secondary" >Logout </Button>
               </form>
