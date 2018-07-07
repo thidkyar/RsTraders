@@ -1,24 +1,23 @@
 "use strict";
 
-const express = require('express');
-const router  = express.Router();
+const express = require("express");
+const router = express.Router();
 
-module.exports = (knex) => {
-
+module.exports = knex => {
   router.get("/favorites", (req, res) => {
     if (!req.session.user_id) {
       res.json({
         redirect: true,
-        url: '/'
-      })
+        url: "/"
+      });
     } else {
       knex
         .select("*")
-        .from('favorites')
-        .where('users_id', req.session.user_id)
-        .then((results) => {
+        .from("favorites")
+        .where("users_id", req.session.user_id)
+        .then(results => {
           res.json(results);
-      });
+        });
     }
   });
 
@@ -27,47 +26,43 @@ module.exports = (knex) => {
     if (!req.session.user_id) {
       res.json({
         redirect: true,
-        url: '/'
-      })
+        url: "/"
+      });
     } else {
       knex
         .select("*")
-        .from('favorites')
-        .where('users_id', req.session.user_id)
-        .where('coin_id', req.body.coin_id)
-        .then((results) => {
+        .from("favorites")
+        .where("users_id", req.session.user_id)
+        .where("coin_id", req.body.coin_id)
+        .then(results => {
           if (results.length === 0) {
-            knex('favorites')
-              .returning('id')
-              .insert([{
-                users_id: req.session.user_id,
-                coin_id: req.body.coin_id,
-                rank: req.body.rank
-              }])
-              .then(
-                res.json({ sucess: true })
-              )
+            knex("favorites")
+              .returning("id")
+              .insert([
+                {
+                  users_id: req.session.user_id,
+                  coin_id: req.body.coin_id,
+                  rank: req.body.rank
+                }
+              ])
+              .then(res.json({ sucess: true }))
               .catch(function(error) {
-                console.error('Error: Inserting the user', error)
+                console.error("Error: Inserting the user", error);
               });
           } else {
             res.json({ sucess: false });
           }
-      });
+        });
     }
   });
 
   router.post("/favorites/delete/", (req, res) => {
-
-      const query = knex("favorites")
-        .del()
-        .where('user_id', '=', req.session.user_id)
-        .where('coin_id', '=', req.session.coin_id);
-      query.exec();
-      
-      res.json({ sucess: true });
-
+    knex("favorites")
+      .where("users_id", "=", req.session.user_id)
+      .where("coin_id", "=", req.body.coin_id)
+      .del()
+      .then(res.json({ success: true }));
   });
 
   return router;
-}
+};

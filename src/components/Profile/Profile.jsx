@@ -152,7 +152,7 @@ class Profile extends Component {
       const favDetails = {
         coin_id: e.target.id
       }
-    fetch("/api/users/favorites/delete", {
+    fetch("/api/favorites/delete", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -162,10 +162,12 @@ class Profile extends Component {
     })
       .then(result => result.json())
       .then(res => {
-        if(res.success === true) {
+        console.log(res)
+        if (res.success === true) {
             this._getFavorites()
-        }
+        } else {
         alert('delete failed')
+        }
       });
   }
 
