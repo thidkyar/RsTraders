@@ -25,8 +25,8 @@ class UserSettings extends Component {
 
     onSubmitPhone = e => {
         e.preventDefault();
-        console.log("***EVENT***", e);
-        const { phone } = this.state;
+        // console.log("***EVENT***", e);
+        // const { phone } = this.state;
 
         fetch("/api/users/changePhone", {
             method: "POST",
@@ -38,7 +38,7 @@ class UserSettings extends Component {
         })
             .then(result => result.json())
             .then(response => {
-                console.log("Phone Response", response);
+                // console.log("Phone Response", response);
             });
     };
 
@@ -46,8 +46,8 @@ class UserSettings extends Component {
     // onSubmit
     onSubmitEmail = e => {
         e.preventDefault();
-        console.log("***EVENT***", e);
-        const { email } = this.state;
+        // console.log("***EVENT***", e);
+        // const { email } = this.state;
 
         fetch("/api/users/changeEmail", {
             method: "POST",
@@ -59,7 +59,7 @@ class UserSettings extends Component {
         })
             .then(result => result.json())
             .then(response => {
-                console.log("Email Response", response);
+                // console.log("Email Response", response);
             });
     };
 
@@ -97,7 +97,7 @@ class UserSettings extends Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({ amount: data.message.amountTotal.RST });
-                console.log("Here's the value of the amount", data.message.amountTotal.RST);
+                // console.log("Here's the value of the amount", data.message.amountTotal.RST);
             });
     };
 
@@ -106,8 +106,8 @@ class UserSettings extends Component {
     // onSubmit
     onSubmitPhone = e => {
         e.preventDefault();
-        console.log("***EVENT***", e);
-        const { phone } = this.state;
+        // console.log("***EVENT***", e);
+        // const { phone } = this.state;
 
         fetch("/api/users/changePhone", {
             method: "POST",
@@ -119,7 +119,7 @@ class UserSettings extends Component {
         })
             .then(result => result.json())
             .then(response => {
-                console.log("Phone Response", response);
+                // console.log("Phone Response", response);
             })
     }
 
@@ -127,8 +127,8 @@ class UserSettings extends Component {
     // onSubmit
     onSubmitEmail = e => {
         e.preventDefault();
-        console.log("***EVENT***", e);
-        const { email } = this.state;
+        // console.log("***EVENT***", e);
+        // const { email } = this.state;
 
         fetch("/api/users/changeEmail", {
             method: "POST",
@@ -140,15 +140,15 @@ class UserSettings extends Component {
         })
             .then(result => result.json())
             .then(response => {
-                console.log("Email Response", response);
+                // console.log("Email Response", response);
             })
     }
 
 
     onSubmitPassword = e => {
         e.preventDefault();
-        console.log("***PASSWORD EVENT***", e.target.elements.current_pwd.value);
-        const { password } = this.state;
+        // console.log("***PASSWORD EVENT***", e.target.elements.current_pwd.value);
+        // const { password } = this.state;
         fetch("/api/users/changePassword",
             {
                 method: "POST",
@@ -167,7 +167,7 @@ class UserSettings extends Component {
             .then(result => result.json())
             .then(response => {
                 if (response.error) {
-                    console.log(response.message);
+                    // console.log(response.message);
                 } else {
                 }
             })
@@ -269,13 +269,13 @@ class UserSettings extends Component {
 
                 <form className="password-change" onSubmit={this.onSubmitPassword}>
                     <label> Current Password </label>
-                    <input type="text" required name="current_pwd" onChange={this.onMatchPassword} defaultValue={this.state.password} />
+                    <input type="password" required name="current_pwd" onChange={this.onMatchPassword} defaultValue={this.state.password} />
                     <br />
                     <label> New Password </label>
-                    <input type="text" onChange={this.onChangePassword} required name="new_pwd" />
+                    <input type="password" onChange={this.onChangePassword} required name="new_pwd" />
 
                     <label> Confirm Password </label>
-                    <input type="text" onChange={this.onChangePassword} name="rep_pwd" />
+                    <input type="password" onChange={this.onChangePassword} name="rep_pwd" />
                     <button type="Submit"> Change Password </button>
                 </form>
                 <br />
