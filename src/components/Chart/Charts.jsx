@@ -3,7 +3,8 @@ import {Router, Link} from "@reach/router"
 //import components
 import Chart from "./Chart.jsx"
 //import CSS
-// import './App.css'; 
+import "./Chart.css";
+
 
 class Charts extends Component {
   constructor(props) {
@@ -30,9 +31,9 @@ class Charts extends Component {
       });
   };
   render() {
-    console.log('this',this.state.coinCodes)
+
     return (
-      <div>
+      <div className='charts'>
         {this.state.coinCodes.map(coinCode => {
           return (
             <Chart coinCode={coinCode} />

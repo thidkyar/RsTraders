@@ -5,6 +5,7 @@ import Home from "./Home/Home.jsx"
 import Login from "./Login/Login.jsx"
 import Register from "./Register/Register.jsx"
 import NavBar from "./NavBar/NavBar.jsx"
+import Sidebar from "./Sidebar/Sidebar.jsx"
 import Charts from "./Chart/Charts.jsx"
 import Crypto from "./CryptoAPI/Crypto.jsx"
 import Favourites from "./Favourites/Favourites.jsx"
@@ -14,12 +15,14 @@ import UserSettings from "./UserSettings/UserSettings.jsx";
 import CryptoNews from "./CryptoNews/CryptoNews.jsx";
 //import CSS
 import './App.css'; 
+ 
 
 class App extends Component {
   render() {
     return (
       <div className="App">
       <NavBar />
+      {/* <Sidebar /> */}
         <Router>
           <Charts path="/chart" />
           <Home path="/" />

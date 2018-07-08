@@ -1,15 +1,48 @@
+//React components
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
+
+//Chartjs Components
 import { Bar, Line, Pie, Area } from "react-chartjs-2";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
 import "./Chart.css";
 
+//Material UI Components
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import { ENGINE_METHOD_DIGESTS, WSAECONNRESET } from "constants";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 import { TextField } from "@material-ui/core";
-import { DEFAULT_ECDH_CURVE } from "tls";
+import Typography from "@material-ui/core/Typography";
+import Draggable from "react-draggable";
+
+const styles = {
+  card: {
+    maxWidth: "90%",
+    margin: "0 auto",
+    float: "none",
+    marginBbottom: "10px"
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%" // 16:9
+  },
+  chart: {
+    padding: 0
+  },
+  buySellButton: {
+    float: "right"
+  },
+  contractInput: {
+    width: "10%"
+  },
+  sellorbuy: {
+    marginRight: "-138px"
+  }
+};
 
 class Chart extends Component {
   constructor(props) {
@@ -19,7 +52,10 @@ class Chart extends Component {
       numberOfContracts: 0,
       coinCodes: [],
       allCoins: {},
-      url: `https://min-api.cryptocompare.com/data/histoday?fsym=${this.props.coinCode}&tsym=CAD&limit=100`,
+      url: `https://min-api.cryptocompare.com/data/histominute?fsym=${
+        this.props.coinCode
+      }&tsym=CAD&limit=100`,
+      // theTime: new Date(time * 1000).toLocaleTimeString(),
       data: {
         labels: [],
         datasets: [
@@ -65,14 +101,18 @@ class Chart extends Component {
           coinCodes.push(x.coin_id);
         });
         //set state then callback _setChartState function
-        this.setState({ coinCodes: coinCodes , url: this.state.url}, this._setChartState);
+        this.setState(
+          { coinCodes: coinCodes, url: this.state.url },
+          this._setChartState
+        );
+        this.puller = setTimeout(this._setLabelDatafromAPI, 60 * 1000);
       });
   };
 
   //set chart state from API call for coinCode passed from Charts component as prop
-  _setChartState() {
+  _setChartState(arg) {
     const { coinCode } = this.props;
-    const url = this.state.url
+    const url = this.state.url;
     console.log("URL", url);
     fetch(url)
       .then(res => res.json())
@@ -88,8 +128,15 @@ class Chart extends Component {
           const closeTime = x.close;
           const highTime = x.high;
           const lowTime = x.low;
-          //convert epoch time to readable time
           const theTime = new Date(time * 1000).toLocaleDateString();
+          //convert epoch time to readable time
+          //   if (arg === 'date'){
+          //   const theTime = new Date(time * 1000).toLocaleDateString();
+          //   timeData.push(theTime);
+          // } else {
+          //   const theTime = new Date(time * 1000).toLocaleTimeString();
+          //   timeData.push(theTime);
+          //   }
           //push items to set arrays
           timeData.push(theTime);
           costCloseData.push(closeTime);
@@ -185,7 +232,8 @@ class Chart extends Component {
     console.log("log this", this.state.allCoins[currentCoin]);
     if (
       this.state.allCoins[currentCoin] &&
-      this.state.allCoins[currentCoin] - sellamount >= 0
+      this.state.allCoins[currentCoin] - sellamount >= 0 &&
+      this.state.numberOfContracts >= 0
     ) {
       const userData = {
         coin_id_from: this.props.coinCode, //USD
@@ -246,41 +294,35 @@ class Chart extends Component {
     return items;
   };
 
-  _minButtonClick = (e) => {
-    const { coinCode } = this.props
+  _minButtonClick = e => {
+    const { coinCode } = this.props;
     const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=CAD&limit=100`;
-    this.setState({url: url})
-  }
+    this.setState({ url: url });
+    this._setChartState("time");
+  };
 
-  _hourButtonClick = (e) => {
-    const { coinCode } = this.props
+  _hourButtonClick = e => {
+    const { coinCode } = this.props;
     const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=CAD&limit=100`;
-    this.setState({url: url})
-  }
+    this.setState({ url: url });
+    this._setChartState("time");
+  };
 
-  _dayButtonClick = (e) => {
-    const { coinCode } = this.props
+  _dayButtonClick = e => {
+    const { coinCode } = this.props;
     const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
-    this.setState({url: url})
-  }
+    this.setState({ url: url });
+    this._setChartState("date");
+  };
   render() {
-    const styles = theme => ({
-      root: {
-        flexGrow: 1
-      },
-      paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: "center",
-        color: theme.palette.text.secondary
-      }
-    });
+    const { classes } = this.props;
     const balance = this.state.userBalance.toLocaleString();
-    console.log(this.state.url)
+    console.log(this.state.url);
     return (
       <div>
         <p> Your current balance: {balance}</p>
         {this.renderObject()}
-        <div className="chart">
+        {/* <div className="chart">
           <Grid container spacing={0}>
             <Grid item xs={10} sm={2}>
               <Paper>
@@ -362,10 +404,152 @@ class Chart extends Component {
               <button onClick={this._dayButtonClick}>day</button>
             </Grid>
           </Grid>
+        </div> */}
+
+
+        <div>
+            <Card className={classes.card}>
+              {/* <CardMedia
+          className={classes.media}
+          image="/static/images/cards/contemplative-reptile.jpg"
+          title="Contemplative Reptile"
+        /> */}
+              <CardContent className={classes.chart}>
+                <div className="chart" draggable="true">
+                  {/* <Grid container spacing={0}>
+            <Grid item xs={10} sm={2}> */}
+                  {/* <Paper>
+                <div>
+                  <h1>{this.props.coinCode}</h1>
+                  <TextField
+                    onChange={this._getNumberOfContracts}
+                    label="Number"
+                  >
+                    {" "}
+                  </TextField>
+                  <Button
+                    onClick={this._onBuyButtonClick}
+                    variant="contained"
+                    color="primary"
+                  >
+                    Buy
+                  </Button>
+                </div>
+                <br />
+                <Button
+                  onClick={this._onSellButtonClick}
+                  variant="contained"
+                  color="primary"
+                >
+                  Sell
+                </Button>
+              </Paper> */}
+                  {/* </Grid>
+            <Grid item xs={10} sm={10}> */}
+                  {/* <Paper> */}
+                  <Line
+                    data={this.state.data}
+                    width={100}
+                    height={300}
+                    options={{
+                      title: {
+                        display: true,
+                        fontColor: "white",
+                        text: this.props.coinCode
+                      },
+                      tooltips: {
+                        mode: "index",
+                        intersect: false
+                      },
+                      legend: {
+                        labels: {
+                          fontColor: "white"
+                        }
+                      },
+                      scales: {
+                        yAxes: [
+                          {
+                            gridLines: {
+                              display: true,
+                              color: "#707073"
+                            },
+                            position: "right",
+                            ticks: {
+                              fontColor: "white"
+                            }
+                          }
+                        ],
+                        xAxes: [
+                          {
+                            ticks: {
+                              fontColor: "white",
+                              maxTicksLimit: 8
+                            }
+                          }
+                        ]
+                      },
+                      maintainAspectRatio: false,
+
+                    }}
+                  />
+                  {/* </Paper> */}
+                  <button onClick={this._minButtonClick}>min</button>
+                  <button onClick={this._hourButtonClick}>hour</button>
+                  <button onClick={this._dayButtonClick}>day</button>
+                  {/* </Grid>
+          </Grid> */}
+                  <div className={classes.buySellButton}>
+                    <CardActions className={classes.sellorbuy}>
+                      <TextField
+                        className={classes.contractInput}
+                        onChange={this._getNumberOfContracts}
+                        // label="Number"
+                        defaultValue="1"
+                      >
+                        {" "}
+                      </TextField>
+                      <Button
+                        onClick={this._onBuyButtonClick}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Buy
+                      </Button>
+                      {/* </div> */}
+                      <br />
+                      <Button
+                        onClick={this._onSellButtonClick}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Sell
+                      </Button>
+                      {/* <Button size="small" color="primary">
+            Share
+          </Button>
+          <Button size="small" color="primary">
+            Learn More
+          </Button> */}
+                    </CardActions>
+                  </div>
+                </div>
+                <Typography gutterBottom variant="headline" component="h2">
+                  {this.props.coinCode}
+                </Typography>
+
+                <Typography component="p" />
+              </CardContent>
+            </Card>
         </div>
+
+
       </div>
     );
   }
 }
 
-export default Chart;
+Chart.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Chart);
