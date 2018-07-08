@@ -1,7 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i,900,900i');
 
 canvas {
-  background-color: #2A2A2B;
+  background-color: #0F041F;
   color: white;
   font-family: Lato;
+  /* max-width: 90%; */
+  border-radius: 5px;
+  box-shadow: 1px 5px 20px 5px #827b7b;
+  text-align: center;
 }
+
+/* .charts {
+  width: 86%;
+  margin-left: 15%
+} */

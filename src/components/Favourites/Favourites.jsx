@@ -1,8 +1,37 @@
 import React, { Component } from "react";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 
+//Material UI Components
+import Paper from "@material-ui/core/Paper";
+
+import Button from "@material-ui/core/Button";
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Typography from "@material-ui/core/Typography";
+
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
+  iconSmall: {
+    fontSize: 20
+  },
+  favButton: {
+    minWidth: 250,
+    color: '#886868',
+    borderColor: 'red',
+    boxShadow: '0px 0px 15px 0px #312c2c',
+    margin: '6px'
+  },
+});
 class Favourites extends Component {
   constructor(props) {
     super(props);
@@ -50,7 +79,7 @@ class Favourites extends Component {
   };
 
   _deleteFavorites = e => {
-    console.log(e.target.id);
+    console.log("HMM", e.target.id);
     const favDetails = {
       coin_id: e.target.id
     };
@@ -64,7 +93,7 @@ class Favourites extends Component {
     })
       .then(result => result.json())
       .then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.success === true) {
           this._getFavorites();
         } else {
@@ -95,15 +124,15 @@ class Favourites extends Component {
     }).then(response => {
       const newFavCoins = this.state.coinCodes;
       if (!newFavCoins.includes(params.coin_id)) {
-      newFavCoins.push(params.coin_id);
-      this.setState({
-        currentRank: this.state.currentRank + 1,
-        favCount: this.state.favCount + 1,
-        favCoins: newFavCoins
-      });
-    } else {
-      alert('already in your favorites!')
-    }
+        newFavCoins.push(params.coin_id);
+        this.setState({
+          currentRank: this.state.currentRank + 1,
+          favCount: this.state.favCount + 1,
+          favCoins: newFavCoins
+        });
+      } else {
+        alert("already in your favorites!");
+      }
     });
   };
   componentDidMount() {
@@ -111,8 +140,9 @@ class Favourites extends Component {
     this.callFromApi();
   }
   render() {
-    console.log('check this',this.state.favCoins);
-    const numberOfCoins = this.state.coinCodes
+    const { classes } = this.props;
+    console.log("check this", this.state.favCoins);
+    const numberOfCoins = this.state.coinCodes;
     return (
       <div>
         <h1>Select your Favourite Crypto's!</h1>
@@ -126,15 +156,14 @@ class Favourites extends Component {
             console.log(buttonStyle);
           }
           return (
-            <span>
-              <Button
-                onClick={this._favButtonEvent}
-                variant={buttonStyle.variant}
-                color="primary"
-              >
-                {x.symbol}/{x.name}
-              </Button>
-            </span>
+                <Button
+                  className={classes.favButton}
+                  onClick={this._favButtonEvent}
+                  variant={buttonStyle.variant}
+                  color="primary"
+                >
+                  {x.symbol}/{x.name}
+                </Button>
           );
         })}
         <hr />
@@ -143,11 +172,24 @@ class Favourites extends Component {
         {this.state.coinCodes.map(coin => {
           return (
             <div>
-              <p> {coin} </p>
-              <button id={coin} onClick={this._deleteFavorites}>
+              <Button
+                id={coin}
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+                onClick={this._deleteFavorites}
+              >
+                {coin}
+                <DeleteIcon
+                  id={coin}
+                  onClick={this._deleteFavorites}
+                  className={classes.rightIcon}
+                />
+              </Button>
+              {/* <button id={coin} onClick={this._deleteFavorites}>
                 {" "}
                 Delete{" "}
-              </button>
+              </button> */}
             </div>
           );
         })}
@@ -159,4 +201,9 @@ class Favourites extends Component {
     );
   }
 }
-export default Favourites;
+
+Favourites.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Favourites);
