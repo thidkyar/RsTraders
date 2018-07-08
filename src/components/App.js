@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Router} from "@reach/router"
-//import components
 import Home from "./Home/Home.jsx"
 import Login from "./Login/Login.jsx"
 import Register from "./Register/Register.jsx"
@@ -12,7 +11,6 @@ import Profile from "./Profile/Profile.jsx";
 import Stripe from "./Stripe/Stripe.jsx"
 import UserSettings from "./UserSettings/UserSettings.jsx";
 import CryptoNews from "./CryptoNews/CryptoNews.jsx";
-//import CSS
 import './App.css'; 
 
 class App extends Component {
@@ -32,6 +30,7 @@ class App extends Component {
           <CryptoNews path="cryptonews" />
         </Router>
       </div>
+
     );
   }
 }

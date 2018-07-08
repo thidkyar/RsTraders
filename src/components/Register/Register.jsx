@@ -4,15 +4,23 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import "./Register.css";
 import { TextField } from "@material-ui/core";
-import axios from "axios";
 import { redirect } from "@reach/router";
 
 const styles = theme => ({
+  margin: {
+    margin: 'none'
+  },
   button: {
-    margin: theme.spacing.unit
+    marginTop: '10px',
+    textAlign: 'center',
+    paddingLeft: '100px',
+    paddingRight: '100px'
   },
   input: {
     display: "none"
+  },
+  form: {
+    textAlign: 'center'
   }
 });
 
@@ -79,74 +87,59 @@ class Register extends Component {
       cb()
     })
   };
-  
-  
-  // getData = () => {
-  //   return fetch("http://localhost:4000/")
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log("Just hit the server");
-  //       console.log(data.message);
-  //     })
-  //     .catch(err => console.log(err));
-  // };
-
-  // <button onClick={() => this.getData().message}>Hey</button>
-  //POST REQUEST
-  // return fetch('http://localhost:4000/', {
-  //   method: "POST",
-  //   headers: {
-  //     'Content-type': 'application/json'
-  //   },
-  //   body: JSON.stringify({message: ""})
-  // }).then
 
   render() {
     const { classes } = this.props;
     // const { first_name, last_name, password, email, phone } = this.state;
     return (
       <div className="session">
-        <h1>Create your Account</h1>
+        <h1>create your account</h1>
         <div className="register-form">
-          <form onSubmit={this.onSubmit}>
+          <form className={classes.form} onSubmit={this.onSubmit}>
             <TextField
-              onBlur={this.onChange}
+              className={classes.margin}
+              onChange={this.onChange}
               label="First Name"
               name="first_name"
+              fullWidth
               required
             />
             <br />
             <TextField
-              onBlur={this.onChange}
+              onChange={this.onChange}
               label="Last Name"
               name="last_name"
+              fullWidth
               required
             />
             <br />
             <TextField
-              onBlur={this.onChange}
+              onChange={this.onChange}
               type="email"
               label="Email"
               name="email"
+              fullWidth
               required
             />
             <br />
             <TextField
-              onBlur={this.onChange}
+              onChange={this.onChange}
               type="password"
               label="Password"
               name="password"
+              fullWidth
               required
             />
             <br />
             <TextField
-              onBlur={this.onChange}
+              onChange={this.onChange}
               type="number"
               label="Phone #"
               name="phone"
+              fullWidth
               required
             />
-            <Button type="Submit" variant="contained" color="primary">
+            <Button className={classes.button} type="Submit" variant="contained" color="primary">
               Register
             </Button>
           </form>
@@ -156,4 +149,8 @@ class Register extends Component {
   }
 }
 
-export default Register;
+Register.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(Register);
