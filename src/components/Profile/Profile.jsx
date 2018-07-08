@@ -1,4 +1,23 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
+
+// const styles = {
+//   card: {
+//     maxWidth: 345,
+//   },
+//   media: {
+//     height: 0,
+//     paddingTop: '56.25%', // 16:9
+//   },
+// };
 
 class Profile extends Component {
   constructor(props) {
@@ -67,42 +86,79 @@ class Profile extends Component {
     console.log("Here's the value of the amount", this.state.transactions);
     return (
       <div className="user-dashboard">
-        <div className="user-profile">
-          <h1> Display Profile Picture</h1>
-          <h2>First Name: </h2>
-          <label id="fName" onChange={this.onChange}>
-            <br />
-            {this.state.first_name}
-          </label>
-          <h2> Last Name: </h2>
-          {this.state.last_name}
-          <hr />
-          <p>Wallet: </p>{this.state.amount}
-          <hr />
-          <p>Your Portfolio (List all Transactions)</p>
-          {this.state.transactions.map(x => {
-            const newFrom = []
-            const theTime = new Date(x.date).toLocaleString();
-            if (x.coin_value_from === null || x.coin_id_from === null) {
-              newFrom.push('System')
-              newFrom.push(0)
-            } else {
-              newFrom.push(x.coin_id_from)
-              newFrom.push(x.coin_value_from)
-            }
-            return (
-              <div>
-                <p> Id_from: {newFrom[0]} </p>
-                <p> value_from: {newFrom[1]} </p>
-                <p> id_to: {x.coin_id_to} </p>
-                <p> value_to: {x.coin_value_to} </p>
-                <p> Date: {theTime} </p>
-              </div>
-            )
-          })}
-        </div>
+      {/* <div className="user-profile"> */}
+        <h1> Display Profile Picture</h1>
+        <h2>First Name: </h2>
+        <label id="fName" onChange={this.onChange}>
+          <br />
+          {this.state.first_name}
+        </label>
+        <h2> Last Name: </h2>
+        {this.state.last_name}
         <hr />
-      </div>
+        <p>Wallet: </p>{this.state.amount}
+        <hr />
+        <p>Your Portfolio (List all Transactions)</p>
+        {this.state.transactions.map(x => {
+          const newFrom = []
+          const theTime = new Date(x.date).toLocaleString();
+          if (x.coin_value_from === null || x.coin_id_from === null) {
+            newFrom.push('System')
+            newFrom.push(0)
+          } else {
+            newFrom.push(x.coin_id_from)
+            newFrom.push(x.coin_value_from)
+          }
+          return (
+            <div>
+              <p> Id_from: {newFrom[0]} </p>
+              <p> value_from: {newFrom[1]} </p>
+              <p> id_to: {x.coin_id_to} </p>
+              <p> value_to: {x.coin_value_to} </p>
+              <p> Date: {theTime} </p>
+            </div>
+          )
+        })}
+      <hr />
+    </div>
+      //ORIGINAL PROFILE
+      // <div className="user-dashboard">
+      //   <div className="user-profile">
+      //     <h1> Display Profile Picture</h1>
+      //     <h2>First Name: </h2>
+      //     <label id="fName" onChange={this.onChange}>
+      //       <br />
+      //       {this.state.first_name}
+      //     </label>
+      //     <h2> Last Name: </h2>
+      //     {this.state.last_name}
+      //     <hr />
+      //     <p>Wallet: </p>{this.state.amount}
+      //     <hr />
+      //     <p>Your Portfolio (List all Transactions)</p>
+      //     {this.state.transactions.map(x => {
+      //       const newFrom = []
+      //       const theTime = new Date(x.date).toLocaleString();
+      //       if (x.coin_value_from === null || x.coin_id_from === null) {
+      //         newFrom.push('System')
+      //         newFrom.push(0)
+      //       } else {
+      //         newFrom.push(x.coin_id_from)
+      //         newFrom.push(x.coin_value_from)
+      //       }
+      //       return (
+      //         <div>
+      //           <p> Id_from: {newFrom[0]} </p>
+      //           <p> value_from: {newFrom[1]} </p>
+      //           <p> id_to: {x.coin_id_to} </p>
+      //           <p> value_to: {x.coin_value_to} </p>
+      //           <p> Date: {theTime} </p>
+      //         </div>
+      //       )
+      //     })}
+      //   </div>
+      //   <hr />
+      // </div>
     );
   }
 }
