@@ -106,7 +106,22 @@ class NavBar extends Component {
         {/* <hr /> */}
 
         <div className='marquee'>
-        <marquee>
+        <marquee scrolldelay="200" className="coin-container">
+          {this.state.coins.map((coin, c) => {
+            const coinage = coin.quotes.CAD.percent_change_24h;
+            const symolage = coin.symbol;
+            if (coinage > 0) {
+              return <b><span style={{
+                padding: "15px"
+              }}>{" "}{" "}{" "}{symolage}{" "}{" "} <font color="green"> {coinage}%</font> </span></b>
+            } else {
+              return <b><span style={{
+                padding: "10px"
+              }}> {" "}{" "}{" "}{symolage}{" "}{" "}<font color="red"> {coinage}% </font></span></b>
+            }
+          })}
+        </marquee>
+        {/* <marquee>
           {this.state.coins.map((coin, c) => {
             return (
               <span
@@ -121,7 +136,7 @@ class NavBar extends Component {
               </span>
             );
           })}
-        </marquee>
+        </marquee> */}
         </div>
 
         <div className={classes.root}>
