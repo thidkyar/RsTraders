@@ -29,7 +29,7 @@
 
 .ticker-wrap {
   
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   width: 100%;
   overflow: hidden;
@@ -37,11 +37,12 @@
   background-color: rgba(#000, 0.9); 
   padding-left: 100%;
   box-sizing: content-box;
-
-
 }
 
-
+a {
+  text-decoration:none;
+  color:black;
+}
 
 body { padding-bottom: 5rem; }
 h1,h2,p {padding: 0 5%;}
