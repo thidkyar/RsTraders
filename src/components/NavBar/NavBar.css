@@ -4,6 +4,12 @@
 }
 
 .coin-container {
-  background-color: #001F54;
+  background-color: #273954;
+  color: white;
+}
 
+.marquee {
+  background-color: #273954;
+  color: white;
+  font-size: 12px
 }
