@@ -28,6 +28,13 @@ const styles = theme => ({
   table: {
     minWidth: 100,
   },
+  maintablehead: {
+    textAlign: 'center'
+  },
+  maintable: {
+    padding: '4px 10px 4px 32px',
+    textAlign: 'left'
+  }
 });
 
 class Crypto extends Component {
@@ -51,19 +58,21 @@ class Crypto extends Component {
   componentDidMount() {
     //API to GET all cryptocurrency tickers
     const url =
-      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=50&sort=rank&structure=array";
+      "https://api.coinmarketcap.com/v2/ticker/?convert=USD&limit=50&sort=rank&structure=array";
     //fetch data from API
     fetch(url)
       .then(res => res.json())
       .then(result => {
         this.setState("Set state"[result]);
-        // console.log("Original Format", result);
+        console.log("Original Format", result);
         var coins = Object.values(result.data);
         this.setState({ coins: coins });
         // console.log("Here's the array", coins);
       });
   }
   render() {
+    const { classes } = this.props;
+    console.log('this.state.coins',this.state.coins)
     const { anchorEl } = this.state;
     return (
       <div className="Crypto-Ticker">
@@ -76,26 +85,28 @@ class Crypto extends Component {
               <Table  >
                 <TableHead>
                   <TableRow>
-                    <TableCell width='10%'>Rank</TableCell>
-                    <TableCell width='15%'>Symbol</TableCell>
-                    <TableCell width='30%'>Name</TableCell>
-                    <TableCell width='30%'>Price</TableCell>
-                    <TableCell>Change (24h)</TableCell>
+                    <TableCell className={classes.maintablehead} width='1%'>Rank</TableCell>
+                    <TableCell className={classes.maintablehead} width='1%'>Symbol</TableCell>
+                    <TableCell className={classes.maintablehead} width='10%'>Name</TableCell>
+                    <TableCell className={classes.maintablehead} width='10%'>Price</TableCell>
+                    <TableCell className={classes.maintablehead} width='10%'>Change (24h)</TableCell>
+                    <TableCell className={classes.maintablehead} width='15%'>Price Graph (7d)</TableCell>
                   </TableRow>
-                </TableHead>
+                </TableHead> 
                 <TableBody>
                   {this.state.coins.map((coin, c) => {
                     return (
                       <TableRow key={c}>
-                        <TableCell>{coin.rank}</TableCell>
-                        <TableCell>{coin.symbol}</TableCell>
-                        <TableCell>{coin.name}</TableCell>
-                        <TableCell>
-                          $ {Math.round(coin.quotes.CAD.price * 100) / 100}
+                        <TableCell className={classes.maintable}>{coin.rank}</TableCell>
+                        <TableCell className={classes.maintable}>{coin.symbol}</TableCell>
+                        <TableCell className={classes.maintable}>{coin.name}</TableCell> 
+                        <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.USD.price * 100) / 100} </TableCell>
+                        <TableCell className={classes.maintable}>
+                        { (coin.quotes.USD.percent_change_24h > 0) ? 
+                            <font color="#3c8229"> {coin.quotes.USD.percent_change_24h + '%'}</font> :
+                            <font color="red"> {coin.quotes.USD.percent_change_24h + '%'} </font> }
                         </TableCell>
-                        <TableCell>
-                          {coin.quotes.CAD.percent_change_24h} %
-                    </TableCell>
+                        <TableCell className={classes.maintable}><img class="sparkline" alt="sparkline" src={'https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/' + coin.id + '.png'}/></TableCell>
                       </TableRow>
                     );
                   })}
@@ -125,4 +136,4 @@ It is a long established fact that a reader will be distracted by the readable c
   }
 }
 
-export default Crypto;
+export default withStyles(styles)(Crypto);

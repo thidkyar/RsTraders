@@ -17,7 +17,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Divider from '@material-ui/core/Divider';
+import Divider from "@material-ui/core/Divider";
 
 import "./NavBar.css";
 
@@ -35,7 +35,7 @@ const styles = {
   menuBar: {
     background: "#1C2C43",
     color: "white",
-    textAlign: "left",
+    textAlign: "left"
     // position: 'fixed'
   },
   toolBar: {
@@ -102,6 +102,7 @@ class NavBar extends Component {
     const open = Boolean(anchorEl);
 
     return (
+      
       <div>
         {/* <hr /> */}
 
@@ -121,24 +122,7 @@ class NavBar extends Component {
             }
           })}
         </marquee>
-        {/* <marquee>
-          {this.state.coins.map((coin, c) => {
-            return (
-              <span
-                className="sym"
-                style={{
-                  padding: "10px"
-                }}
-                key={c}
-              >
-                {" "}
-                {coin.symbol}: {coin.quotes.CAD.percent_change_24h} %{" "}
-              </span>
-            );
-          })}
-        </marquee> */}
         </div>
-
         <div className={classes.root}>
           {/* <FormGroup>
             <FormControlLabel
@@ -239,8 +223,6 @@ class NavBar extends Component {
             </Toolbar>
           </AppBar>
         </div>
-        <Divider light/>
-
       </div>
     );
   }
