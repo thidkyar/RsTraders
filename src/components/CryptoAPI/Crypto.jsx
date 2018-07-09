@@ -14,6 +14,21 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Grid from '@material-ui/core/Grid';
+
+import CryptoNews from "../CryptoNews/CryptoNews.jsx";
+
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 100,
+  },
+});
 
 class Crypto extends Component {
   constructor(props) {
@@ -32,11 +47,11 @@ class Crypto extends Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
-  
+
   componentDidMount() {
     //API to GET all cryptocurrency tickers
     const url =
-      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=500&sort=rank&structure=array";
+      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=50&sort=rank&structure=array";
     //fetch data from API
     fetch(url)
       .then(res => res.json())
@@ -52,37 +67,50 @@ class Crypto extends Component {
     const { anchorEl } = this.state;
     return (
       <div className="Crypto-Ticker">
-        <h1> Top 100 Cryptocurrencies </h1>
-        <Paper>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell width='10%'>Rank</TableCell>
-                <TableCell width='15%'>Symbol</TableCell>
-                <TableCell width='30%'>Name</TableCell>
-                <TableCell width='30%'>Price</TableCell>
-                <TableCell>Change (24h)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {this.state.coins.map((coin, c) => {
-                return (
-                  <TableRow key={c}>
-                    <TableCell>{coin.rank}</TableCell>
-                    <TableCell>{coin.symbol}</TableCell>
-                    <TableCell>{coin.name}</TableCell>
-                    <TableCell>
-                      $ {Math.round(coin.quotes.CAD.price * 100) / 100}
-                    </TableCell>
-                    <TableCell>
-                      {coin.quotes.CAD.percent_change_24h} %
-                    </TableCell>
+        <Grid container spacing={4}>
+          <Grid item xs={8} style={{ padding: '4%' }} >
+            <Paper settings={{ padding: '2%' }}>
+
+              <h1 style={{ padding: '2em' }}> Top 100 Cryptocurrencies </h1>
+              {/* <Paper> */}
+              <Table  >
+                <TableHead>
+                  <TableRow>
+                    <TableCell width='10%'>Rank</TableCell>
+                    <TableCell width='15%'>Symbol</TableCell>
+                    <TableCell width='30%'>Name</TableCell>
+                    <TableCell width='30%'>Price</TableCell>
+                    <TableCell>Change (24h)</TableCell>
                   </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Paper>
+                </TableHead>
+                <TableBody>
+                  {this.state.coins.map((coin, c) => {
+                    return (
+                      <TableRow key={c}>
+                        <TableCell>{coin.rank}</TableCell>
+                        <TableCell>{coin.symbol}</TableCell>
+                        <TableCell>{coin.name}</TableCell>
+                        <TableCell>
+                          $ {Math.round(coin.quotes.CAD.price * 100) / 100}
+                        </TableCell>
+                        <TableCell>
+                          {coin.quotes.CAD.percent_change_24h} %
+                    </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </Paper>
+          </Grid>
+
+        <Grid item xs={4} style={{ padding: '4%' }} >
+          <Paper settings={{ padding: '4%' }}>
+            <CryptoNews />
+          </Paper>
+        </Grid>
+        </Grid>
+
       </div>
     );
   }

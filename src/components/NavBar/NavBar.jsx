@@ -81,7 +81,7 @@ class NavBar extends Component {
   componentDidMount() {
     //API to GET all cryptocurrency tickers
     const url =
-      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=100&sort=rank&structure=array";
+      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=300&sort=rank&structure=array";
     //fetch data from API
     fetch(url)
       .then(res => res.json())
@@ -102,7 +102,7 @@ class NavBar extends Component {
     return (
       <div>
         {/* <hr /> */}
-       
+
         <div className={classes.root}>
           {/* <FormGroup>
             <FormControlLabel
@@ -129,7 +129,7 @@ class NavBar extends Component {
               </Typography>
               {auth && (
                 <div>
-                   <Button
+                  <Button
                     component={Link}
                     to="/login"
                     className={classes.button}
@@ -145,14 +145,14 @@ class NavBar extends Component {
                   >
                     Chart
                   </Button>
-                  <Button
+                  {/* <Button
                     component={Link}
                     to="/cryptonews"
                     className={classes.button}
                     color="inherit"
                   >
                     News
-                  </Button>
+                  </Button> */}
                   <IconButton
                     aria-owns={open ? "menu-appbar" : null}
                     aria-haspopup="true"
@@ -203,23 +203,22 @@ class NavBar extends Component {
             </Toolbar>
           </AppBar>
         </div>
-        <marquee className="coin-container">
+        <marquee scrolldelay="200" className="coin-container">
           {this.state.coins.map((coin, c) => {
-            return (
-              <span
-                className="sym"
-                style={{
-                  padding: "10px"
-                }}
-                key={c}
-              >
-                {" "}
-                {coin.symbol}: {coin.quotes.CAD.percent_change_24h} %{" "}
-              </span>
-            );
+            const coinage = coin.quotes.CAD.percent_change_24h;
+            const symolage = coin.symbol;
+            if (coinage > 0) {
+              return <b><span style={{
+                padding: "15px"
+              }}>{" "}{" "}{" "}{symolage}{" "}{" "} <font color="green"> {coinage}%</font> </span></b>
+            } else {
+              return <b><span style={{
+                padding: "10px"
+              }}> {" "}{" "}{" "}{symolage}{" "}{" "}<font color="red"> {coinage}% </font></span></b>
+            }
           })}
         </marquee>
-        <Divider light/>
+        <Divider light />
       </div>
     );
   }
