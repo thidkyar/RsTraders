@@ -28,12 +28,13 @@ const styles = theme => ({
   table: {
     minWidth: 100,
   },
-  maintablehead: {
+  maintable: {
+    padding: '4px 4px 4px 42px',
     textAlign: 'center'
   },
-  maintable: {
-    padding: '4px 10px 4px 32px',
-    textAlign: 'left'
+  logosprite: {
+    height: '16',
+    width: '16'
   }
 });
 
@@ -82,15 +83,15 @@ class Crypto extends Component {
 
               <h1 style={{ padding: '2em' }}> Top 100 Cryptocurrencies </h1>
               {/* <Paper> */}
-              <Table  >
+              <Table className={classes.maintable}>
                 <TableHead>
                   <TableRow>
-                    <TableCell className={classes.maintablehead} width='1%'>Rank</TableCell>
-                    <TableCell className={classes.maintablehead} width='1%'>Symbol</TableCell>
-                    <TableCell className={classes.maintablehead} width='10%'>Name</TableCell>
-                    <TableCell className={classes.maintablehead} width='10%'>Price</TableCell>
-                    <TableCell className={classes.maintablehead} width='10%'>Change (24h)</TableCell>
-                    <TableCell className={classes.maintablehead} width='15%'>Price Graph (7d)</TableCell>
+                    <TableCell className={classes.maintable} width='1%'>Rank</TableCell>
+                    <TableCell className={classes.maintable} width='1%'>Symbol</TableCell>
+                    <TableCell className={classes.maintable} width='10%'>Name</TableCell>
+                    <TableCell className={classes.maintable} width='10%'>Price</TableCell>
+                    <TableCell className={classes.maintable} width='10%'>Change (24h)</TableCell>
+                    <TableCell className={classes.maintable} width='15%'>Price Graph (7d)</TableCell>
                   </TableRow>
                 </TableHead> 
                 <TableBody>
@@ -98,7 +99,10 @@ class Crypto extends Component {
                     return (
                       <TableRow key={c}>
                         <TableCell className={classes.maintable}>{coin.rank}</TableCell>
-                        <TableCell className={classes.maintable}>{coin.symbol}</TableCell>
+                        <TableCell className={classes.maintable}>
+                          <img src={'https://s2.coinmarketcap.com/static/img/coins/16x16/' + coin.id + '.png'} />
+                          <br/>
+                          {coin.symbol}</TableCell>
                         <TableCell className={classes.maintable}>{coin.name}</TableCell> 
                         <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.USD.price * 100) / 100} </TableCell>
                         <TableCell className={classes.maintable}>
