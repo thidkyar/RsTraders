@@ -104,7 +104,9 @@ class NavBar extends Component {
     return (
       
       <div>
-        <div className="marquee">
+        {/* <hr /> */}
+
+        <div className='marquee'>
         <marquee scrolldelay="200" className="coin-container">
           {this.state.coins.map((coin, c) => {
             const coinage = coin.quotes.CAD.percent_change_24h;
@@ -207,13 +209,13 @@ class NavBar extends Component {
                     >
                       Favorites
                     </MenuItem>
-                    <MenuItem
+                    {/* <MenuItem
                       component={Link}
                       to="/usersettings"
                       onClick={this.handleClose}
                     >
                       My account
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={this._onSubmit}>Logout</MenuItem>
                   </Menu>
                 </div>

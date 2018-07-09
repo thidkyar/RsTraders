@@ -7,5 +7,12 @@
 }
 
 .change{
-  display: inline-block;
+ display: inline-block;
+}
+
+.marquee {
+    background-color: #273954;
+    color: white;
+    font-size: 15px;
+    padding: 10px;
 }

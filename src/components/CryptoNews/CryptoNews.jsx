@@ -1,13 +1,12 @@
+//REACT COMPONENTS
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+
+//MATERIAL-UI
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+
+//CSS STYLES
+import "./CryptoNews.css";
 
 class CryptoNews extends Component {
     constructor(props) {
@@ -18,8 +17,8 @@ class CryptoNews extends Component {
     }
 
     componentDidMount() {
-        //News API
-        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=10&from=today&sortBy=popularity&Language=en&apiKey=39814515319242c8949940cc311d0121";
+        //News Scroller API
+        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=100&from=today&sources=google-news,bbc-news,engadget,financial-post,mashable,reuters,techcrunch,the-wall-street-journal,time,wired,the-huffington-post,cbc-news,bloomberg,cnn,the-globe-and-mail,ars-technica,business-insider&sortBy=publishedAt&Language=en&apiKey=39814515319242c8949940cc311d0121";
 
         fetch(url)
             .then(res => res.json())
@@ -36,32 +35,35 @@ class CryptoNews extends Component {
     render() {
         return (
             <div className="Crypto-News">
-                <h1>Crypto News</h1>
-                <hr />
                 <Card >
-                    <CardHeader>
-                        News
+                    <CardHeader 
+                                title="News"
+                                style={{   background: '#273954',height:'25%', border: 'bold', color: 'white' }}>
+                    <h1>News</h1>
                         </CardHeader>
-                <marquee scrolldelay="400" height="200" direction="up">               
-                <table>
-                    <thead>
-                    </thead>
-                    <tbody>
-                        {this.state.news.map((ner, n) => {
-                            return (
-                                <tr key={n}>
-  <tr>
-  <img width='100px' height='100px' src={ner.urlToImage} />
-  </tr>
-                                    <td><b>{ner.title}</b><br /> {ner.description}<br /><br /></td>
-                                    <br />
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table> </marquee>
+                    <marquee scrolldelay="200" height="500" direction="up" style={{ padding: '5%' }} >
+                        <table style={{ padding: '5%' }}>
+                            <thead>
+                            </thead>
+                            <tbody>
+                                {this.state.news.map((ner, n) => {
+                                    const url = ner.url;
+                                    return (
+                                        <tr key={n}>
+                                            <tr><a href={url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
+                                            <tr><a href={url} target="_blank"> <b>{ner.title}</b> </a><tr>
+                                                <tr><a href={url} target="_blank"><font size="2"> {ner.description}</font></a><br /></tr>
+                                                <hr height='3px' />
+                                                <tr height='30%'></tr>
+                                            </tr>
+                                            </tr>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </marquee>
                 </Card>
-
             </div>
         );
     }
