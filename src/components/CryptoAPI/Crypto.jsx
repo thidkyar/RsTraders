@@ -84,9 +84,9 @@ class Crypto extends Component {
               padding: '2%', overflowX: 'auto'
             }}>
               <h1 style={{ padding: '2em' }}> Top 100 Cryptocurrencies </h1>
-              <Table style={{
+              {/* <Table style={{
                 minWidth: 700, overflowX: 'auto'
-              }}>
+              }}> */}
               {/* <Paper> */}
               <Table className={classes.maintable}>
                 <TableHead>

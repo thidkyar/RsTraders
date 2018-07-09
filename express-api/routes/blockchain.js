@@ -193,7 +193,7 @@ module.exports = function(blockchainRoutes) {
 
 
   router.post("/transaction", (req, res) => {
-
+console.log(req.body)
     RSTCoin.addTransaction(new Transaction(
 
       req.session.user_id, //

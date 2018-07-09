@@ -81,6 +81,7 @@ class Login extends Component {
     console.log(this);
   };
 
+
   onSubmit = e => {
     console.log("EXECUTE SUBMIT F");
     e.preventDefault();
@@ -97,6 +98,7 @@ class Login extends Component {
       .then(result => result.json())
       .then(response => {
         if (response.redirect) {
+          document.cookie=""
           window.location.replace(response.url);
         }
       });

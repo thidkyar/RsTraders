@@ -20,12 +20,12 @@ const styles = theme => ({
 
   
 class CryptoNews extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            news: []
-        }
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      news: []
+    };
+  }
 
     componentDidMount() {
         //News Scroller API

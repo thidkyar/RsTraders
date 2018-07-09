@@ -40,8 +40,19 @@ const styles = {
   },
   toolBar: {
     textAlign: "right"
+  },
+  stripeButton: {
+    boxShadow: 'none',
+    fontSize: '10px',
+    padding: '0',
+    color: 'white',
+    backgroundColor: '#1A273A',
+    '&:hover': {
+      backgroundColor: '#23324A'
+    }
   }
 };
+
 
 class NavBar extends Component {
   constructor(props) {
@@ -59,7 +70,7 @@ class NavBar extends Component {
   handleMenu = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
-
+  
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
@@ -81,6 +92,7 @@ class NavBar extends Component {
       });
   };
   componentDidMount() {
+    this._verifyUser();
     //API to GET all cryptocurrency tickers
     const url =
       "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=300&sort=rank&structure=array";
@@ -96,32 +108,102 @@ class NavBar extends Component {
       });
   }
 
+  //verify whether user exists or not
+  _verifyUser = () => {
+    fetch("/api/users/login", {
+      method: "GET",
+      credentials: "include"
+    })
+      .then(result => result.json())
+      .then(response => {
+        this.setState({ loggedIn: response.loggedIn });
+      });
+  };
+
+  //if user is logged in show Profile Icon - else - show login
+  renderBasedonUserButton = () => {
+    const { auth, anchorEl } = this.state;
+    const open = Boolean(anchorEl);
+    const { classes } = this.props;
+    if (this.state.loggedIn) {
+      return (
+        <div>
+          <Button
+            component={Link}
+            to="/chart"
+            className={classes.button}
+            color="inherit"
+          >
+            Trade
+          </Button>{" "}
+          <IconButton
+            aria-owns={open ? "menu-appbar" : null}
+            aria-haspopup="true"
+            onClick={this.handleMenu}
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <Button component={Link} to="/stripe" className={classes.stripeButton} variant='contained' onClick={this.handleClickOpen}>
+            Buy RST
+          </Button>
+        </div>
+      );
+    } else {
+      return (
+        <Button
+          component={Link}
+          to="/login"
+          className={classes.button}
+          color="inherit"
+        >
+          Login
+        </Button>
+      );
+    }
+  };
   render() {
     const { classes } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
-
+    console.log(this.state.loggedIn);
+    const loggedIn = this.state.loggedIn;
     return (
-      
       <div>
-        {/* <hr /> */}
-
-        <div className='marquee'>
-        <marquee scrolldelay="200" className="coin-container">
-          {this.state.coins.map((coin, c) => {
-            const coinage = coin.quotes.CAD.percent_change_24h;
-            const symolage = coin.symbol;
-            if (coinage > 0) {
-              return <b><span style={{
-                padding: "15px"
-              }}>{" "}{" "}{" "}{symolage}{" "}{" "} <font color="green"> {coinage}%</font> </span></b>
-            } else {
-              return <b><span style={{
-                padding: "10px"
-              }}> {" "}{" "}{" "}{symolage}{" "}{" "}<font color="red"> {coinage}% </font></span></b>
-            }
-          })}
-        </marquee>
+        <div className="marquee">
+          <marquee scrolldelay="200" className="coin-container">
+            {this.state.coins.map((coin, c) => {
+              const coinage = coin.quotes.CAD.percent_change_24h;
+              const symolage = coin.symbol;
+              if (coinage > 0) {
+                return (
+                  <b>
+                    <span
+                      style={{
+                        padding: "15px"
+                      }}
+                    >
+                      {" "}
+                      {symolage} <font color="green"> {coinage}%</font>{" "}
+                    </span>
+                  </b>
+                );
+              } else {
+                return (
+                  <b>
+                    <span
+                      style={{
+                        padding: "10px"
+                      }}
+                    >
+                      {" "}
+                      {symolage} <font color="red"> {coinage}% </font>
+                    </span>
+                  </b>
+                );
+              }
+            })}
+          </marquee>
         </div>
         <div className={classes.root}>
           {/* <FormGroup>
@@ -147,25 +229,26 @@ class NavBar extends Component {
               >
                 RSTraders
               </Typography>
-              {auth && (
-                <div>
-                  <Button
+
+              <div>
+                {/* <Button
                     component={Link}
                     to="/login"
                     className={classes.button}
                     color="inherit"
                   >
                     Login
-                  </Button>
-                  <Button
+                  </Button> */}
+                {/* <Button
                     component={Link}
                     to="/chart"
                     className={classes.button}
                     color="inherit"
                   >
                     Chart
-                  </Button>
-                  {/* <Button
+                  </Button> */}
+                {this.renderBasedonUserButton()}
+                {/* <Button
                     component={Link}
                     to="/cryptonews"
                     className={classes.button}
@@ -173,53 +256,52 @@ class NavBar extends Component {
                   >
                     News
                   </Button> */}
-                  <IconButton
+                {/* <IconButton
                     aria-owns={open ? "menu-appbar" : null}
                     aria-haspopup="true"
                     onClick={this.handleMenu}
                     color="inherit"
                   >
                     <AccountCircle />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: "top",
-                      horizontal: "right"
-                    }}
-                    transformOrigin={{
-                      vertical: "top",
-                      horizontal: "right"
-                    }}
-                    open={open}
-                    onClose={this.handleClose}
+                  </IconButton> */}
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right"
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem
+                    component={Link}
+                    to="/profile"
+                    onClick={this.handleClose}
                   >
-                    <MenuItem
-                      component={Link}
-                      to="/profile"
-                      onClick={this.handleClose}
-                    >
-                      Profile
-                    </MenuItem>
-                    <MenuItem
-                      component={Link}
-                      to="/favourites"
-                      onClick={this.handleClose}
-                    >
-                      Favorites
-                    </MenuItem>
-                    {/* <MenuItem
-                      component={Link}
-                      to="/usersettings"
-                      onClick={this.handleClose}
-                    >
-                      My account
-                    </MenuItem> */}
-                    <MenuItem onClick={this._onSubmit}>Logout</MenuItem>
-                  </Menu>
-                </div>
-              )}
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/favourites"
+                    onClick={this.handleClose}
+                  >
+                    Favorites
+                  </MenuItem>
+                  <MenuItem
+                    component={Link}
+                    to="/usersettings"
+                    onClick={this.handleClose}
+                  >
+                    My account
+                  </MenuItem>
+                  <MenuItem onClick={this._onSubmit}>Logout</MenuItem>
+                </Menu>
+              </div>
             </Toolbar>
           </AppBar>
         </div>

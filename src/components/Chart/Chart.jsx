@@ -1,6 +1,6 @@
 //React components
 import React, { Component } from "react";
-
+// import CoinmarketAPI from "../CoinmarketAPI/CoinmarketAPI.jsx"
 //Chartjs Components
 import { Bar, Line, Pie, Area } from "react-chartjs-2";
 import "./Chart.css";
@@ -21,7 +21,7 @@ import Draggable from "react-draggable";
 
 const styles = {
   card: {
-    maxWidth: "90%",
+    maxWidth: "100%",
     margin: "0 auto",
     float: "none",
     marginBbottom: "10px"
@@ -37,10 +37,15 @@ const styles = {
     float: "right"
   },
   contractInput: {
-    width: "10%"
+    width: "15%"
   },
   sellorbuy: {
     marginRight: "-138px"
+  },
+  allChartsGrid: {
+    maxWidth: "95%",
+    marginLeft: "34px",
+    marginTop: "30px"
   }
 };
 
@@ -54,7 +59,7 @@ class Chart extends Component {
       allCoins: {},
       url: `https://min-api.cryptocompare.com/data/histominute?fsym=${
         this.props.coinCode
-      }&tsym=CAD&limit=100`,
+      }&tsym=USD&limit=100`,
       // theTime: new Date(time * 1000).toLocaleTimeString(),
       data: {
         labels: [],
@@ -197,7 +202,7 @@ class Chart extends Component {
         coin_id_from: "RST", //USD
         coin_value_from: marketValue * this.state.numberOfContracts, //USD - $10
         coin_id_to: this.props.coinCode, //RST
-        coin_value_to: marketValue * this.state.numberOfContracts, //RST- get market rate - *1,000
+        coin_value_to: parseFloat(this.state.numberOfContracts), //RST- get market rate - *1,000
         date: Date.now() //
       };
 
@@ -237,7 +242,7 @@ class Chart extends Component {
     ) {
       const userData = {
         coin_id_from: this.props.coinCode, //USD
-        coin_value_from: marketValue * this.state.numberOfContracts, //USD - $10
+        coin_value_from: parseFloat(this.state.numberOfContracts), //USD - $10
         coin_id_to: "RST", //RST
         coin_value_to: marketValue * this.state.numberOfContracts, //RST- get market rate - *1,000
         date: Date.now() //
@@ -266,7 +271,6 @@ class Chart extends Component {
       .then(res => res.json())
       .then(data => {
         console.log(data);
-        // console.log(data.message.amountTotal.RST)
         this.setState({
           userBalance: data.message.amountTotal.RST,
           allCoins: data.message.amountTotal
@@ -296,124 +300,130 @@ class Chart extends Component {
 
   _minButtonClick = e => {
     const { coinCode } = this.props;
-    const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=CAD&limit=100`;
+    const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=USD&limit=100`;
     this.setState({ url: url });
     this._setChartState("time");
   };
 
   _hourButtonClick = e => {
     const { coinCode } = this.props;
-    const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=CAD&limit=100`;
+    const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=USD&limit=100`;
     this.setState({ url: url });
     this._setChartState("time");
   };
 
   _dayButtonClick = e => {
     const { coinCode } = this.props;
-    const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=CAD&limit=100`;
+    const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=USD&limit=100`;
     this.setState({ url: url });
     this._setChartState("date");
   };
   render() {
     const { classes } = this.props;
+    console.log("this", this.state.numberOfContracts);
     const balance = this.state.userBalance.toLocaleString();
-    console.log(this.state.url);
     return (
       <div>
-        <div>
-          <Card className={classes.card}>
-            <CardContent className={classes.chart}>
-              <div className="chart" draggable="true">
-                <Line
-                  data={this.state.data}
-                  width={100}
-                  height={300}
-                  options={{
-                    title: {
-                      display: true,
-                      fontColor: "white",
-                      text: this.props.coinCode
-                    },
-                    tooltips: {
-                      mode: "index",
-                      intersect: false
-                    },
-                    legend: {
-                      labels: {
-                        fontColor: "white"
-                      }
-                    },
-                    scales: {
-                      yAxes: [
-                        {
-                          gridLines: {
-                            display: true,
-                            color: "#707073"
-                          },
-                          position: "right",
-                          ticks: {
+        <div className={classes.allChartsGrid}>
+          <Grid container spacing={24}>
+            <Grid item xs={6} sm={3}>
+              <Card>
+                <CardContent>
+                  <Typography>
+                    {/* <CoinmarketAPI /> */}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={6} sm={9}>
+              <Card className={classes.card}>
+                <CardContent className={classes.chart}>
+                  <div className="chart" draggable="true">
+                    <Line
+                      data={this.state.data}
+                      width={100}
+                      height={300}
+                      options={{
+                        title: {
+                          display: true,
+                          fontColor: "white",
+                          text: this.props.coinCode
+                        },
+                        tooltips: {
+                          mode: "index",
+                          intersect: false
+                        },
+                        legend: {
+                          labels: {
                             fontColor: "white"
                           }
-                        }
-                      ],
-                      xAxes: [
-                        {
-                          ticks: {
-                            fontColor: "white",
-                            maxTicksLimit: 8
-                          }
-                        }
-                      ]
-                    },
-                    maintainAspectRatio: false
-                  }}
-                />
-                {/* </Paper> */}
-                <button onClick={this._minButtonClick}>min</button>
-                <button onClick={this._hourButtonClick}>hour</button>
-                <button onClick={this._dayButtonClick}>day</button>
-                <div className={classes.buySellButton}>
-                  <CardActions className={classes.sellorbuy}>
-                    <TextField
-                      className={classes.contractInput}
-                      onChange={this._getNumberOfContracts}
-                      // label="Number"
-                      defaultValue="1"
-                    >
-                      {" "}
-                    </TextField>
-                    <Button
-                      onClick={this._onBuyButtonClick}
-                      variant="contained"
-                      color="primary"
-                    >
-                      Buy
-                    </Button>
-                    {/* </div> */}
-                    <br />
-                    <Button
-                      onClick={this._onSellButtonClick}
-                      variant="contained"
-                      color="primary"
-                    >
-                      Sell
-                    </Button>
-                    {/* <Button size="small" color="primary">
-            Share
-          </Button>
-          <Button size="small" color="primary">
-            Learn More
-          </Button> */}
-                  </CardActions>
-                </div>
-              </div>
-              <Typography gutterBottom variant="headline" component="h2">
-                {this.props.coinCode}
-              </Typography>
+                        },
+                        scales: {
+                          yAxes: [
+                            {
+                              gridLines: {
+                                display: true,
+                                color: "#707073"
+                              },
+                              position: "right",
+                              ticks: {
+                                fontColor: "white"
+                              }
+                            }
+                          ],
+                          xAxes: [
+                            {
+                              ticks: {
+                                fontColor: "white",
+                                maxTicksLimit: 8
+                              }
+                            }
+                          ]
+                        },
+                        maintainAspectRatio: false
+                      }}
+                    />
+                    {/* </Paper> */}
+                    <button onClick={this._minButtonClick}>min</button>
+                    <button onClick={this._hourButtonClick}>hour</button>
+                    <button onClick={this._dayButtonClick}>day</button>
+                    <div className={classes.buySellButton}>
+                      <CardActions className={classes.sellorbuy}>
+                        <TextField
+                          className={classes.contractInput}
+                          onChange={this._getNumberOfContracts}
+                          // label="Number"
+                        >
+                          {" "}
+                        </TextField>
+                        <Button
+                          onClick={this._onBuyButtonClick}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Buy
+                        </Button>
+                        {/* </div> */}
+                        <br />
+                        <Button
+                          onClick={this._onSellButtonClick}
+                          variant="contained"
+                          color="primary"
+                        >
+                          Sell
+                        </Button>
+                      </CardActions>
+                    </div>
+                  </div>
+                  <Typography gutterBottom variant="headline" component="h2">
+                    {this.props.coinCode}
+                  </Typography>
 
-              <Typography component="p" />
-            </CardContent>
-          </Card>
+                  <Typography component="p" />
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
         </div>
       </div>
     );
