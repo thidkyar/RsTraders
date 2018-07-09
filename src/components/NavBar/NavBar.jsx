@@ -189,13 +189,13 @@ class NavBar extends Component {
                     >
                       Favorites
                     </MenuItem>
-                    <MenuItem
+                    {/* <MenuItem
                       component={Link}
                       to="/usersettings"
                       onClick={this.handleClose}
                     >
                       My account
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={this._onSubmit}>Logout</MenuItem>
                   </Menu>
                 </div>
