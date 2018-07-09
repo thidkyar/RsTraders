@@ -11,5 +11,7 @@
 .marquee {
   background-color: #273954;
   color: white;
-  font-size: 12px
+  font-size: 15px;
+  padding: 10px;
+  font-weight: 400;
 }
