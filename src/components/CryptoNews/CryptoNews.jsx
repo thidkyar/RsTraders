@@ -4,10 +4,21 @@ import React, { Component } from 'react';
 //MATERIAL-UI
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
+import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
+
 
 //CSS STYLES
 import "./CryptoNews.css";
+import { CardContent } from '@material-ui/core';
 
+const styles = theme => ({
+    title: {
+      color: 'white',
+    }
+  });
+
+  
 class CryptoNews extends Component {
     constructor(props) {
         super(props)
@@ -25,24 +36,36 @@ class CryptoNews extends Component {
             .then(
                 (result) => {
                     this.setState("Set state"[result]);
-                    console.log("Original News Format", result);
                     var news = Object.values(result.articles)
                     this.setState({ news: news });
-                    console.log("Here's the news array", news)
                 }
             )
     }
     render() {
+        const { classes } = this.props;
+
         return (
             <div className="Crypto-News">
                 <Card >
-                    <CardHeader 
-                                title="News"
-                                style={{   background: '#273954',height:'25%', border: 'bold', color: 'white' }}>
-                    <h1>News</h1>
-                        </CardHeader>
+                    <CardHeader
+                        title="News"
+                        classes={{
+                            title: classes.title,
+                          }}
+                        titleColor="white"
+                        color="white"
+                        textColor="white"
+                        style={{
+                            background: '#273954',
+                            border: 'bold',
+                            titleColor: 'white', 
+                            textColor:'white',
+                            color:'white'
+                        }}>
+                    </CardHeader>
+                    <CardContent style={{height:'30em'}} >
                     <marquee scrolldelay="200" height="500" direction="up" style={{ padding: '5%' }} >
-                        <table style={{ padding: '5%' }}>
+                        <table style={{ padding: '3%' }}>
                             <thead>
                             </thead>
                             <tbody>
@@ -52,7 +75,8 @@ class CryptoNews extends Component {
                                         <tr key={n}>
                                             <tr><a href={url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
                                             <tr><a href={url} target="_blank"> <b>{ner.title}</b> </a><tr>
-                                                <tr><a href={url} target="_blank"><font size="2"> {ner.description}</font></a><br /></tr>
+                                                <tr><a href={url} target="_blank"><font size="2"> {ner.description}</font></a><br />
+                                                </tr>
                                                 <hr height='3px' />
                                                 <tr height='30%'></tr>
                                             </tr>
@@ -63,9 +87,11 @@ class CryptoNews extends Component {
                             </tbody>
                         </table>
                     </marquee>
+                    </CardContent>
                 </Card>
             </div>
         );
     }
 }
-export default CryptoNews;
+
+export default withStyles(styles)(CryptoNews);
