@@ -25,16 +25,30 @@ module.exports = (knex) => {
     }
   })
 
+  // router.get("/verifyUser", (req, res) => {
+  //   if (!req.session.user_id) {
+  //     res.json({
+  //       loggedIn: false,
+  //     })
+  //   } else {
+  //     res.json({
+  //       logginIn: true,
+  //     })
+  //   }
+  // })
+
   router.get("/login", (req, res) => {
     if (!req.session.user_id) {
       res.json({
         redirect: true,
-        url: '/login'
+        url: '/login',
+        logginIn: false
       })
     } else {
       res.json({
         redirect: true,
-        url: '/'
+        url: '/',
+        loggedIn: true
       })
     }
   });

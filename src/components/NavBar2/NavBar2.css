@@ -54,6 +54,7 @@
   border-color: rgb(97, 117, 150);
   border-radius: 5px;
   opacity: 1;
+  transition: 0.5s
 }
 
 .topnav .container .insideGrid .title{
