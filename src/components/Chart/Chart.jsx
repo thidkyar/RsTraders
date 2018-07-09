@@ -1,6 +1,6 @@
 //React components
 import React, { Component } from "react";
-// import CoinmarketAPI from "../CoinmarketAPI/CoinmarketAPI.jsx"
+import CoinmarketAPI from "../CoinmarketAPI/CoinmarketAPI.jsx"
 //Chartjs Components
 import { Bar, Line, Pie, Area } from "react-chartjs-2";
 import "./Chart.css";
@@ -330,7 +330,7 @@ class Chart extends Component {
               <Card>
                 <CardContent>
                   <Typography>
-                    {/* <CoinmarketAPI /> */}
+                    <CoinmarketAPI />
                   </Typography>
                 </CardContent>
               </Card>
