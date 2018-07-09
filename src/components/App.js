@@ -4,7 +4,7 @@ import Home from "./Home/Home.jsx";
 import Login from "./Login/Login.jsx";
 import Register from "./Register/Register.jsx";
 import NavBar from "./NavBar/NavBar.jsx";
-import Sidebar from "./Sidebar/Sidebar.jsx";
+import NavBar2 from "./NavBar2/NavBar2.jsx";
 import Charts from "./Chart/Charts.jsx";
 import Crypto from "./CryptoAPI/Crypto.jsx";
 import Favourites from "./Favourites/Favourites.jsx";
@@ -19,6 +19,7 @@ class App extends Component {
     return (
       <div className="App">
         <NavBar />
+        <NavBar2 />
         <Router>
           <Charts path="/chart" />
           <Home path="/" />

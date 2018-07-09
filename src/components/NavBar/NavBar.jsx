@@ -17,7 +17,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import Divider from '@material-ui/core/Divider';
+import Divider from "@material-ui/core/Divider";
 
 import "./NavBar.css";
 
@@ -35,7 +35,7 @@ const styles = {
   menuBar: {
     background: "#1C2C43",
     color: "white",
-    textAlign: "left",
+    textAlign: "left"
     // position: 'fixed'
   },
   toolBar: {
@@ -102,28 +102,25 @@ class NavBar extends Component {
     const open = Boolean(anchorEl);
 
     return (
+      
       <div>
-        {/* <hr /> */}
-
-        <div className='marquee'>
-        <marquee>
+        <div className="marquee">
+        <marquee scrolldelay="200" className="coin-container">
           {this.state.coins.map((coin, c) => {
-            return (
-              <span
-                className="sym"
-                style={{
-                  padding: "10px"
-                }}
-                key={c}
-              >
-                {" "}
-                {coin.symbol}: {coin.quotes.CAD.percent_change_24h} %{" "}
-              </span>
-            );
+            const coinage = coin.quotes.CAD.percent_change_24h;
+            const symolage = coin.symbol;
+            if (coinage > 0) {
+              return <b><span style={{
+                padding: "15px"
+              }}>{" "}{" "}{" "}{symolage}{" "}{" "} <font color="green"> {coinage}%</font> </span></b>
+            } else {
+              return <b><span style={{
+                padding: "10px"
+              }}> {" "}{" "}{" "}{symolage}{" "}{" "}<font color="red"> {coinage}% </font></span></b>
+            }
           })}
         </marquee>
         </div>
-
         <div className={classes.root}>
           {/* <FormGroup>
             <FormControlLabel
@@ -224,8 +221,6 @@ class NavBar extends Component {
             </Toolbar>
           </AppBar>
         </div>
-        <Divider light/>
-
       </div>
     );
   }

@@ -31,7 +31,7 @@ const styles = {
     paddingTop: "56.25%" // 16:9
   },
   chart: {
-    padding: 0
+    // padding: 0
   },
   buySellButton: {
     float: "right"
@@ -320,40 +320,10 @@ class Chart extends Component {
     console.log(this.state.url);
     return (
       <div>
-        <p> Your current balance: {balance}</p>
-        {this.renderObject()}
-        {/* <div className="chart">
-          <Grid container spacing={0}>
-            <Grid item xs={10} sm={2}>
-              <Paper>
-                <div>
-                  <h1>{this.props.coinCode}</h1>
-                  <TextField
-                    onChange={this._getNumberOfContracts}
-                    label="Number"
-                  >
-                    {" "}
-                  </TextField>
-                  <Button
-                    onClick={this._onBuyButtonClick}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Buy
-                  </Button>
-                </div>
-                <br />
-                <Button
-                  onClick={this._onSellButtonClick}
-                  variant="contained"
-                  color="primary"
-                >
-                  Sell
-                </Button>
-              </Paper>
-            </Grid>
-            <Grid item xs={10} sm={10}>
-              <Paper>
+        <div>
+          <Card className={classes.card}>
+            <CardContent className={classes.chart}>
+              <div className="chart" draggable="true">
                 <Line
                   data={this.state.data}
                   width={100}
@@ -370,7 +340,7 @@ class Chart extends Component {
                     },
                     legend: {
                       labels: {
-                        fontColor: "white",
+                        fontColor: "white"
                       }
                     },
                     scales: {
@@ -398,151 +368,53 @@ class Chart extends Component {
                     maintainAspectRatio: false
                   }}
                 />
-              </Paper>
-              <button onClick={this._minButtonClick}>min</button>
-              <button onClick={this._hourButtonClick}>hour</button>
-              <button onClick={this._dayButtonClick}>day</button>
-            </Grid>
-          </Grid>
-        </div> */}
-
-
-        <div>
-            <Card className={classes.card}>
-              {/* <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        /> */}
-              <CardContent className={classes.chart}>
-                <div className="chart" draggable="true">
-                  {/* <Grid container spacing={0}>
-            <Grid item xs={10} sm={2}> */}
-                  {/* <Paper>
-                <div>
-                  <h1>{this.props.coinCode}</h1>
-                  <TextField
-                    onChange={this._getNumberOfContracts}
-                    label="Number"
-                  >
-                    {" "}
-                  </TextField>
-                  <Button
-                    onClick={this._onBuyButtonClick}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Buy
-                  </Button>
-                </div>
-                <br />
-                <Button
-                  onClick={this._onSellButtonClick}
-                  variant="contained"
-                  color="primary"
-                >
-                  Sell
-                </Button>
-              </Paper> */}
-                  {/* </Grid>
-            <Grid item xs={10} sm={10}> */}
-                  {/* <Paper> */}
-                  <Line
-                    data={this.state.data}
-                    width={100}
-                    height={300}
-                    options={{
-                      title: {
-                        display: true,
-                        fontColor: "white",
-                        text: this.props.coinCode
-                      },
-                      tooltips: {
-                        mode: "index",
-                        intersect: false
-                      },
-                      legend: {
-                        labels: {
-                          fontColor: "white"
-                        }
-                      },
-                      scales: {
-                        yAxes: [
-                          {
-                            gridLines: {
-                              display: true,
-                              color: "#707073"
-                            },
-                            position: "right",
-                            ticks: {
-                              fontColor: "white"
-                            }
-                          }
-                        ],
-                        xAxes: [
-                          {
-                            ticks: {
-                              fontColor: "white",
-                              maxTicksLimit: 8
-                            }
-                          }
-                        ]
-                      },
-                      maintainAspectRatio: false,
-
-                    }}
-                  />
-                  {/* </Paper> */}
-                  <button onClick={this._minButtonClick}>min</button>
-                  <button onClick={this._hourButtonClick}>hour</button>
-                  <button onClick={this._dayButtonClick}>day</button>
-                  {/* </Grid>
-          </Grid> */}
-                  <div className={classes.buySellButton}>
-                    <CardActions className={classes.sellorbuy}>
-                      <TextField
-                        className={classes.contractInput}
-                        onChange={this._getNumberOfContracts}
-                        // label="Number"
-                        defaultValue="1"
-                      >
-                        {" "}
-                      </TextField>
-                      <Button
-                        onClick={this._onBuyButtonClick}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Buy
-                      </Button>
-                      {/* </div> */}
-                      <br />
-                      <Button
-                        onClick={this._onSellButtonClick}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Sell
-                      </Button>
-                      {/* <Button size="small" color="primary">
+                {/* </Paper> */}
+                <button onClick={this._minButtonClick}>min</button>
+                <button onClick={this._hourButtonClick}>hour</button>
+                <button onClick={this._dayButtonClick}>day</button>
+                <div className={classes.buySellButton}>
+                  <CardActions className={classes.sellorbuy}>
+                    <TextField
+                      className={classes.contractInput}
+                      onChange={this._getNumberOfContracts}
+                      // label="Number"
+                      defaultValue="1"
+                    >
+                      {" "}
+                    </TextField>
+                    <Button
+                      onClick={this._onBuyButtonClick}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Buy
+                    </Button>
+                    {/* </div> */}
+                    <br />
+                    <Button
+                      onClick={this._onSellButtonClick}
+                      variant="contained"
+                      color="primary"
+                    >
+                      Sell
+                    </Button>
+                    {/* <Button size="small" color="primary">
             Share
           </Button>
           <Button size="small" color="primary">
             Learn More
           </Button> */}
-                    </CardActions>
-                  </div>
+                  </CardActions>
                 </div>
-                <Typography gutterBottom variant="headline" component="h2">
-                  {this.props.coinCode}
-                </Typography>
+              </div>
+              <Typography gutterBottom variant="headline" component="h2">
+                {this.props.coinCode}
+              </Typography>
 
-                <Typography component="p" />
-              </CardContent>
-            </Card>
+              <Typography component="p" />
+            </CardContent>
+          </Card>
         </div>
-
-
       </div>
     );
   }
