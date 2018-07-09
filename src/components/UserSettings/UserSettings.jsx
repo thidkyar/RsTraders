@@ -17,7 +17,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const styles = theme => ({
     root: {
-        width: '30%',
+        height: '100%',
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -198,15 +198,8 @@ class UserSettings extends Component {
         return (
             <div id="set" className="user-settings">
                 <div className={classes.root}>
-<br />
-<br />
-<br />
-<br />
-<br />
-
-
                     <ExpansionPanel>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{   background: '#A63D40' }} >
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{   background: '#5E1C1E' }} >
                         <Typography className={classes.heading} gutterBottom component="h4" variant="headline" >Email </Typography>
                             {/* <Typography variant="title" className={classes.heading}>Change Email Address</Typography> */}
                             <Typography className={classes.secondaryHeading}> Update your email address</Typography>
@@ -230,7 +223,7 @@ class UserSettings extends Component {
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
                         <Typography className={classes.heading} gutterBottom component="h4" variant="headline" >Phone Number </Typography>
-                            <Typography className={classes.secondaryHeading}> Update your telephone number</Typography>
+                            <Typography className={classes.secondaryHeading}> Update your tel. number</Typography>
 
                             {/* <Typography className={classes.heading}>Change Telephone Number</Typography> */}
                         </ExpansionPanelSummary>
@@ -254,7 +247,7 @@ class UserSettings extends Component {
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel >
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{   background: '#A9A9A9' }} >
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} style={{   background: '#5E1C1E' }} >
                         <Typography className={classes.heading} gutterBottom component="h4" variant="headline" >Password </Typography>
                             <Typography className={classes.secondaryHeading}> Change your password</Typography>
 

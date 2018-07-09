@@ -17,11 +17,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
+
+import "./Profile.css";
+import UserSettings from "../UserSettings/UserSettings.jsx";
 
 const styles = {
-  card: {
-    maxWidth: 345,
-  },
+  
   card2: {
     maxWidth: 1000,
   },
@@ -36,6 +39,7 @@ const styles = {
 
 const styles1 = theme => ({
   root: {
+    padding:40,
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
@@ -44,33 +48,6 @@ const styles1 = theme => ({
     minWidth: 700,
   },
 });
-
-
-// const styles = theme => ({
-//   root: {
-//     flexGrow: 1,
-//     height: 430,
-//     zIndex: 1,
-//     overflow: 'hidden',
-//     position: 'relative',
-//     display: 'flex',
-//   },
-//   appBar: {
-//     zIndex: theme.zIndex.drawer + 1,
-//   },
-//   drawerPaper: {
-//     position: 'relative',
-//     width: drawerWidth,
-//   },
-//   content: {
-//     flexGrow: 1,
-//     backgroundColor: theme.palette.background.default,
-//     padding: theme.spacing.unit * 3,
-//     minWidth: 0, // So the Typography noWrap works
-//   },
-//   toolbar: theme.mixins.toolbar,
-// });
-
 
 class Profile extends Component {
   constructor(props) {
@@ -137,12 +114,19 @@ class Profile extends Component {
     const { expanded } = this.state;
 
     return (
-      <div className="user-dashboard">
-        <br />
-        <Card className={classes.card}>
+      <div className="user-dashboard"  >
+            <Grid container spacing={8}>
+            <Grid item xs={4} style={{ padding: '4%'}} >
+          <Paper className={classes.paper} settings={{ padding: '4%'}}>
+{/*           
+        <Grid item xs>
+        <Paper className={classes.paper}> */}
+
+        {/* <br /> */}
+        <Card className={classes.card} >
           <CardMedia
             className={classes.media}
-            image="https://www.w3schools.com/bootstrap/img_avatar4.png"
+            image="https://media.brstatic.com/2016/11/02103232/highest-grossing-actresses-5-cate-blanchett.jpg"
             title="Contemplative Reptile"
           />
           <CardContent>
@@ -154,25 +138,23 @@ class Profile extends Component {
   
           </Typography>
           </CardContent>
-          {/* <CardActions> */}
-            {/* <Button size="small" color="primary">
-              Share
-          </Button>
-            <Button size="small" color="primary">
-              Learn More
-          </Button> */}
-          {/* </CardActions> */}
         </Card>
+        </Paper>
         <br />
-        <br />
+        <Paper className={classes.paper} settings={{ padding: '4%'}}>
+        <UserSettings />
+        </Paper>
+        </Grid>
 
 
-
-
+            <Grid item xs={8} style={{ padding: '4%'}}>
+          <Paper className={classes.paper}>
         <Card className={classes.card2}>
-            <CardHeader style={{ background: 'green'}}>
+        <CardMedia style={{ background: '#5E1C1E',   textAlign: 'center', fontColor: 'white'}}>
+            {/* <CardHeader> */}
             <Typography gutterBottom variant="headline" component="h2" style = {{ align:'center'}}> Transactions </Typography>
-            </CardHeader>
+            {/* </CardHeader> */}
+            </CardMedia>
               <CardContent>
                             <Typography component="p">
 
@@ -211,15 +193,10 @@ class Profile extends Component {
           })}
           </Typography>
           </CardContent>
-          {/* <CardActions>
-            <Button size="small" color="primary">
-              View More
-          </Button>
-          </CardActions> */}
-        </Card>
-
-
-
+        </Card> 
+        </Paper>
+        </Grid>
+      </Grid>
       </div>
     );
   }
