@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {Router, Link} from "@reach/router"
+
 //import components
 import Chart from "./Chart.jsx"
+
 //import CSS
 import "./Chart.css";
 

@@ -25,13 +25,12 @@ const styles = theme => ({
     backgroundColor: "#273954",
     borderColor: "white",
     // textAlign: "left",
-    fontSize: "18px",
+    fontSize: "18px"
   },
   grid3: {
     // borderStyle: "solid"
   }
 });
-
 
 class NavBar2 extends Component {
   constructor(props) {
@@ -44,6 +43,7 @@ class NavBar2 extends Component {
 
   componentDidMount() {
     this._getBalance();
+    this._verifyUser();
   }
   //Get user Balance from Blockchain
   _getBalance = () => {
@@ -73,7 +73,7 @@ class NavBar2 extends Component {
             <div className="insideGrid">
               <div className="title">{key}</div>
               <Paper className={classes.paper} key={key}>
-                {Math.round(this.state.allCoins[key])}
+                {(this.state.allCoins[key])}
               </Paper>
               <div className="Currency">USD ($)</div>
             </div>
@@ -85,26 +85,43 @@ class NavBar2 extends Component {
     return items;
   };
 
-  render() {
-    const { classes } = this.props;
-    return (
+  //verify whether user exists or not
+  _verifyUser = () => {
+    fetch("/api/users/login", {
+      method: "GET",
+      credentials: "include"
+    })
+      .then(result => result.json())
+      .then(response => {
+        this.setState({ loggedIn: response.loggedIn });
+      });
+  };
+
+  _renderBar = () => {
+    if (this.state.loggedIn) {
+      return (
       <div className="topnav" id="myTopnav">
+
         <div className="container">
           <h1> CRYPTO WALLET </h1>
           <Grid container spacing={24}>
-            {/* <Grid item xs={12} sm={6}>
-              <Paper className={classes.paper}>Card 1</Paper>
-            </Grid> */}
-            {/* <Grid item xs={6} sm={2}>
-              <Paper className={classes.paper}>Card 2</Paper>
-            </Grid>
-            <Grid item xs={6} sm={2}>
-              <Paper className={classes.paper}>Card 3</Paper>
-            </Grid> */}
             {this.renderObject()}
           </Grid>
         </div>
       </div>
+      );
+    } else {
+      <div>
+        </div>
+    }
+  };
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <div>
+      {this._renderBar()}
+        </div>
     );
   }
 }
