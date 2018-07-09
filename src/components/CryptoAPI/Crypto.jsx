@@ -24,6 +24,8 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    flexGrow: 1,
+
   },
   table: {
     minWidth: 100,
@@ -58,7 +60,7 @@ class Crypto extends Component {
   componentDidMount() {
     //API to GET all cryptocurrency tickers
     const url =
-      "https://api.coinmarketcap.com/v2/ticker/?convert=USD&limit=50&sort=rank&structure=array";
+      "https://api.coinmarketcap.com/v2/ticker/?convert=USD&limit=100&sort=rank&structure=array";
     //fetch data from API
     fetch(url)
       .then(res => res.json())
@@ -67,22 +69,24 @@ class Crypto extends Component {
         console.log("Original Format", result);
         var coins = Object.values(result.data);
         this.setState({ coins: coins });
-        // console.log("Here's the array", coins);
       });
   }
   render() {
     const { classes } = this.props;
-    console.log('this.state.coins',this.state.coins)
+    console.log('this.state.coins', this.state.coins)
     const { anchorEl } = this.state;
     return (
-      <div className="Crypto-Ticker">
-        <Grid container spacing={4}>
-          <Grid item xs={8} style={{ paddingTop: '.5%', paddingLeft: '4%' }} >
-            <Paper settings={{ padding: '2%' }}>
-
+      <div className="Crypto-Ticker" style={{ padding: 20 }}>
+        <Grid container >
+          <Grid item xs={8}>
+            <Paper settings={{
+              padding: '2%', overflowX: 'auto'
+            }}>
               <h1 style={{ padding: '2em' }}> Top 100 Cryptocurrencies </h1>
-              {/* <Paper> */}
-              <Table  >
+              <Table style={{
+                minWidth: 700, overflowX: 'auto'
+
+              }}>
                 <TableHead>
                   <TableRow>
                     <TableCell className={classes.maintablehead} width='1%'>Rank</TableCell>
@@ -92,21 +96,21 @@ class Crypto extends Component {
                     <TableCell className={classes.maintablehead} width='10%'>Change (24h)</TableCell>
                     <TableCell className={classes.maintablehead} width='15%'>Price Graph (7d)</TableCell>
                   </TableRow>
-                </TableHead> 
+                </TableHead>
                 <TableBody>
                   {this.state.coins.map((coin, c) => {
                     return (
                       <TableRow key={c}>
                         <TableCell className={classes.maintable}>{coin.rank}</TableCell>
                         <TableCell className={classes.maintable}>{coin.symbol}</TableCell>
-                        <TableCell className={classes.maintable}>{coin.name}</TableCell> 
+                        <TableCell className={classes.maintable}>{coin.name}</TableCell>
                         <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.USD.price * 100) / 100} </TableCell>
                         <TableCell className={classes.maintable}>
-                        { (coin.quotes.USD.percent_change_24h > 0) ? 
+                          {(coin.quotes.USD.percent_change_24h > 0) ?
                             <font color="#3c8229"> {coin.quotes.USD.percent_change_24h + '%'}</font> :
-                            <font color="red"> {coin.quotes.USD.percent_change_24h + '%'} </font> }
+                            <font color="red"> {coin.quotes.USD.percent_change_24h + '%'} </font>}
                         </TableCell>
-                        <TableCell className={classes.maintable}><img class="sparkline" alt="sparkline" src={'https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/' + coin.id + '.png'}/></TableCell>
+                        <TableCell className={classes.maintable}><img class="sparkline" alt="sparkline" src={'https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/' + coin.id + '.png'} /></TableCell>
                       </TableRow>
                     );
                   })}
@@ -114,23 +118,12 @@ class Crypto extends Component {
               </Table>
             </Paper>
           </Grid>
-
-        <Grid item xs={4} style={{ paddingTop: '.5%', paddingLeft: '1%', paddingRight: '4%' }} >
-          <Paper settings={{ padding: '4%' }}>
-            <CryptoNews />
-          </Paper>
+          <Grid item xs={4} style={{ paddingTop: '1.3%', paddingLeft: '1%', paddingRight: '4%' }} >
+            <Paper settings={{ padding: '2%' }}>
+              <CryptoNews />
+            </Paper>
+          </Grid>
         </Grid>
-
-                <Grid item xs={4} style={{ paddingTop: '.5%', paddingLeft: '1%', paddingRight: '4%' }} >
-          <Paper settings={{ padding: '4%' }}>
-            <p> Here </p>
-            <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-</p>
-          </Paper>
-        </Grid>
-        </Grid>
-
       </div>
     );
   }
