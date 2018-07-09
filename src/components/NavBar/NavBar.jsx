@@ -19,6 +19,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Divider from '@material-ui/core/Divider';
 
+import "./NavBar.css";
+
 const styles = {
   root: {
     flexGrow: 1
@@ -31,7 +33,7 @@ const styles = {
     marginRight: 20
   },
   menuBar: {
-    background: "#5E1C1E",
+    background: "#1C2C43",
     color: "white",
     textAlign: "left",
     // position: 'fixed'
@@ -102,7 +104,25 @@ class NavBar extends Component {
     return (
       <div>
         {/* <hr /> */}
-       
+        <div className='marquee'>
+        <marquee>
+          {this.state.coins.map((coin, c) => {
+            return (
+              <span
+                className="sym"
+                style={{
+                  padding: "10px"
+                }}
+                key={c}
+              >
+                {" "}
+                {coin.symbol}: {coin.quotes.CAD.percent_change_24h} %{" "}
+              </span>
+            );
+          })}
+        </marquee>
+        </div>
+        
         <div className={classes.root}>
           {/* <FormGroup>
             <FormControlLabel
@@ -203,22 +223,8 @@ class NavBar extends Component {
             </Toolbar>
           </AppBar>
         </div>
-        <marquee className="coin-container">
-          {this.state.coins.map((coin, c) => {
-            return (
-              <span
-                className="sym"
-                style={{
-                  padding: "10px"
-                }}
-                key={c}
-              >
-                {" "}
-                {coin.symbol}: {coin.quotes.CAD.percent_change_24h} %{" "}
-              </span>
-            );
-          })}
-        </marquee>
+
+        
         <Divider light/>
       </div>
     );
