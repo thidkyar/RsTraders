@@ -170,17 +170,17 @@ module.exports = function(blockchainRoutes) {
   let RSTCoin = new BlockChain();
   RSTCoin.loadTransaction();
 
-  RSTCoin.mineTransaction(adminUser);
+  // RSTCoin.mineTransaction(adminUser);
 
 
-  fs.readdir('./blocks/', (err, files) => {
-    console.log(files);
-    for(let count = 0;count < files.length;count ++) {
-      RSTCoin.loadTransaction(JSON.parse(fs.readFileSync("./blocks/"+count, "utf-8")));
-      // this.pendingTransactions.push(JSON.parse(fs.readFileSync("../../blocks/"+count, "utf-8")));
-      RSTCoin.mineTransaction(adminUser);
-    }
-  });
+  // fs.readdir('./blocks/', (err, files) => {
+  //   console.log(files);
+  //   for(let count = 0;count < files.length;count ++) {
+  //     RSTCoin.loadTransaction(JSON.parse(fs.readFileSync("./blocks/"+count, "utf-8")));
+  //     // this.pendingTransactions.push(JSON.parse(fs.readFileSync("../../blocks/"+count, "utf-8")));
+  //     RSTCoin.mineTransaction(adminUser);
+  //   }
+  // });
 
   // Base web page to login into the system. If the user is login send session to /urls
   router.get("/balance", (req, res) => {

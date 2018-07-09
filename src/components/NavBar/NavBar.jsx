@@ -83,7 +83,7 @@ class NavBar extends Component {
   componentDidMount() {
     //API to GET all cryptocurrency tickers
     const url =
-      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=100&sort=rank&structure=array";
+      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=300&sort=rank&structure=array";
     //fetch data from API
     fetch(url)
       .then(res => res.json())
@@ -104,6 +104,7 @@ class NavBar extends Component {
     return (
       <div>
         {/* <hr /> */}
+
         <div className='marquee'>
         <marquee>
           {this.state.coins.map((coin, c) => {
@@ -122,7 +123,7 @@ class NavBar extends Component {
           })}
         </marquee>
         </div>
-        
+
         <div className={classes.root}>
           {/* <FormGroup>
             <FormControlLabel
@@ -149,7 +150,7 @@ class NavBar extends Component {
               </Typography>
               {auth && (
                 <div>
-                   <Button
+                  <Button
                     component={Link}
                     to="/login"
                     className={classes.button}
@@ -165,14 +166,14 @@ class NavBar extends Component {
                   >
                     Chart
                   </Button>
-                  <Button
+                  {/* <Button
                     component={Link}
                     to="/cryptonews"
                     className={classes.button}
                     color="inherit"
                   >
                     News
-                  </Button>
+                  </Button> */}
                   <IconButton
                     aria-owns={open ? "menu-appbar" : null}
                     aria-haspopup="true"
@@ -223,9 +224,8 @@ class NavBar extends Component {
             </Toolbar>
           </AppBar>
         </div>
-
-        
         <Divider light/>
+
       </div>
     );
   }
