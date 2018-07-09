@@ -231,39 +231,7 @@ class NavBar extends Component {
               </Typography>
 
               <div>
-                {/* <Button
-                    component={Link}
-                    to="/login"
-                    className={classes.button}
-                    color="inherit"
-                  >
-                    Login
-                  </Button> */}
-                {/* <Button
-                    component={Link}
-                    to="/chart"
-                    className={classes.button}
-                    color="inherit"
-                  >
-                    Chart
-                  </Button> */}
                 {this.renderBasedonUserButton()}
-                {/* <Button
-                    component={Link}
-                    to="/cryptonews"
-                    className={classes.button}
-                    color="inherit"
-                  >
-                    News
-                  </Button> */}
-                {/* <IconButton
-                    aria-owns={open ? "menu-appbar" : null}
-                    aria-haspopup="true"
-                    onClick={this.handleMenu}
-                    color="inherit"
-                  >
-                    <AccountCircle />
-                  </IconButton> */}
                 <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
@@ -291,13 +259,6 @@ class NavBar extends Component {
                     onClick={this.handleClose}
                   >
                     Favorites
-                  </MenuItem>
-                  <MenuItem
-                    component={Link}
-                    to="/usersettings"
-                    onClick={this.handleClose}
-                  >
-                    My account
                   </MenuItem>
                   <MenuItem onClick={this._onSubmit}>Logout</MenuItem>
                 </Menu>
