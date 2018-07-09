@@ -84,56 +84,54 @@ class Crypto extends Component {
               padding: '2%', overflowX: 'auto'
             }}>
               <h1 style={{ padding: '2em' }}> Top 100 Cryptocurrencies </h1>
-              <Table style={{
+              {/* <Table style={{
                 minWidth: 700, overflowX: 'auto'
-              }}>
-              {/* <Paper> */}
-              <Table className={classes.maintable}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell className={classes.maintable} width='1%'>Rank</TableCell>
-                    <TableCell className={classes.maintable} width='1%'>Symbol</TableCell>
-                    <TableCell className={classes.maintable} width='10%'>Name</TableCell>
-                    <TableCell className={classes.maintable} width='10%'>Price</TableCell>
-                    <TableCell className={classes.maintable} width='10%'>Change (24h)</TableCell>
-                    <TableCell className={classes.maintable} width='15%'>Price Graph (7d)</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {this.state.coins.map((coin, c) => {
-                    return (
-                      <TableRow key={c}>
-                        <TableCell className={classes.maintable}>{coin.rank}</TableCell>
-                        <TableCell className={classes.maintable}>{coin.symbol}</TableCell>
-                        <TableCell className={classes.maintable}>{coin.name}</TableCell>
-                        <TableCell className={classes.maintable}>
-                          <img src={'https://s2.coinmarketcap.com/static/img/coins/16x16/' + coin.id + '.png'} />
-                          <br/>
-                          {coin.symbol}</TableCell>
-                        <TableCell className={classes.maintable}>{coin.name}</TableCell> 
-                        <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.USD.price * 100) / 100} </TableCell>
-                        <TableCell className={classes.maintable}>
-                          {(coin.quotes.USD.percent_change_24h > 0) ?
-                            <font color="#3c8229"> {coin.quotes.USD.percent_change_24h + '%'}</font> :
-                            <font color="red"> {coin.quotes.USD.percent_change_24h + '%'} </font>}
-                        </TableCell>
-                        <TableCell className={classes.maintable}><img class="sparkline" alt="sparkline" src={'https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/' + coin.id + '.png'} /></TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
+              }}> */}
+                {/* <Paper> */}
+                <Table className={classes.maintable}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell className={classes.maintable} width='1%'>Rank</TableCell>
+                      <TableCell className={classes.maintable} width='1%'>Symbol</TableCell>
+                      <TableCell className={classes.maintable} width='10%'>Name</TableCell>
+                      <TableCell className={classes.maintable} width='10%'>Price</TableCell>
+                      <TableCell className={classes.maintable} width='10%'>Change (24h)</TableCell>
+                      <TableCell className={classes.maintable} width='15%'>Price Graph (7d)</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {this.state.coins.map((coin, c) => {
+                      return (
+                        <TableRow key={c}>
+                          <TableCell className={classes.maintable}>{coin.rank}</TableCell>
+                          <TableCell className={classes.maintable}>
+                            <img src={'https://s2.coinmarketcap.com/static/img/coins/16x16/' + coin.id + '.png'} />
+                            <br />
+                            {coin.symbol}</TableCell>
+                          <TableCell className={classes.maintable}>{coin.name}</TableCell>
+                          <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.USD.price * 100) / 100} </TableCell>
+                          <TableCell className={classes.maintable}>
+                            {(coin.quotes.USD.percent_change_24h > 0) ?
+                              <font color="#3c8229"> {coin.quotes.USD.percent_change_24h + '%'}</font> :
+                              <font color="red"> {coin.quotes.USD.percent_change_24h + '%'} </font>}
+                          </TableCell>
+                          <TableCell className={classes.maintable}><img class="sparkline" alt="sparkline" src={'https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/' + coin.id + '.png'} /></TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
             </Paper>
           </Grid>
-          <Grid item xs={4} style={{ paddingTop: '1.3%', paddingLeft: '1%', paddingRight: '4%' }} >
-            <Paper settings={{ padding: '2%' }}>
-              <CryptoNews />
-            </Paper>
+            <Grid item xs={4} style={{ paddingTop: '1.3%', paddingLeft: '1%', paddingRight: '4%' }} >
+              <Paper settings={{ padding: '2%' }}>
+                <CryptoNews />
+              </Paper>
+            </Grid>
           </Grid>
-        </Grid>
       </div>
-    );
-  }
-}
-
-export default withStyles(styles)(Crypto);
+        );
+      }
+    }
+    
+    export default withStyles(styles)(Crypto);
