@@ -58,7 +58,7 @@ class Crypto extends Component {
   componentDidMount() {
     //API to GET all cryptocurrency tickers
     const url =
-      "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=50&sort=rank&structure=array";
+      "https://api.coinmarketcap.com/v2/ticker/?convert=USD&limit=50&sort=rank&structure=array";
     //fetch data from API
     fetch(url)
       .then(res => res.json())
@@ -100,11 +100,11 @@ class Crypto extends Component {
                         <TableCell className={classes.maintable}>{coin.rank}</TableCell>
                         <TableCell className={classes.maintable}>{coin.symbol}</TableCell>
                         <TableCell className={classes.maintable}>{coin.name}</TableCell> 
-                        <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.CAD.price * 100) / 100} </TableCell>
+                        <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.USD.price * 100) / 100} </TableCell>
                         <TableCell className={classes.maintable}>
-                        { (coin.quotes.CAD.percent_change_24h > 0) ? 
-                            <font color="#3c8229"> {coin.quotes.CAD.percent_change_24h + '%'}</font> :
-                            <font color="red"> {coin.quotes.CAD.percent_change_24h + '%'} </font> }
+                        { (coin.quotes.USD.percent_change_24h > 0) ? 
+                            <font color="#3c8229"> {coin.quotes.USD.percent_change_24h + '%'}</font> :
+                            <font color="red"> {coin.quotes.USD.percent_change_24h + '%'} </font> }
                         </TableCell>
                         <TableCell className={classes.maintable}><img class="sparkline" alt="sparkline" src={'https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/' + coin.id + '.png'}/></TableCell>
                       </TableRow>
