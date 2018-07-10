@@ -3,13 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import classNames from 'classnames';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { CardHeader } from '@material-ui/core';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -212,13 +206,15 @@ class UserSettings extends Component {
                     <ExpansionPanel>
                         <ExpansionPanelSummary style={{color:'white'}}expandIcon={<ExpandMoreIcon className={classes.icon}/>} className={classes.top} >
                             {/* <Typography variant="title" className={classes.heading}>Change Email Address</Typography> */}
-                            <Typography className={classes.secondaryHeading}> Update your email address</Typography>
+                            <Typography className={classes.secondaryHeading}
+                            style={{
+                                width:'100%'
+                            }}> Update Email Address</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <Typography>
                                 <form id="update-email" onSubmit={this.onSubmitEmail}>
-                                    <label> Current Email Address: {this.state.email}</label>
-                                    <br /><br />
+                                    <span><h3> Current Email Address: </h3><h4>{this.state.email}</h4></span>
                                     <TextField
                                         label="Email"
                                         id="email"
@@ -237,7 +233,9 @@ class UserSettings extends Component {
                     </ExpansionPanel>
                     <ExpansionPanel>
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.icon}/>} className={classes.top}>
-                            <Typography className={classes.secondaryHeading}> Update your phone number</Typography>
+                            <Typography className={classes.secondaryHeading} style={{
+                                width:'100%'
+                            }}> Update Phone Number</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <Typography>
@@ -261,7 +259,10 @@ class UserSettings extends Component {
                     </ExpansionPanel>
                     <ExpansionPanel >
                         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.icon}/>} className={classes.top} >
-                            <Typography className={classes.secondaryHeading}> Change your password</Typography>
+                            <Typography className={classes.secondaryHeading} 
+                            style={{
+                                width:'100%'
+                            }}> Change Password</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails >
                             <Typography>
@@ -296,146 +297,6 @@ class UserSettings extends Component {
                     </ExpansionPanel>
                 </div>
             </div>
-
-
-
-
-
-
-
-
-            //     <div className="user-settings">
-            //         <Card className={classes.card}>
-            //             <CardHeader>
-            //                 <h1>User Settings</h1>
-            //             </CardHeader>
-            //             <CardContent>
-            //                 <form id="update-email" onSubmit={this.onSubmitEmail}>
-            //                     <label> Current Email Address: {this.state.email}</label>
-            //                     <br />
-            //                     <TextField
-            //                         label="Email"
-            //                         id="email"
-            //                         onChange={this.onChangeEmail}
-            //                     />
-            //                     <Button> Update</Button>
-
-            //                 </form>
-            //                 <br />
-            //                 <hr />
-            //                 <form className="phone-number" onSubmit={this.onSubmitPhone}>
-            //                     <label> Current Phone Number: {this.state.phone}</label>
-            //                     <br />
-            //                     <TextField
-            //                         label="Tel. Phone Number"
-            //                         id="phone"
-            //                         onChange={this.onPhoneChange} />
-            //                     <br />
-            //                     <Button>
-            //                         Update
-            //                         </Button>
-            //                 </form>
-            //                 <br />
-            //                 <hr />
-
-            //                 <form className="password-change" onSubmit={this.onSubmitPassword}>
-            //                     <label> Update Password </label>
-            //                     <br />
-            //                     <TextField
-            //                         label="Current Password"
-            //                         type="password"
-            //                         id="current_pwd"
-            //                         onChange={this.onMatchPassword} />
-
-            //                     <br />
-            //                     <TextField
-            //                         label="New Password"
-            //                         type="password"
-            //                         id="current_pwd"
-            //                         onChange={this.onChangePassword} />
-            //                     {"         "}
-            //                     <br />
-            //                     <TextField
-            //                         label="Confirm Password"
-            //                         type="password"
-            //                         id="rep_pwd"
-            //                         onChange={this.onChangePassword} />
-            //                     <br />
-            //                     <Button
-            //                         variant="outlined"
-            //                         type="Submit"
-            //                         color="primary"
-            //                     >
-            //                         Change Password
-            //   </Button>
-            //                 </form>
-            //                 <br />
-            //             </CardContent>
-            //         </Card>
-            //     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //ORIGINAL
-            // <div className="user-settings">
-            //     <form id="update-email" onSubmit={this.onSubmitEmail}>
-            //         <label> Update Email Address </label>
-            //         <TextField
-            //         label="Email"
-            //         id="email"
-            //         defaultValue={this.state.email}
-            //         // className={classes.textField}
-            //         helperText="Enter you current email address"
-            //         />
-
-
-            //         <input
-            //             type="text"
-            //             label="email"
-            //             onChange={this.onChangeEmail}
-            //             defaultValue={this.state.email} />
-            //         <button>Save</button>
-            //     </form>
-            //     <br />
-            //     <hr />
-            //     <form className="phone-number" onSubmit={this.onSubmitPhone}>
-            //         <label> Update Phone Number</label>
-            //         <input
-            //             type="text"
-            //             label="email"
-            //             onChange={this.onPhoneChange}
-            //             defaultValue={this.state.phone} />
-            //         <button>Save</button>
-            //     </form>
-            //     <br />
-            //     <hr />
-
-            //     <form className="password-change" onSubmit={this.onSubmitPassword}>
-            //         <label> Current Password </label>
-            //         <input type="password" required name="current_pwd" onChange={this.onMatchPassword} defaultValue={this.state.password} />
-            //         <br />
-            //         <label> New Password </label>
-            //         <input type="password" onChange={this.onChangePassword} required name="new_pwd" />
-            //         <label> Confirm Password </label>
-            //         <input type="password" onChange={this.onChangePassword} name="rep_pwd" />
-            //         <button type="Submit"> Change Password </button>
-            //     </form>
-            //     <br />
-            // </div>
         );
     }
 }
