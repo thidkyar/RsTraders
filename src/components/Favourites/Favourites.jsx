@@ -10,6 +10,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
+import { TextField } from "@material-ui/core";
 
 const styles = theme => ({
   button: {
@@ -26,11 +27,14 @@ const styles = theme => ({
   },
   favButton: {
     minWidth: 250,
-    color: '#886868',
-    borderColor: 'red',
-    boxShadow: '0px 0px 15px 0px #312c2c',
-    margin: '6px'
+    color: "#273954",
+    borderColor: "#273954",
+    boxShadow: "0px 0px 15px 0px #312c2c",
+    margin: "6px"
   },
+  searchBar: {
+    width: "90%"
+  }
 });
 class Favourites extends Component {
   constructor(props) {
@@ -40,9 +44,12 @@ class Favourites extends Component {
       favCoins: [],
       currentRank: 1,
       favCount: 0,
-      coinCodes: []
+      coinCodes: [],
+      search: ''
     };
   }
+
+  
   callFromApi = () => {
     const url =
       "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=500&sort=rank&structure=array";
@@ -135,19 +142,41 @@ class Favourites extends Component {
       }
     });
   };
+
+  _updateSearch = (event) => {
+    this.setState({search: event.target.value.substr(0,20)})
+  }
+
   componentDidMount() {
     this._getFavorites();
     this.callFromApi();
   }
   render() {
     const { classes } = this.props;
-    console.log("check this", this.state.favCoins);
+    // console.log("check this", this.state.favCoins);
     const numberOfCoins = this.state.coinCodes;
+    let filteredFavorites = this.state.coins.filter(
+      (coin) => {
+        return ((coin.name).toLowerCase().includes(this.state.search.toLowerCase())) || ((coin.symbol).toLowerCase().includes(this.state.search.toLowerCase()))
+      }
+    )
+    console.log(filteredFavorites)
     return (
-      <div>
+      <div style={{textAlign: 'center'}}>
         <h1>Select your Favourite Crypto's!</h1>
         <h3>You have {numberOfCoins.length} favorites </h3>
-        {this.state.coins.map(x => {
+        <div style={{marginBottom: '20px'}}>
+          <TextField
+            className={classes.searchBar}
+            type="text"
+            label="Search Coin"
+            name="search"
+            value={this.state.search}
+            onChange={this._updateSearch}
+            fullWidth
+          />
+        </div>
+        {filteredFavorites.map(x => {
           const buttonStyle = {
             variant: "outlined"
           };
@@ -156,14 +185,14 @@ class Favourites extends Component {
             console.log(buttonStyle);
           }
           return (
-                <Button
-                  className={classes.favButton}
-                  onClick={this._favButtonEvent}
-                  variant={buttonStyle.variant}
-                  color="primary"
-                >
-                  {x.symbol}/{x.name}
-                </Button>
+            <Button
+              className={classes.favButton}
+              onClick={this._favButtonEvent}
+              variant={buttonStyle.variant}
+              color="primary"
+            >
+              {x.symbol}/{x.name}
+            </Button>
           );
         })}
         <hr />

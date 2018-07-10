@@ -323,6 +323,15 @@ class Chart extends Component {
     this.setState({ url: url });
     this._setChartState("date");
   };
+
+  _numberIncrement = (e) => {
+    console.log(e)
+    if (e.target.id === "+") {
+      this.setState({numberOfContracts: this.state.numberOfContracts + 1})
+    } else if (e.target.id === "-") {
+      this.setState({numberOfContracts: this.state.numberOfContracts - 1})
+    }
+  }
   render() {
     const { classes } = this.props;
     console.log("this", this.state.numberOfContracts);
@@ -335,7 +344,7 @@ class Chart extends Component {
             <Grid item xs={6} sm={3}>
               <Card className={classes.chartDetails} style={{height:'100%'}}>
                 <CardContent style={{height: '100%'}}>
-                    <CoinmarketAPI getContracts={this._getNumberOfContracts} sellButton={this._onSellButtonClick} buyButton={this._onBuyButtonClick} coinCode={this.props.coinCode} />
+                    <CoinmarketAPI incrementFunction={this._numberIncrement} numContracts={this.state.numberOfContracts} getContracts={this._getNumberOfContracts} sellButton={this._onSellButtonClick} buyButton={this._onBuyButtonClick} coinCode={this.props.coinCode} />
                 </CardContent>
               </Card>
             </Grid>
