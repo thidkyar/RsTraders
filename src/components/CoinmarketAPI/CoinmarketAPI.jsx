@@ -11,7 +11,6 @@ import Card from "@material-ui/core/Card";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
 
-
 const styles = theme => ({
   root: {
     flexGrow: 1
@@ -49,10 +48,15 @@ const styles = theme => ({
     padding: "19px"
   },
   contractInput: {
-    width: "15%",
-    marginLeft: "20px",
-    textAlign: 'center',
+    width: "20%",
+    textAlign: "center",
     padding: "5px"
+  },
+  buyButton: {
+    backgroundColor: "#273954"
+  },
+  sellButton: {
+    backgroundColor: "#BB4D46"
   }
 });
 
@@ -178,19 +182,26 @@ class CoinmarketAPI extends Component {
             </h1>
           </Card>
           <Button
+            className={classes.buyButton}
             onClick={this.props.buyButton}
             variant="contained"
             color="primary"
           >
             Buy
           </Button>
+          <button id="-" style={{marginLeft: '13px'}} onClick={this.props.incrementFunction}>
+            -
+          </button>
           <input
             className={classes.contractInput}
             onChange={this.props.getContracts}
-            // label="Number"
-          >
-          </input>
+            value={this.props.numContracts}
+          />
+          <button id="+"  onClick={this.props.incrementFunction}>
+            +
+          </button>
           <Button
+            className={classes.sellButton}
             style={{ float: "right" }}
             onClick={this.props.sellButton}
             variant="contained"
@@ -206,6 +217,7 @@ class CoinmarketAPI extends Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this.props.numContracts);
     return (
       <div style={{ height: "100%", height: "93.5%" }}>
         {this._renderDataFromApi()}
