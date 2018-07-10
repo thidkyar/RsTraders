@@ -64,14 +64,14 @@ class Crypto extends Component {
       .then(res => res.json())
       .then(result => {
         this.setState("Set state"[result]);
-        console.log("Original Format", result);
+        // console.log("Original Format", result);
         var coins = Object.values(result.data);
         this.setState({ coins: coins });
       });
   }
   render() {
     const { classes } = this.props;
-    console.log('this.state.coins', this.state.coins)
+    // console.log('this.state.coins', this.state.coins)
     const { anchorEl } = this.state;
     return (
       <div className="Crypto-Ticker" >
