@@ -42,18 +42,8 @@ class Crypto extends Component {
     super(props);
     this.state = {
       coins: [],
-      anchorEl: null
     };
   }
-
-  //MenuItem handlers
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
 
   componentDidMount() {
     //API to GET all cryptocurrency tickers
