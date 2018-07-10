@@ -23,19 +23,36 @@ import Grid from '@material-ui/core/Grid';
 import "./Profile.css";
 import UserSettings from "../UserSettings/UserSettings.jsx";
 
-const styles = {
-  
+const styles = theme =>({
+  title:{
+    color:'white',
+  },
   card2: {
     maxWidth: 1000,
   },
+  cardTop: {
+    padding: '4px 2px 4px 48px',
+    background: '#273954',
+    textAlign: 'center',
+    color: 'white'
+  },
+  
+
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
   },
   media2: {
     maxHeight: 20,
+  },
+  tablevalue: {
+    padding: '4px 2px 4px 48px',
+    textAlign: 'right'
+  },
+  tablevalue: {
+    textAlign: 'right'
   }
-};
+});
 
 const styles1 = theme => ({
   root: {
@@ -150,15 +167,28 @@ class Profile extends Component {
             <Grid item xs={8} style={{ padding: '4%'}}>
           <Paper className={classes.paper}>
         <Card className={classes.card2}>
-        <CardMedia style={{ background: '#5E1C1E',   textAlign: 'center', fontColor: 'white'}}>
-            {/* <CardHeader> */}
-            <Typography gutterBottom variant="headline" component="h2" style = {{ align:'center'}}> Transactions </Typography>
-            {/* </CardHeader> */}
-            </CardMedia>
+        {/* <CardMedia className={classes.cardTop}> */}
+            <CardHeader title='Balance'
+            classes={{title: classes.title}} 
+            style={{background:'#273954'}}
+            // className={classes.cardTop}
+            >
+            <Typography className={classes.cardTop} gutterBottom variant="headline" component="h2"> Transactions </Typography>
+            </CardHeader>
+            {/* </CardMedia> */}
               <CardContent>
-                            <Typography component="p">
-
+              <Typography component="p">
+                  <Table>
+                  <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tablevalue}>From</TableCell>
+                    <TableCell className={classes.tablevalue}>To</TableCell>
+                    <TableCell className={classes.tablevalue}>Date Received</TableCell>
+                  </TableRow>
+                  </TableHead> 
+                  <TableBody>
               {this.state.transactions.map(x => {
+
                 const newFrom = []
                 const theTime = new Date(x.date).toLocaleString();
                 if (x.coin_value_from === null || x.coin_id_from === null) {
@@ -170,27 +200,16 @@ class Profile extends Component {
                 }
                 return (
 
-                  < div >
-                                    <Table>
-                    <TableRow>
-                    <TableHead>From:</TableHead>
-                      <TableCell>{newFrom[1]} {newFrom[0]}</TableCell>
+                      <TableRow>    
+                          <TableCell className={classes.tablevalue}>{newFrom[1]}{' '+newFrom[0]}</TableCell>
+                          <TableCell className={classes.tablevalue}>{x.coin_value_to.toLocaleString()}{' '+x.coin_id_to.toLocaleString()}</TableCell>
+                        <TableCell className={classes.tablevalue}>  {theTime}</TableCell>
                       </TableRow>
-                      <TableRow>
-                      <TableHead>To: </TableHead>
-                      <TableCell>{x.coin_value_to.toLocaleString()} {x.coin_id_to.toLocaleString()} </TableCell>
-                      </TableRow>
-                      <TableRow>
-                      <TableHead>Date Received</TableHead>
-                      <TableCell>{theTime}</TableCell>
-                      </TableRow>
-
-                    </Table>
-                    <br />
-                    <hr />
-            </div>
-            )
-          })}
+                )
+              })}
+                   </TableBody>
+                  </Table>   
+          
           </Typography>
           </CardContent>
         </Card> 
