@@ -12,21 +12,24 @@ import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import { TextField } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Draggable from "react-draggable";
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 
 
-const styles = {
+const styles = theme => ({
   card: {
     maxWidth: "100%",
     margin: "0 auto",
     float: "none",
-    marginBbottom: "10px",
-
+    marginBbottom: "10px"
   },
   media: {
     height: 0,
@@ -49,15 +52,34 @@ const styles = {
     marginLeft: "34px",
     marginTop: "30px"
   },
-  // chartDetails: {
-  //   back
-  // }
-};
+  close: {
+    width: theme.spacing.unit * 4,
+    height: theme.spacing.unit * 4,
+  },
+  errorDialog: {
+    padding: 'none',
+    width: '300px',
+    textAlign: 'center'
+  },
+  errorDialogTitle: {
+    borderBottomStyle: 'solid',
+    borderBottom: '#273954'
+  },
+  timeIntervalButtons: {
+    borderRadius: '1px',
+    borderStyle: 'solid',
+    borderColor: '#273954',
+    '&:hover': {
+      boxShadow: '-1px 1px 14px 0px #908888'
+    }
+  }
+});
 
 class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       userBalance: 0,
       numberOfContracts: 0,
       coinCodes: [],
@@ -201,7 +223,7 @@ class Chart extends Component {
     // const lastItem = marketValue.slice(-1)[0]
     if (
       this.state.userBalance > marketValue * numberOfContracts &&
-      numberOfContracts >= 0
+      numberOfContracts > 0
     ) {
       const userData = {
         coin_id_from: "RST", //USD
@@ -231,19 +253,27 @@ class Chart extends Component {
       );
     }
   };
- 
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   //event handler to create sell transaction in blockchain
   _onSellButtonClick = e => {
     const marketValue = this.state.data.datasets[0].data.slice(-1)[0];
     const currentCoin = this.props.coinCode;
     const sellamount = marketValue * this.state.numberOfContracts;
-    console.log(marketValue);
-    console.log(this.state.allCoins);
-    console.log("log this", this.state.allCoins[currentCoin]);
+    // console.log(marketValue);
+    // console.log(this.state.allCoins);
+    // console.log("log this", this.state.allCoins[currentCoin]);
     if (
-      this.state.allCoins[currentCoin] &&
-      this.state.allCoins[currentCoin] - sellamount >= 0 &&
-      this.state.numberOfContracts >= 0
+      // this.state.allCoins[currentCoin] - sellamount >= 0 &&
+      this.state.numberOfContracts > 0 && 
+      this.state.allCoins[currentCoin] > 0 
     ) {
       const userData = {
         coin_id_from: this.props.coinCode, //USD
@@ -262,11 +292,68 @@ class Chart extends Component {
         body: JSON.stringify(userData)
       })
         // .then(res => res.json())
-        .then(response => {});
+        .then(response => {
+        });
+
     } else {
-      alert("invalid input");
+      this.setState({open: true})
     }
   };
+
+  //When user inputs invalid contract number
+  _alertDialog = () => {
+    const { classes } = this.props;
+    return (
+    <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent className={classes.errorDialog}>
+            <DialogTitle className={classes.errorDialogTitle} style={{padding: '0'}}>
+              Error
+              </DialogTitle>
+            <DialogContentText style={{paddingTop: '10px'}} id="alert-dialog-description">
+              Invalid Amount
+            </DialogContentText>
+          </DialogContent>
+        </Dialog>
+    )
+  }
+
+  _successSnacknar = () => {
+    const { classes } = this.props;
+    return (
+      <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.open}
+          autoHideDuration={3000}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Success!</span>}
+          action={[
+            <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
+              UNDO
+            </Button>,
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={this.handleClose}
+            >
+              <CloseIcon />
+            </IconButton>,
+          ]}
+        />
+    )
+  }
 
   //get balance of user from blockchain
   _getBalance = () => {
@@ -324,27 +411,34 @@ class Chart extends Component {
     this._setChartState("date");
   };
 
-  _numberIncrement = (e) => {
-    console.log(e)
+  _numberIncrement = e => {
+    console.log(e);
     if (e.target.id === "+") {
-      this.setState({numberOfContracts: this.state.numberOfContracts + 1})
+      this.setState({ numberOfContracts: this.state.numberOfContracts + 1 });
     } else if (e.target.id === "-") {
-      this.setState({numberOfContracts: this.state.numberOfContracts - 1})
+      this.setState({ numberOfContracts: this.state.numberOfContracts - 1 });
     }
-  }
+  };
   render() {
     const { classes } = this.props;
     console.log("this", this.state.numberOfContracts);
     const balance = this.state.userBalance.toLocaleString();
 
     return (
-      <div style={{height:'100%'}}>
+      <div style={{ height: "100%" }}>
         <div className={classes.allChartsGrid}>
           <Grid container spacing={28}>
             <Grid item xs={6} sm={3}>
-              <Card className={classes.chartDetails} style={{height:'100%'}}>
-                <CardContent style={{height: '100%'}}>
-                    <CoinmarketAPI incrementFunction={this._numberIncrement} numContracts={this.state.numberOfContracts} getContracts={this._getNumberOfContracts} sellButton={this._onSellButtonClick} buyButton={this._onBuyButtonClick} coinCode={this.props.coinCode} />
+              <Card className={classes.chartDetails} style={{ height: "100%" }}>
+                <CardContent style={{ height: "100%" }}>
+                  <CoinmarketAPI
+                    incrementFunction={this._numberIncrement}
+                    numContracts={this.state.numberOfContracts}
+                    getContracts={this._getNumberOfContracts}
+                    sellButton={this._onSellButtonClick}
+                    buyButton={this._onBuyButtonClick}
+                    coinCode={this.props.coinCode}
+                  />
                 </CardContent>
               </Card>
             </Grid>
@@ -397,9 +491,9 @@ class Chart extends Component {
                       }}
                     />
                     {/* </Paper> */}
-                    <button onClick={this._minButtonClick}>min</button>
-                    <button onClick={this._hourButtonClick}>hour</button>
-                    <button onClick={this._dayButtonClick}>day</button>
+                    <button className={classes.timeIntervalButtons} onClick={this._minButtonClick}>min</button>
+                    <button className={classes.timeIntervalButtons} onClick={this._hourButtonClick}>hour</button>
+                    <button className={classes.timeIntervalButtons} onClick={this._dayButtonClick}>day</button>
                     <div className={classes.buySellButton}>
                       <CardActions className={classes.sellorbuy}>
                         <TextField
@@ -434,6 +528,8 @@ class Chart extends Component {
             </Grid>
           </Grid>
         </div>
+        {this._alertDialog()}
+        {/* {this._successSnacknar()} */}
       </div>
     );
   }
