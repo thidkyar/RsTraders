@@ -223,6 +223,7 @@ class UserSettings extends Component {
                                         label="Email"
                                         id="email"
                                         onChange={this.onChangeEmail}
+                                        style={{width:'16em'}}
                                     />
                                     <br /><br />
                                     <Button style={{align: 'right'}}
@@ -246,7 +247,8 @@ class UserSettings extends Component {
                                     <TextField
                                         label="Phone Number"
                                         id="phone"
-                                        onChange={this.onPhoneChange} />
+                                        onChange={this.onPhoneChange} 
+                                        style={{width:'16em'}}/>
                                     <br /><br />
                                     <Button style={{align: 'right'}}
                                         variant="outlined"
@@ -254,8 +256,6 @@ class UserSettings extends Component {
                                         color="primary"
                                     >Update</Button>
                                 </form>
-                                {/* <br /> */}
-                                <hr />
                             </Typography>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
@@ -279,14 +279,12 @@ class UserSettings extends Component {
                                         id="new_pwd"
                                         onChange={this.onChangePassword} />
                                     {"                   "}
-                                    {/* <br /> */}
                                     <TextField
                                         label="Confirm Password"
                                         type="password"
                                         id="rep_pwd"
                                         onChange={this.onChangePassword} />
-                                    <br />
-                                    <br />
+                                    <br /><br />
                                     <Button style={{align: 'right'}}
                                         variant="outlined"
                                         type="Submit"
@@ -445,8 +443,5 @@ class UserSettings extends Component {
 UserSettings.propTypes = {
     classes: PropTypes.object.isRequired
 };
-
-//   export default withStyles(styles)(NavBar);
-
 
 export default withStyles(styles)(UserSettings);
