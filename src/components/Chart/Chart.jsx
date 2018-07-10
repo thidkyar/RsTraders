@@ -1,6 +1,6 @@
 //React components
 import React, { Component } from "react";
-import CoinmarketAPI from "../CoinmarketAPI/CoinmarketAPI.jsx"
+import CoinmarketAPI from "../CoinmarketAPI/CoinmarketAPI.jsx";
 //Chartjs Components
 import { Bar, Line, Pie, Area } from "react-chartjs-2";
 import "./Chart.css";
@@ -19,12 +19,14 @@ import { TextField } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Draggable from "react-draggable";
 
+
 const styles = {
   card: {
     maxWidth: "100%",
     margin: "0 auto",
     float: "none",
-    marginBbottom: "10px"
+    marginBbottom: "10px",
+
   },
   media: {
     height: 0,
@@ -46,7 +48,10 @@ const styles = {
     maxWidth: "95%",
     marginLeft: "34px",
     marginTop: "30px"
-  }
+  },
+  // chartDetails: {
+  //   back
+  // }
 };
 
 class Chart extends Component {
@@ -226,7 +231,7 @@ class Chart extends Component {
       );
     }
   };
-
+ 
   //event handler to create sell transaction in blockchain
   _onSellButtonClick = e => {
     const marketValue = this.state.data.datasets[0].data.slice(-1)[0];
@@ -322,16 +327,15 @@ class Chart extends Component {
     const { classes } = this.props;
     console.log("this", this.state.numberOfContracts);
     const balance = this.state.userBalance.toLocaleString();
+
     return (
-      <div>
+      <div style={{height:'100%'}}>
         <div className={classes.allChartsGrid}>
-          <Grid container spacing={24}>
+          <Grid container spacing={28}>
             <Grid item xs={6} sm={3}>
-              <Card>
-                <CardContent>
-                  <Typography>
-                    <CoinmarketAPI />
-                  </Typography>
+              <Card className={classes.chartDetails} style={{height:'100%'}}>
+                <CardContent style={{height: '100%'}}>
+                    <CoinmarketAPI coinCode={this.props.coinCode} />
                 </CardContent>
               </Card>
             </Grid>
@@ -415,10 +419,6 @@ class Chart extends Component {
                       </CardActions>
                     </div>
                   </div>
-                  <Typography gutterBottom variant="headline" component="h2">
-                    {this.props.coinCode}
-                  </Typography>
-
                   <Typography component="p" />
                 </CardContent>
               </Card>

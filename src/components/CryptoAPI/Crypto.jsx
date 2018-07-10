@@ -45,18 +45,8 @@ class Crypto extends Component {
     super(props);
     this.state = {
       coins: [],
-      anchorEl: null
     };
   }
-
-  //MenuItem handlers
-  handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
 
   componentDidMount() {
     //API to GET all cryptocurrency tickers
@@ -75,7 +65,6 @@ class Crypto extends Component {
   render() {
     const { classes } = this.props;
     console.log('this.state.coins', this.state.coins)
-    const { anchorEl } = this.state;
     return (
       <div className="Crypto-Ticker" style={{ padding: 20 }}>
         <Grid container >
