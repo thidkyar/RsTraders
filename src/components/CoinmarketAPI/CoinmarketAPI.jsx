@@ -8,6 +8,9 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import Button from "@material-ui/core/Button";
+import { TextField } from "@material-ui/core";
+
 
 const styles = theme => ({
   root: {
@@ -30,20 +33,26 @@ const styles = theme => ({
     boxShadow: "none",
     boxSizing: "border-box",
     borderRadius: "0",
-    color: 'white',
+    color: "white",
     backgroundColor: "#ffffff00",
-    textAlign: 'center'
+    textAlign: "center"
   },
   priceDetail: {
-    textAlign: 'center',
-    borderStyle: 'solid',
-    borderColor: 'rgb(94, 110, 138)',
-    borderRadius: '5px',
-    marginBottom: '5px',
-    boxShadow: '0px 3px 10px 0px #000'
+    textAlign: "center",
+    borderStyle: "solid",
+    borderColor: "rgb(94, 110, 138)",
+    borderRadius: "5px",
+    marginBottom: "5px",
+    boxShadow: "0px 3px 10px 0px #000"
   },
   fullGrid: {
-    padding: '19px'
+    padding: "19px"
+  },
+  contractInput: {
+    width: "15%",
+    marginLeft: "20px",
+    textAlign: 'center',
+    padding: "5px"
   }
 });
 
@@ -80,26 +89,115 @@ class CoinmarketAPI extends Component {
       return (
         <div className={classes.chartDetails}>
           <Card className={classes.detailsCard}>
-            <Grid className={classes.fullGrid} style={{padding: '18px'}} container spacing={24}>
+            <Grid
+              className={classes.fullGrid}
+              style={{ padding: "18px" }}
+              container
+              spacing={24}
+            >
               <Grid className={classes.priceDetail} item xs={6} sm={12}>
-                <div style={{textAlign: 'left', padding: '0', color: 'rgb(94, 110, 138)'}} className="title">Current Price</div>
-                <Paper className={classes.paper}>$ {coin.quotes.USD.price} USD</Paper>
+                <div
+                  style={{
+                    textAlign: "left",
+                    padding: "0",
+                    color: "rgb(94, 110, 138)"
+                  }}
+                  className="title"
+                >
+                  Price (24h)
+                </div>
+                <Paper className={classes.paper}>
+                  $ {coin.quotes.USD.price} USD
+                </Paper>
               </Grid>
               <Grid item xs={6} sm={6}>
-                <div style={{textAlign: 'center', padding: '0', color: 'rgb(94, 110, 138)'}} className="title">Volume (24h)</div>
-                <Paper className={classes.paper}>$ {coin.quotes.USD.volume_24h.toLocaleString()}</Paper>
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "0",
+                    color: "rgb(94, 110, 138)"
+                  }}
+                  className="title"
+                >
+                  Max Supply
+                </div>
+                {coin.max_supply ? (
+                  <Paper className={classes.paper}>
+                    {coin.max_supply.toLocaleString()}
+                  </Paper>
+                ) : (
+                  <Paper className={classes.paper}>N/A</Paper>
+                )}
               </Grid>
               <Grid item xs={6} sm={6}>
-                <div style={{textAlign: 'center', padding: '0', color: 'rgb(94, 110, 138)'}} className="title">Market Cap</div>
-                <Paper className={classes.paper}>{coin.quotes.USD.market_cap}</Paper>
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "0",
+                    color: "rgb(94, 110, 138)"
+                  }}
+                  className="title"
+                >
+                  Market Cap
+                </div>
+                <Paper className={classes.paper}>
+                  {coin.quotes.USD.market_cap.toLocaleString()}
+                </Paper>
               </Grid>
               <Grid className={classes.priceDetail} item xs={6} sm={12}>
-                <div style={{textAlign: 'center', padding: '0', color: 'rgb(94, 110, 138)'}} className="title">Max Supply</div>
-                <Paper className={classes.paper}>{coin.max_supply}</Paper>
+                <div
+                  style={{
+                    textAlign: "center",
+                    padding: "0",
+                    color: "rgb(94, 110, 138)"
+                  }}
+                  className="title"
+                >
+                  Volume (24h)
+                </div>
+                <Paper className={classes.paper}>
+                  ${coin.quotes.USD.volume_24h.toLocaleString()}
+                </Paper>
               </Grid>
             </Grid>
-            <h1 style={{fontSize: '5vw', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textAlign: 'center', opacity: '0.1', fontWeight: '300', padding: '0', margin: '0'}} className="coin-name">{coin.name}</h1>
+            <h1
+              style={{
+                fontSize: "5vw",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                textAlign: "center",
+                opacity: "0.1",
+                fontWeight: "300",
+                padding: "0",
+                margin: "0"
+              }}
+              className="coin-name"
+            >
+              {coin.name}
+            </h1>
           </Card>
+          <Button
+            onClick={this.props.buyButton}
+            variant="contained"
+            color="primary"
+          >
+            Buy
+          </Button>
+          <input
+            className={classes.contractInput}
+            onChange={this.props.getContracts}
+            // label="Number"
+          >
+          </input>
+          <Button
+            style={{ float: "right" }}
+            onClick={this.props.sellButton}
+            variant="contained"
+            color="primary"
+          >
+            Sell
+          </Button>
         </div>
       );
     });
@@ -108,7 +206,11 @@ class CoinmarketAPI extends Component {
 
   render() {
     const { classes } = this.props;
-    return <div style={{ height: "100%" , height: '93.5%'}}>{this._renderDataFromApi()}</div>;
+    return (
+      <div style={{ height: "100%", height: "93.5%" }}>
+        {this._renderDataFromApi()}
+      </div>
+    );
   }
 }
 

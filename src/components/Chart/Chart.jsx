@@ -38,9 +38,9 @@ const styles = {
   buySellButton: {
     float: "right"
   },
-  contractInput: {
-    width: "15%"
-  },
+  // contractInput: {
+  //   width: "15%"
+  // },
   sellorbuy: {
     marginRight: "-138px"
   },
@@ -335,7 +335,7 @@ class Chart extends Component {
             <Grid item xs={6} sm={3}>
               <Card className={classes.chartDetails} style={{height:'100%'}}>
                 <CardContent style={{height: '100%'}}>
-                    <CoinmarketAPI coinCode={this.props.coinCode} />
+                    <CoinmarketAPI getContracts={this._getNumberOfContracts} sellButton={this._onSellButtonClick} buyButton={this._onBuyButtonClick} coinCode={this.props.coinCode} />
                 </CardContent>
               </Card>
             </Grid>
@@ -400,22 +400,22 @@ class Chart extends Component {
                         >
                           {" "}
                         </TextField>
-                        <Button
+                        {/* <Button
                           onClick={this._onBuyButtonClick}
                           variant="contained"
                           color="primary"
                         >
                           Buy
-                        </Button>
+                        </Button> */}
                         {/* </div> */}
-                        <br />
-                        <Button
+                        {/* <br /> */}
+                        {/* <Button
                           onClick={this._onSellButtonClick}
                           variant="contained"
                           color="primary"
                         >
                           Sell
-                        </Button>
+                        </Button> */}
                       </CardActions>
                     </div>
                   </div>
