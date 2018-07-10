@@ -49,16 +49,7 @@ const styles = {
   toolBar: {
     textAlign: "right"
   },
-  stripeButton: {
-    boxShadow: 'none',
-    fontSize: '12px',
-    padding: '0',
-    color: 'white',
-    backgroundColor: '#1A273A',
-    '&:hover': {
-      backgroundColor: '#23324A'
-    }
-  },
+
   stripeTitle: {
     background: '#273954',
     color: 'white',
@@ -167,14 +158,12 @@ class NavBar extends Component {
           >
             <AccountCircle />
           </IconButton>
-
-
-          {/* <Button component={Link} to="/stripe" className={classes.stripeButton}
-           variant='contained' onClick={this.handleClickOpen}>
-            Buy RST
-          </Button> */}
-
-          <Button className={classes.stripeButton} onClick={this.handleRSTClickOpen}>Buy RST</Button>
+          <Button
+            onClick={this.handleRSTClickOpen}
+            className={classes.button}
+            color="inherit"
+          >Buy RST
+          </Button>
         <Dialog
           open={this.state.open}
           onClose={this.handleRSTClose}
