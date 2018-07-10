@@ -4,8 +4,40 @@ import React, { Component } from "react";
 import StripeCheckout from "react-stripe-checkout";
 import Button from "@material-ui/core/Button";
 import { TextField } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import { createMuiTheme } from '@material-ui/core/styles';
 
 // import './stripe.css';
+
+const theme = createMuiTheme({
+  // palette: {
+  //   primary: 'blue',
+  // },
+  overrides: {
+    MuiButton: {
+      raisedPrimary: {
+        color: 'blue',
+      },
+    },
+  }
+});
+
+const styles = {
+
+  stripeBox: {
+    height: '14em',
+    textAlign: 'center'
+  },
+
+  overrides: {
+    MuiButton: {
+      raisedPrimary: {
+        color: 'blue',
+      },
+    },
+  }
+
+};
 
 class Stripe extends Component {
   constructor(props) {
@@ -75,30 +107,34 @@ class Stripe extends Component {
   // ...
 
   render() {
+    const { classes } = this.props;
     const amount = (this.state.amount).toLocaleString()
     console.log('thisone', this.state.amount)
     return (
-      <div>
-      <h3> Your Current Balance RST:{amount}</h3>
-      <p> *** $1 USD = 1000 RST ***</p>
+      <div className={classes.stripeBox}>
+      <h3>Your Current Balance RST:{amount}</h3>
+      <p>$1 USD = 1000 RST</p>
       <TextField
               onChange={this._onChange}
               label="Amount"
               name="amount"
               required
             />
+            <br/>
         <StripeCheckout
           token={this.onToken}
           amount={this.state.inputAmount}
           stripeKey="pk_test_NVd8TEc4qgjRVVYTUiyMQx6c"
-        >
-          <Button variant="contained" color="primary">
-            Buy Coins
-          </Button>
+        ><br/>
+          <Button 
+              variant="outlined"
+              type="Submit"
+              color="primary"
+          >Buy Coins</Button>
         </StripeCheckout>
       </div>
     );
   }
 }
 
-export default Stripe;
+export default withStyles(styles)(Stripe);

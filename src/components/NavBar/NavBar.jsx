@@ -19,6 +19,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Divider from "@material-ui/core/Divider";
 
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Stripe from '../Stripe/Stripe.jsx'
+
 import "./NavBar.css";
 
 const styles = {
@@ -43,16 +51,22 @@ const styles = {
   },
   stripeButton: {
     boxShadow: 'none',
-    fontSize: '10px',
+    fontSize: '12px',
     padding: '0',
     color: 'white',
     backgroundColor: '#1A273A',
     '&:hover': {
       backgroundColor: '#23324A'
     }
+  },
+  stripeTitle: {
+    background: '#273954',
+    color: 'white',
+    width: '30em',
+    height: '4em',
+    textAlign: 'center'
   }
 };
-
 
 class NavBar extends Component {
   constructor(props) {
@@ -74,6 +88,15 @@ class NavBar extends Component {
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
+
+  handleRSTClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleRSTClose = () => {
+    this.setState({ open: false });
+  };
+  
   _onSubmit = e => {
     e.preventDefault();
     fetch("/api/users/logout", {
@@ -144,9 +167,27 @@ class NavBar extends Component {
           >
             <AccountCircle />
           </IconButton>
-          <Button component={Link} to="/stripe" className={classes.stripeButton} variant='contained' onClick={this.handleClickOpen}>
+
+
+          {/* <Button component={Link} to="/stripe" className={classes.stripeButton}
+           variant='contained' onClick={this.handleClickOpen}>
             Buy RST
-          </Button>
+          </Button> */}
+
+          <Button className={classes.stripeButton} onClick={this.handleRSTClickOpen}>Buy RST</Button>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleRSTClose}
+          aria-labelledby="form-dialog-title"
+        >
+        <DialogTitle style={{color:'white'}}className={classes.stripeTitle} id="form-dialog-title">
+        <span style={{color: 'white', fontSize:'32px'}}>Buy RST Coins</span></DialogTitle>
+
+        <Stripe className={classes.stripeBox}/>
+
+        </Dialog>
+
+
         </div>
       );
     } else {
