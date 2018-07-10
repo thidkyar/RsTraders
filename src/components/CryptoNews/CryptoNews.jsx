@@ -14,22 +14,22 @@ import { CardContent } from '@material-ui/core';
 
 const styles = theme => ({
     title: {
-      color: 'white',
+        color: 'white',
     }
-  });
+});
 
-  
+
 class CryptoNews extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      news: []
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            news: []
+        };
+    }
 
     componentDidMount() {
         //News Scroller API
-        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=100&from=today&sources=google-news,bbc-news,engadget,financial-post,mashable,reuters,techcrunch,the-wall-street-journal,time,wired,the-huffington-post,cbc-news,bloomberg,cnn,the-globe-and-mail,ars-technica,business-insider&sortBy=publishedAt&Language=en&apiKey=39814515319242c8949940cc311d0121";
+        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=100&from=today&sources=google-news,bbc-news,engadget,financial-post,mashable,reuters,techcrunch,the-wall-street-journal,time,wired,the-huffington-post,cbc-news,bloomberg,cnn,the-globe-and-mail,ars-technica,business-insider&sortBy=popularity&Language=en&apiKey=39814515319242c8949940cc311d0121";
 
         fetch(url)
             .then(res => res.json())
@@ -51,42 +51,41 @@ class CryptoNews extends Component {
                         title="News"
                         classes={{
                             title: classes.title,
-                          }}
+                        }}
                         titleColor="white"
                         color="white"
                         textColor="white"
                         style={{
-                            background: '#273954',
+                            background: '#4C5B74',
                             border: 'bold',
-                            titleColor: 'white', 
-                            textColor:'white',
-                            color:'white'
+                            titleColor: 'white',
+                            textColor: 'white',
+                            color: 'white'
                         }}>
                     </CardHeader>
-                    <CardContent style={{height:'30em'}} >
-                    <marquee scrolldelay="200" height="500" direction="up" style={{ padding: '5%' }} >
-                        <table style={{ padding: '3%' }}>
-                            <thead>
-                            </thead>
-                            <tbody>
-                                {this.state.news.map((ner, n) => {
-                                    const url = ner.url;
-                                    return (
-                                        <tr key={n}>
-                                            <tr><a href={url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
+                    <CardContent style={{ height: '50em' }} >
+                        <marquee scrolldelay="200" height="800" direction="up" style={{ padding: '1%' }} >
+                            <table style={{ padding: '1%' }}>
+                                <thead>
+                                </thead>
+                                <tbody>
+                                    {this.state.news.map((ner, n) => {
+                                        const url = ner.url;
+                                        return (
+                                            <div>
+                                                    <tr><a href={url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
                                             <tr><a href={url} target="_blank"> <b>{ner.title}</b> </a><tr>
                                                 <tr><a href={url} target="_blank"><font size="2"> {ner.description}</font></a><br />
                                                 </tr>
                                                 <hr height='3px' />
-                                                <tr height='30%'></tr>
-                                            </tr>
-                                            </tr>
-                                        </tr>
-                                    )
-                                })}
+                                                </tr>
+                                                </tr>
+                                            </div>
+                                        )
+                                    })})
                             </tbody>
-                        </table>
-                    </marquee>
+                            </table>
+                        </marquee>
                     </CardContent>
                 </Card>
             </div>
