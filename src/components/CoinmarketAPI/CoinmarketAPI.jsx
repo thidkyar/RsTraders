@@ -189,16 +189,16 @@ class CoinmarketAPI extends Component {
           >
             Buy
           </Button>
-          <button id="+" style={{marginLeft: '13px'}} onClick={this.props.incrementFunction}>
-            +
+          <button id="-" style={{marginLeft: '13px'}} onClick={this.props.incrementFunction}>
+            -
           </button>
           <input
             className={classes.contractInput}
             onChange={this.props.getContracts}
             value={this.props.numContracts}
           />
-          <button id="-" onClick={this.props.incrementFunction}>
-            -
+          <button id="+"  onClick={this.props.incrementFunction}>
+            +
           </button>
           <Button
             className={classes.sellButton}

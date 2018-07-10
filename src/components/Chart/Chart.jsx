@@ -37,6 +37,7 @@ const styles = theme => ({
   },
   chart: {
     // padding: 0
+    height: '100%'
   },
   buySellButton: {
     float: "right"
@@ -160,17 +161,17 @@ class Chart extends Component {
           const closeTime = x.close;
           const highTime = x.high;
           const lowTime = x.low;
-          const theTime = new Date(time * 1000).toLocaleDateString();
+          // const theTime = new Date(time * 1000).toLocaleTimeString();
           //convert epoch time to readable time
-          //   if (arg === 'date'){
-          //   const theTime = new Date(time * 1000).toLocaleDateString();
-          //   timeData.push(theTime);
-          // } else {
-          //   const theTime = new Date(time * 1000).toLocaleTimeString();
-          //   timeData.push(theTime);
-          //   }
+            if (arg === 'date'){
+            const theTime = new Date(time * 1000).toLocaleDateString();
+            timeData.push(theTime);
+          } else {
+            const theTime = new Date(time * 1000).toLocaleTimeString();
+            timeData.push(theTime);
+            }
           //push items to set arrays
-          timeData.push(theTime);
+          // timeData.push(theTime);
           costCloseData.push(closeTime);
           costHighData.push(highTime);
           costLowData.push(lowTime);
@@ -393,22 +394,21 @@ class Chart extends Component {
   _minButtonClick = e => {
     const { coinCode } = this.props;
     const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=USD&limit=100`;
-    this.setState({ url: url });
-    this._setChartState("time");
+    this.setState({ url: url }, () => {this._setChartState("time")});
   };
 
   _hourButtonClick = e => {
     const { coinCode } = this.props;
     const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=USD&limit=100`;
-    this.setState({ url: url });
-    this._setChartState("time");
+    this.setState({ url: url }, () => {this._setChartState("time")});
+
   };
 
   _dayButtonClick = e => {
     const { coinCode } = this.props;
     const url = `https://min-api.cryptocompare.com/data/histoday?fsym=${coinCode}&tsym=USD&limit=100`;
-    this.setState({ url: url });
-    this._setChartState("date");
+    this.setState({ url: url }, () => {this._setChartState("date")});
+
   };
 
   _numberIncrement = e => {
@@ -443,12 +443,12 @@ class Chart extends Component {
               </Card>
             </Grid>
             <Grid item xs={6} sm={9}>
-              <Card className={classes.card}>
+              <Card style={{height: '100%'}}className={classes.card}>
                 <CardContent className={classes.chart}>
                   <div className="chart" draggable="true">
                     <Line
                       data={this.state.data}
-                      width={100}
+                      // width={100}
                       height={300}
                       options={{
                         title: {
@@ -487,7 +487,8 @@ class Chart extends Component {
                             }
                           ]
                         },
-                        maintainAspectRatio: false
+                        maintainAspectRatio: false,
+                        // responsive: true
                       }}
                     />
                     {/* </Paper> */}
@@ -496,13 +497,6 @@ class Chart extends Component {
                     <button className={classes.timeIntervalButtons} onClick={this._dayButtonClick}>day</button>
                     <div className={classes.buySellButton}>
                       <CardActions className={classes.sellorbuy}>
-                        <TextField
-                          className={classes.contractInput}
-                          onChange={this._getNumberOfContracts}
-                          // label="Number"
-                        >
-                          {" "}
-                        </TextField>
                         {/* <Button
                           onClick={this._onBuyButtonClick}
                           variant="contained"

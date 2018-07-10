@@ -11,10 +11,13 @@ import CardContent from "@material-ui/core/CardContent";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Typography from "@material-ui/core/Typography";
 import { TextField } from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    backgroundColor: '#273954',
+    boxShadow: 'none'
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -45,11 +48,10 @@ class Favourites extends Component {
       currentRank: 1,
       favCount: 0,
       coinCodes: [],
-      search: ''
+      search: ""
     };
   }
 
-  
   callFromApi = () => {
     const url =
       "https://api.coinmarketcap.com/v2/ticker/?convert=CAD&limit=500&sort=rank&structure=array";
@@ -143,9 +145,9 @@ class Favourites extends Component {
     });
   };
 
-  _updateSearch = (event) => {
-    this.setState({search: event.target.value.substr(0,20)})
-  }
+  _updateSearch = event => {
+    this.setState({ search: event.target.value.substr(0, 20) });
+  };
 
   componentDidMount() {
     this._getFavorites();
@@ -155,17 +157,36 @@ class Favourites extends Component {
     const { classes } = this.props;
     // console.log("check this", this.state.favCoins);
     const numberOfCoins = this.state.coinCodes;
-    let filteredFavorites = this.state.coins.filter(
-      (coin) => {
-        return ((coin.name).toLowerCase().includes(this.state.search.toLowerCase())) || ((coin.symbol).toLowerCase().includes(this.state.search.toLowerCase()))
-      }
-    )
-    console.log(filteredFavorites)
+    let filteredFavorites = this.state.coins.filter(coin => {
+      return (
+        coin.name.toLowerCase().includes(this.state.search.toLowerCase()) ||
+        coin.symbol.toLowerCase().includes(this.state.search.toLowerCase())
+      );
+    });
+    console.log(filteredFavorites);
     return (
-      <div style={{textAlign: 'center'}}>
+      <div style={{ textAlign: "center" }}>
         <h1>Select your Favourite Crypto's!</h1>
         <h3>You have {numberOfCoins.length} favorites </h3>
-        <div style={{marginBottom: '20px'}}>
+        {this.state.coinCodes.map(coin => {
+          return (
+                <Button
+                  id={coin}
+                  variant="contained"
+                  color="secondary"
+                  className={classes.button}
+                  onClick={this._deleteFavorites}
+                >
+                  {coin}
+                  <DeleteIcon
+                    id={coin}
+                    onClick={this._deleteFavorites}
+                    className={classes.rightIcon}
+                  />
+                </Button>
+          );
+        })}
+        <div style={{ marginBottom: "20px" }}>
           <TextField
             className={classes.searchBar}
             type="text"
@@ -197,31 +218,6 @@ class Favourites extends Component {
         })}
         <hr />
 
-        <h1> Favourites </h1>
-        {this.state.coinCodes.map(coin => {
-          return (
-            <div>
-              <Button
-                id={coin}
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                onClick={this._deleteFavorites}
-              >
-                {coin}
-                <DeleteIcon
-                  id={coin}
-                  onClick={this._deleteFavorites}
-                  className={classes.rightIcon}
-                />
-              </Button>
-              {/* <button id={coin} onClick={this._deleteFavorites}>
-                {" "}
-                Delete{" "}
-              </button> */}
-            </div>
-          );
-        })}
         <br />
         <br />
         <br />
