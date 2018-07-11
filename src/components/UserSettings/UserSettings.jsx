@@ -204,68 +204,70 @@ class UserSettings extends Component {
             <div id="set" className="user-settings">
                 <div className={classes.root}>
                     <ExpansionPanel>
-                        <ExpansionPanelSummary style={{color:'white'}}expandIcon={<ExpandMoreIcon className={classes.icon}/>} className={classes.top} >
-                            {/* <Typography variant="title" className={classes.heading}>Change Email Address</Typography> */}
+                        <ExpansionPanelSummary style={{ color: 'white' }} expandIcon={<ExpandMoreIcon className={classes.icon} />} className={classes.top} >
                             <Typography className={classes.secondaryHeading}
-                            style={{
-                                width:'100%'
-                            }}> Update Email Address</Typography>
+                                style={{
+                                    width: '100%'
+                                }}> Update Email Address</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Typography>
-                                <form id="update-email" onSubmit={this.onSubmitEmail}>
-                                    <span><h3> Current Email Address: </h3><h4>{this.state.email}</h4></span>
+                            <Typography
+                                style={{ width: '100%' }}                            >
+                                <form id="update-email" onSubmit={this.onSubmitEmail} width='100%'>
+                                    <span><h4> Current Email Address: {this.state.email}</h4></span>
                                     <TextField
-                                        label="Email"
+                                        label="Email Address"
                                         id="email"
                                         onChange={this.onChangeEmail}
-                                        style={{width:'16em'}}
+                                        style={{ width: '16em', maxLength: "20"  }}
                                     />
-                                    <br /><br />
-                                    <Button style={{align: 'right'}}
-                                        variant="outlined"
-                                        type="Submit"
-                                        color="primary"
-                                    >Update</Button>
+                                    
+                                    <Button 
+                                    style={{ float: 'right' }}
+                                    variant="outlined"
+                                    type="Submit"
+                                    color="primary">Update</Button>
                                 </form>
                             </Typography>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel>
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.icon}/>} className={classes.top}>
-                            <Typography className={classes.secondaryHeading} style={{
-                                width:'100%'
-                            }}> Update Phone Number</Typography>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.icon} />} className={classes.top}>
+                            <Typography className={classes.secondaryHeading}
+                                style={{width: '100%'}}> 
+                                Update Phone Number</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Typography>
-                                <form className="phone-number" onSubmit={this.onSubmitPhone}>
-                                    <label> Current Phone Number: {this.state.phone}</label>
-                                    <br /><br />
+                            <Typography
+                            style={{ width: '100%' }}>
+                                <form className="phone-number"
+                                    width= '100%'
+                                    onSubmit={this.onSubmitPhone}>
+                                    <span><h4> Current Phone Number: {this.state.phone}</h4> </span>
                                     <TextField
                                         label="Phone Number"
                                         id="phone"
-                                        onChange={this.onPhoneChange} 
-                                        style={{width:'16em'}}/>
-                                    <br /><br />
-                                    <Button style={{align: 'right'}}
-                                        variant="outlined"
-                                        type="Submit"
-                                        color="primary"
-                                    >Update</Button>
+                                        onChange={this.onPhoneChange}
+                                        style={{ width: '16em', maxLength: "20" }} />
+                                    <Button 
+                                    style={{ float: 'right' }}
+                                    variant="outlined"
+                                    type="Submit"
+                                    color="primary">Update</Button>
                                 </form>
                             </Typography>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel >
-                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.icon}/>} className={classes.top} >
-                            <Typography className={classes.secondaryHeading} 
-                            style={{
-                                width:'100%'
-                            }}> Change Password</Typography>
+                        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon className={classes.icon} />} className={classes.top} >
+                            <Typography className={classes.secondaryHeading}
+                                style={{
+                                    width: '100%'
+                                }}> Change Password</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails >
-                            <Typography>
+                            <Typography 
+                            style={{ width: '100%' }}>
                                 <form className="password-change" onSubmit={this.onSubmitPassword}>
                                     <br />
                                     <TextField
@@ -286,11 +288,13 @@ class UserSettings extends Component {
                                         id="rep_pwd"
                                         onChange={this.onChangePassword} />
                                     <br /><br />
-                                    <Button style={{align: 'right'}}
-                                        variant="outlined"
-                                        type="Submit"
-                                        color="primary"
-                                    >Save</Button>
+                                    <span align="right">
+                                        <Button style={{ float: 'right' }}
+                                            variant="outlined"
+                                            type="Submit"
+                                            color="primary"
+                                        >Save</Button>
+                                    </span>
                                 </form>
                             </Typography>
                         </ExpansionPanelDetails>
