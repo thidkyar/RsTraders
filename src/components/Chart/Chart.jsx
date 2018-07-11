@@ -393,13 +393,13 @@ class Chart extends Component {
 
   _minButtonClick = e => {
     const { coinCode } = this.props;
-    const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=USD&limit=100`;
+    const url = `https://min-api.cryptocompare.com/data/histominute?fsym=${coinCode}&tsym=USD&limit=48`;
     this.setState({ url: url }, () => {this._setChartState("time")});
   };
 
   _hourButtonClick = e => {
     const { coinCode } = this.props;
-    const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=USD&limit=100`;
+    const url = `https://min-api.cryptocompare.com/data/histohour?fsym=${coinCode}&tsym=USD&limit=24`;
     this.setState({ url: url }, () => {this._setChartState("time")});
 
   };
