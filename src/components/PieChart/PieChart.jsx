@@ -21,7 +21,7 @@ class PieChart extends Component {
         const returnedObj = data.message.amountTotal;
         const coinName = Object.keys(data.message.amountTotal).slice(1);
         const coinTotal = Object.values(data.message.amountTotal).slice(1);
-        // console.log("COIN NAMES" + Object.keys(data.message.amountTotal) + "\n" + "SLICED COIN NAMES " + Object.keys(data.message.amountTotal).slice(1))
+        console.log("COIN NAMES" + Object.keys(data.message.amountTotal) + "\n" + "SLICED COIN NAMES " + Object.keys(data.message.amountTotal).slice(1))
 
         
 coinName.forEach(x => {
@@ -80,6 +80,7 @@ this.setState({
       <div>
         <Doughnut
           data={this.state.data}
+          settings={{padding:'10'}}
         />
       </div>
     );

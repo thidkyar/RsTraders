@@ -1,6 +1,6 @@
 //REACT COMPONENTS
 import React, { Component } from 'react';
- 
+
 //MATERIAL-UI
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -64,20 +64,20 @@ class CryptoNews extends Component {
                         }}>
                     </CardHeader>
                     <CardContent style={{ height: '38em' }} >
-                        <marquee scrolldelay="200" height="600" direction="up" style={{ padding: '1%' }} >
+                        <marquee scrolldelay="100" height="600" direction="up" style={{ padding: '1%' }} >
                             <table style={{ padding: '1%' }}>
                                 <thead>
                                 </thead>
                                 <tbody>
-                                    {this.state.news.map((ner, n) => {
-                                        const url = ner.url;
+                                    {this.state.news.map((ner) => {
+                                        // const url = ner.url;
                                         return (
                                             <div>
-                                                    <tr><a href={url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
-                                            <tr><a href={url} target="_blank"> <b>{ner.title}</b> </a><tr>
-                                                <tr><a href={url} target="_blank"><font size="2"> {ner.description}</font></a><br />
-                                                </tr>
-                                                <hr height='3px' />
+                                                <tr><a href={ner.url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
+                                                <tr><a href={ner.url} target="_blank"> <b>{ner.title}</b> </a><tr>
+                                                    <tr><a href={ner.url} target="_blank"><font size="2"> {ner.description}</font></a><br />
+                                                    </tr>
+                                                    <hr height='3px' />
                                                 </tr>
                                                 </tr>
                                             </div>
