@@ -53,10 +53,12 @@ const styles = theme => ({
     padding: "5px"
   },
   buyButton: {
-    backgroundColor: "#273954"
+    backgroundColor: "#273954",
+    float: 'left'
   },
   sellButton: {
-    backgroundColor: "#BB4D46"
+    backgroundColor: "#BB4D46",
+    float: 'right'
   }
 });
 
@@ -181,6 +183,7 @@ class CoinmarketAPI extends Component {
               {coin.name}
             </h1>
           </Card>
+          <div style={{textAlign: 'center', verticalAlign: 'center'}}>
           <Button
             className={classes.buyButton}
             onClick={this.props.buyButton}
@@ -209,6 +212,7 @@ class CoinmarketAPI extends Component {
           >
             Sell
           </Button>
+          </div>
         </div>
       );
     });
