@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Pie, Polar, Doughnut } from "react-chartjs-2";
+import { Doughnut } from "react-chartjs-2";
 
 class PieChart extends Component {
   constructor(props) {
@@ -19,28 +19,25 @@ class PieChart extends Component {
       .then(res => res.json())
       .then(data => {
         const returnedObj = data.message.amountTotal;
-        // console.log("***********", data);
-        const coinName = Object.keys(data.message.amountTotal);
-        console.log("***********", coinName);
-        const coinTotal = Object.values(data.message.amountTotal);
-        // console.log("*********", coinTotal)
+        const coinName = Object.keys(data.message.amountTotal).slice(1);
+        const coinTotal = Object.values(data.message.amountTotal).slice(1);
+        console.log("COIN NAMES" + Object.keys(data.message.amountTotal) + "\n" + "SLICED COIN NAMES " + Object.keys(data.message.amountTotal).slice(1))
+
         
-console.log("RETURNED", returnedObj);
 coinName.forEach(x => {
   coinN.push(x);
 })
 coinTotal.forEach(x =>{
   coinAmount.push(x);
 })
-coinName.forEach(x =>{
-  coinTotal.push(x);
-})
+// coinName.forEach(x =>{
+//   coinTotal.push(x);
+// })
 
 this.setState({
   data: {
     labels: coinN,
     datasets: [{
-      // label: '# of Votes',
       data: coinAmount,
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
@@ -72,7 +69,6 @@ this.setState({
 
   }
 })
-console.log("XXXXXXXX",coinN);
 });
         
   }
@@ -84,6 +80,7 @@ console.log("XXXXXXXX",coinN);
       <div>
         <Doughnut
           data={this.state.data}
+          settings={{padding:'10'}}
         />
       </div>
     );

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "@reach/router";
+// import Marquee from "react-smooth-marquee"
+import Marquee from 'react-text-marquee';
+
 
 //Material UI components
 import PropTypes from "prop-types";
@@ -201,6 +204,10 @@ class NavBar extends Component {
     return (
       <div>
         <div className="marquee">
+        {/* <Marquee text="Wow this is really quite a long message but it can be handled by this component just fine" /> */}
+
+
+
           <marquee scrolldelay="200" className="coin-container">
             {this.state.coins.map((coin, c) => {
               const coinage = coin.quotes.CAD.percent_change_24h;

@@ -25,9 +25,10 @@ import UserSettings from "../UserSettings/UserSettings.jsx";
 const styles = theme => ({
   title: {
     color: 'white',
+    textAlign: 'center'
   },
   card2: {
-    maxWidth: 1000,
+    maxWidth: '100%',
   },
   cardTop: {
     padding: '4px 2px 4px 48px',
@@ -155,23 +156,12 @@ class Profile extends Component {
           <Grid item xs={4} style={{ paddingLeft: '1%', paddingTop: '1.3%' }} >
             <Paper className={classes.paper} settings={{ padding: '4%' }}>
               <Card className={classes.card} >
-                {/* <CardHeader className={classes.wallet}
-                  title="Wallet"
-                  textAlign= 'center'
-                />
-                <br /> */}
-              {/* <Divider light /> */}
-              {/* <br /> */}
                 <CardMedia>
                   <PieChart />
                 </CardMedia>
                 <CardContent>
-                  <Typography gutterBottom variant="headline" component="h2">
-                    User: {this.state.first_name} {this.state.last_name}
-                  </Typography>
-                  <Typography component="p">
-                    Wallet: {this.state.amount} RST
-          </Typography>
+                  <Typography gutterBottom variant="headline" component="p"><h3>User: {this.state.first_name} {this.state.last_name}</h3></Typography>
+                  <Typography component="p"><h3> Wallet Balance: {this.state.amount} RST</h3></Typography>
                 </CardContent>
               </Card>
             </Paper>
@@ -182,8 +172,10 @@ class Profile extends Component {
           </Grid>
           <Grid item xs={8} style={{ paddingLeft: '1%', paddingRight: '1%', paddingTop: '1.3%' }}>
             <Paper className={classes.paper}>
-              <Card className={classes.card2}>
-                <CardHeader title='Balance'
+              <Card className={classes.card2}
+              width='100%'>
+                <CardHeader 
+                title='Balance'
                   classes={{ 
                     title: classes.title
                    }}

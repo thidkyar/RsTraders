@@ -1,6 +1,6 @@
 //REACT COMPONENTS
 import React, { Component } from 'react';
- 
+
 //MATERIAL-UI
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -29,7 +29,7 @@ class CryptoNews extends Component {
 
     componentDidMount() {
         //News Scroller API
-        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=100&from=today&sources=google-news,bbc-news,engadget,financial-post,mashable,reuters,techcrunch,the-wall-street-journal,time,wired,the-huffington-post,cbc-news,bloomberg,cnn,the-globe-and-mail,ars-technica,business-insider&sortBy=popularity&Language=en&apiKey=39814515319242c8949940cc311d0121";
+        const url = "https://newsapi.org/v2/everything?q=cryptocurrency&q=blockchain&pageSize=100&from=today&sources=google-news,bbc-news,financial-post,mashable,reuters,techcrunch,the-wall-street-journal,time,wired,the-huffington-post,cbc-news,bloomberg,cnn,the-globe-and-mail,ars-technica,business-insider&sortBy=popularity&Language=en&apiKey=39814515319242c8949940cc311d0121";
 
         fetch(url)
             .then(res => res.json())
@@ -56,28 +56,28 @@ class CryptoNews extends Component {
                         color="white"
                         textColor="white"
                         style={{
-                            background: '#4C5B74',
+                            background: '#273954',
                             border: 'bold',
                             titleColor: 'white',
                             textColor: 'white',
                             color: 'white'
                         }}>
                     </CardHeader>
-                    <CardContent style={{ height: '50em' }} >
-                        <marquee scrolldelay="200" height="800" direction="up" style={{ padding: '1%' }} >
+                    <CardContent style={{ height: '38em' }} >
+                        <marquee scrolldelay="100" height="600" direction="up" style={{ padding: '1%' }} >
                             <table style={{ padding: '1%' }}>
                                 <thead>
                                 </thead>
                                 <tbody>
-                                    {this.state.news.map((ner, n) => {
-                                        const url = ner.url;
+                                    {this.state.news.map((ner) => {
+                                        // const url = ner.url;
                                         return (
                                             <div>
-                                                    <tr><a href={url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
-                                            <tr><a href={url} target="_blank"> <b>{ner.title}</b> </a><tr>
-                                                <tr><a href={url} target="_blank"><font size="2"> {ner.description}</font></a><br />
-                                                </tr>
-                                                <hr height='3px' />
+                                                <tr><a href={ner.url} target="_blank"><img width='90%' align="center" height='auto' src={ner.urlToImage} /></a></tr>
+                                                <tr><a href={ner.url} target="_blank"> <b>{ner.title}</b> </a><tr>
+                                                    <tr><a href={ner.url} target="_blank"><font size="2"> {ner.description}</font></a><br />
+                                                    </tr>
+                                                    <hr height='3px' />
                                                 </tr>
                                                 </tr>
                                             </div>
