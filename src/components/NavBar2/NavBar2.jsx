@@ -25,7 +25,10 @@ const styles = theme => ({
     backgroundColor: "#273954",
     borderColor: "white",
     // textAlign: "left",
-    fontSize: "18px"
+    fontSize: "18px",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   grid3: {
     // borderStyle: "solid"
@@ -73,7 +76,7 @@ class NavBar2 extends Component {
             <div className="insideGrid">
               <div className="title">{key}</div>
               <Paper className={classes.paper} key={key}>
-                {(this.state.allCoins[key])}
+                {(this.state.allCoins[key].toLocaleString())}
               </Paper>
               <div className="Currency">USD ($)</div>
             </div>
