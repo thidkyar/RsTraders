@@ -17,7 +17,10 @@ const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
     backgroundColor: '#273954',
-    boxShadow: 'none'
+    boxShadow: 'none',
+  },
+  allfavoritesDiv: {
+    
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -168,6 +171,7 @@ class Favourites extends Component {
       <div style={{ textAlign: "center" }}>
         <h1>Select your Favourite Crypto's!</h1>
         <h3>You have {numberOfCoins.length} favorites </h3>
+        <div className={classes.allfavoritesDiv}>
         {this.state.coinCodes.map(coin => {
           return (
                 <Button
@@ -186,6 +190,7 @@ class Favourites extends Component {
                 </Button>
           );
         })}
+        </div>
         <div style={{ marginBottom: "20px" }}>
           <TextField
             className={classes.searchBar}

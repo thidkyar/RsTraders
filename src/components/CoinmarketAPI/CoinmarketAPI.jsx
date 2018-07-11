@@ -48,7 +48,7 @@ const styles = theme => ({
     padding: "19px"
   },
   contractInput: {
-    width: "20%",
+    width: "13.5%",
     textAlign: "center",
     padding: "5px"
   },
@@ -189,7 +189,7 @@ class CoinmarketAPI extends Component {
           >
             Buy
           </Button>
-          <button id="-" style={{marginLeft: '13px'}} onClick={this.props.incrementFunction}>
+          <button id="-"  onClick={this.props.incrementFunction}>
             -
           </button>
           <input
@@ -197,12 +197,12 @@ class CoinmarketAPI extends Component {
             onChange={this.props.getContracts}
             value={this.props.numContracts}
           />
-          <button id="+"  onClick={this.props.incrementFunction}>
+          <button id="+" onClick={this.props.incrementFunction}>
             +
           </button>
           <Button
             className={classes.sellButton}
-            style={{ float: "right" }}
+            // style={{ float: "right" }}
             onClick={this.props.sellButton}
             variant="contained"
             color="primary"
