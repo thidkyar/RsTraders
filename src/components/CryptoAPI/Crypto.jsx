@@ -54,28 +54,19 @@ class Crypto extends Component {
       .then(res => res.json())
       .then(result => {
         this.setState("Set state"[result]);
-        // console.log("Original Format", result);
         var coins = Object.values(result.data);
         this.setState({ coins: coins });
       });
   }
   render() {
     const { classes } = this.props;
-    // console.log('this.state.coins', this.state.coins)
     const { anchorEl } = this.state;
     return (
       <div className="Crypto-Ticker" >
-        <Grid container style={{paddingLeft: '5px' }}>
-          <Grid item xs={8} style={{paddingLeft: '1%' }}>
-            <Paper settings={{
-              overflowX: 'auto'
-            }}>
-      {/* <Typography style={{ color: 'white', background: 'rgb(39, 57, 84)' }} variant="display2" gutterBottom >Top 100 Cryptocurrencies </Typography> */}
-              <h1 style={{ 
-                padding: '.5em', 
-                background: '#4C5B74',
-                // background:'rgb(39, 57, 84)',
-                color: 'white'}}> Top 100 Cryptocurrencies </h1>
+        <Grid container style={{ paddingLeft: '5px' }}>
+          <Grid item xs={8} style={{ paddingLeft: '1%' }}>
+            <Paper settings={{overflowX: 'auto'}}>
+              <h1 style={{padding: '.5em', background: '#273954', color: 'white'}}> Top 100 Cryptocurrencies </h1>
               <Divider light />
               <Table className={classes.maintable}>
                 <TableHead>
@@ -99,20 +90,17 @@ class Crypto extends Component {
                           {coin.symbol}</TableCell>
                         <TableCell className={classes.maintable}>{coin.name}</TableCell>
                         <TableCell className={classes.maintable}>{'$' + Math.round(coin.quotes.USD.price * 100) / 100} </TableCell>
-                        <TableCell className={classes.maintable}>
-                          {(coin.quotes.USD.percent_change_24h > 0) ?
+                        <TableCell className={classes.maintable}>{(coin.quotes.USD.percent_change_24h > 0) ?
                             <font color="#3c8229"> {coin.quotes.USD.percent_change_24h + '%'}</font> :
                             <font color="red"> {coin.quotes.USD.percent_change_24h + '%'} </font>}
                         </TableCell>
                         <TableCell className={classes.maintable}><img class="sparkline" alt="sparkline" src={'https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/' + coin.id + '.png'} /></TableCell>
-                      </TableRow>
-                    );
-                  })}
+                      </TableRow>);})}
                 </TableBody>
               </Table>
             </Paper>
           </Grid>
-          <Grid item xs={4} style={{ paddingTop: '1.3%', paddingLeft: '1%', paddingRight: '1%' }} >
+          <Grid item xs={4} style={{ paddingTop: '1.1%', paddingLeft: '1%', paddingRight: '1%' }} >
             <Paper settings={{ padding: '2%' }}>
               <CryptoNews />
             </Paper>
