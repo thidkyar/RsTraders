@@ -249,9 +249,10 @@ class Chart extends Component {
     } else {
       const ableToBuy =
         this.state.userBalance / this.state.data.datasets[0].data.slice(-1)[0];
-      alert(
-        `Invalid amount, You can only buy ${ableToBuy} ${this.props.coinCode}`
-      );
+        this.setState({buyError: true, canIBuy: ableToBuy})
+      // alert(
+      //   `Invalid amount, You can only buy ${ableToBuy} ${this.props.coinCode}`
+      // );
     }
   };
 
@@ -260,7 +261,7 @@ class Chart extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, buyError: false});
   };
 
   //event handler to create sell transaction in blockchain
@@ -297,13 +298,14 @@ class Chart extends Component {
         });
 
     } else {
-      this.setState({open: true})
+      this.setState({open: true, sellerror: true})
     }
   };
 
   //When user inputs invalid contract number
   _alertDialog = () => {
     const { classes } = this.props;
+    if (this.state.open) {
     return (
     <Dialog
           open={this.state.open}
@@ -321,6 +323,25 @@ class Chart extends Component {
           </DialogContent>
         </Dialog>
     )
+  } else if (this.state.buyError) {
+    return (
+      <Dialog
+            open={this.state.buyError}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogContent className={classes.errorDialog}>
+              <DialogTitle className={classes.errorDialogTitle} style={{padding: '0'}}>
+                Error
+                </DialogTitle>
+              <DialogContentText style={{paddingTop: '10px'}} id="alert-dialog-description">
+                Sorry, you can only buy {this.state.canIBuy} {this.props.coinCode}
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
+      )
+  }
   }
 
   _successSnacknar = () => {
