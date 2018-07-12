@@ -64,7 +64,7 @@ class Crypto extends Component {
     return (
       <div className="Crypto-Ticker" >
         <Grid container style={{ paddingLeft: '5px' }}>
-          <Grid item xs={8} style={{ paddingLeft: '1%' }}>
+          <Grid item xs={8} style={{ paddingLeft: '1%', paddingTop: '0' }}>
             <Paper settings={{overflowX: 'auto'}}>
               <h1 style={{padding: '.5em', background: '#273954', color: 'white'}}> Top 100 Cryptocurrencies </h1>
               <Divider light />
@@ -100,7 +100,7 @@ class Crypto extends Component {
               </Table>
             </Paper>
           </Grid>
-          <Grid item xs={4} style={{ paddingTop: '1.1%', paddingLeft: '1%', paddingRight: '1%' }} >
+          <Grid item xs={4} style={{ paddingTop: '0', paddingLeft: '1%', paddingRight: '1%' }} >
             <Paper settings={{ padding: '2%' }}>
               <CryptoNews />
             </Paper>
