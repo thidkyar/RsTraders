@@ -175,7 +175,7 @@ class Profile extends Component {
               <Card className={classes.card2}
               width='100%'>
                 <CardHeader 
-                title='Balance'
+                title='All Transactions'
                   classes={{ 
                     title: classes.title
                    }}

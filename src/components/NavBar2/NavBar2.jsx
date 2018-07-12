@@ -61,7 +61,7 @@ class NavBar2 extends Component {
           userBalance: data.message.amountTotal.RST,
           allCoins: data.message.amountTotal
         });
-        this.puller = setTimeout(this._getBalance, 5 * 1000);
+        this.puller = setTimeout(this._getBalance, 1 * 1000);
       });
   };
 
