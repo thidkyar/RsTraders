@@ -34,7 +34,10 @@ const styles = theme => ({
     borderRadius: "0",
     color: "white",
     backgroundColor: "#ffffff00",
-    textAlign: "center"
+    textAlign: "center",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
   priceDetail: {
     textAlign: "center",

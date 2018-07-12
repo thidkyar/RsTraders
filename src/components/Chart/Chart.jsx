@@ -73,6 +73,9 @@ const styles = theme => ({
     '&:hover': {
       boxShadow: '-1px 1px 14px 0px #908888'
     }
+  },
+  snackbar: {
+    background: 'green'
   }
 });
 
@@ -81,6 +84,8 @@ class Chart extends Component {
     super(props);
     this.state = {
       open: false,
+      success: false,
+      buyError: false,
       userBalance: 0,
       numberOfContracts: 0,
       coinCodes: [],
@@ -245,13 +250,15 @@ class Chart extends Component {
         // .then(res => res.json())
         .then(response => {
           this._getBalance();
+          this.setState({success: true})
         });
     } else {
       const ableToBuy =
         this.state.userBalance / this.state.data.datasets[0].data.slice(-1)[0];
-      alert(
-        `Invalid amount, You can only buy ${ableToBuy} ${this.props.coinCode}`
-      );
+        this.setState({buyError: true, canIBuy: ableToBuy})
+      // alert(
+      //   `Invalid amount, You can only buy ${ableToBuy} ${this.props.coinCode}`
+      // );
     }
   };
 
@@ -260,7 +267,7 @@ class Chart extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, buyError: false, success: false});
   };
 
   //event handler to create sell transaction in blockchain
@@ -272,7 +279,7 @@ class Chart extends Component {
     // console.log(this.state.allCoins);
     // console.log("log this", this.state.allCoins[currentCoin]);
     if (
-      // this.state.allCoins[currentCoin] - sellamount >= 0 &&
+      this.state.allCoins[currentCoin] - this.state.numberOfContracts >= 0 &&
       this.state.numberOfContracts > 0 && 
       this.state.allCoins[currentCoin] > 0 
     ) {
@@ -294,16 +301,18 @@ class Chart extends Component {
       })
         // .then(res => res.json())
         .then(response => {
+          this.setState({success: true})
         });
-
+    
     } else {
-      this.setState({open: true})
+      this.setState({open: true, sellerror: true})
     }
   };
 
   //When user inputs invalid contract number
   _alertDialog = () => {
     const { classes } = this.props;
+    if (this.state.open) {
     return (
     <Dialog
           open={this.state.open}
@@ -321,17 +330,36 @@ class Chart extends Component {
           </DialogContent>
         </Dialog>
     )
+  } else if (this.state.buyError) {
+    return (
+      <Dialog
+            open={this.state.buyError}
+            onClose={this.handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogContent className={classes.errorDialog}>
+              <DialogTitle className={classes.errorDialogTitle} style={{padding: '0'}}>
+                Error
+                </DialogTitle>
+              <DialogContentText style={{paddingTop: '10px'}} id="alert-dialog-description">
+                Sorry, you can only buy {this.state.canIBuy} {this.props.coinCode}
+              </DialogContentText>
+            </DialogContent>
+          </Dialog>
+      )
+  }
   }
 
   _successSnacknar = () => {
     const { classes } = this.props;
     return (
-      <Snackbar
+      <Snackbar 
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          open={this.state.open}
+          open={this.state.success}
           autoHideDuration={3000}
           onClose={this.handleClose}
           ContentProps={{
@@ -339,9 +367,9 @@ class Chart extends Component {
           }}
           message={<span id="message-id">Success!</span>}
           action={[
-            <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
-              UNDO
-            </Button>,
+            // <Button key="undo" color="secondary" size="small" onClick={this.handleClose}>
+            //   UNDO
+            // </Button>,
             <IconButton
               key="close"
               aria-label="Close"
@@ -523,7 +551,7 @@ class Chart extends Component {
           </Grid>
         </div>
         {this._alertDialog()}
-        {/* {this._successSnacknar()} */}
+        {this._successSnacknar()}
       </div>
     );
   }
