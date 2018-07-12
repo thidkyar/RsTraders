@@ -45,8 +45,8 @@ class CryptoNews extends Component {
         const { classes } = this.props;
 
         return (
-            <div className="Crypto-News">
-                <Card >
+            <div className="Crypto-News" style={{marginTop: '20px'}}>
+                <Card style={{borderRadius: '0'}}>
                     <CardHeader
                         title="News"
                         classes={{
@@ -60,7 +60,8 @@ class CryptoNews extends Component {
                             border: 'bold',
                             titleColor: 'white',
                             textColor: 'white',
-                            color: 'white'
+                            color: 'white',
+                            paddingBottom: '24px'
                         }}>
                     </CardHeader>
                     <CardContent style={{ height: '38em' }} >

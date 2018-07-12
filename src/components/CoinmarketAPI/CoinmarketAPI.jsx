@@ -51,7 +51,7 @@ const styles = theme => ({
     padding: "19px"
   },
   contractInput: {
-    width: "13.5%",
+    width: "10%",
     textAlign: "center",
     padding: "5px"
   },
