@@ -1,43 +1,16 @@
 Table Users: table who keep informations about users
   id_user: Unique ID of user
-  user_address: Unique address to user, generate by
   Email: The email of the user
   fist_name: the first name of the user
   last_name: the last name of the user
   password: the password of the user
   register_date: the date when the user register
 
-Table Wallets: table who keep the informations about wallet of the user while is login
-  id_wallet: Unique ID of the user's Wallet
-  user_address: Unique address to user, generate by
-  id_coin: Unique ID of the id_coin
-  amount: Total amount of the user by coin 
-
-Table Blocks: table who keep the block of the transactions
-  id_block: Unique ID of the Block
-  hash_current: current hash of the Block
-  hash_previous: previous hash of the Block 
-  create_date: date of the creation of the Block
-
-Table Transactions: table who keep the transactions of users
-  id_transaction: Unique ID of the transactions
-  id_block: Unique ID of the Block
-  user_address: Unique address of the user
-  id_coin_from: Unique ID of the coin sell
-  id_coin_to: Unique ID of the coin buy
-  amount: total amount of the transaction
-
-Table Coins: Table who keep informations about our coin and the api coins
-  id_coin: Unique ID of the coin
-  short_name: Short name of the coin
-  long_name: Long name of the coin
-
+Table favorites: table to keep the favorites coins to user
+  id_favorites: Unique ID of favorites
+  id_user: Unique ID of user, came from user table
+  id_coin: Short name of the coin, came from api
 
 Relations:
 
-Users:user_address -> Wallets:user_address
-Users:user_address -> Transactions:user_address
-Coins:id_coin -> Wallets:id_coin
-Coins:id_coin -> Transactions:id_coin_from
-Coins:id_coin -> Transactions:id_coin_to
-Blocks:id_block -> Transactions:id_block
+Users:id_user -> Favorites:id_user
