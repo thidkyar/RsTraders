@@ -1,6 +1,6 @@
 # RsTraders
 
-The RsTraders website was built with the intention of being a learning tool in cryptocurrency investment. I was responsible for the initial idea and for the whole backend. I also built the blockchain, blocks and in the transactions I designed so that we store all the transactions of buying and selling of cryptocurrency. Enjoy! :)
+The RsTraders website was built with the intention of being a learning tool in cryptocurrency investment. The project build the blockchain to store the transactions inside. If you want more information or just chat contact me. Enjoy! :)
 
 
 ## Getting Started
