@@ -27,4 +27,4 @@ Favorites
 
 
 User Profile
-!["User Profile"](https://github.com/rafaelgavabarreto/RsTraders/blob/master/doc/images/RsTraders%20-%20User%20Profile.png)
+!["User Profile"](https://github.com/thidkyar/RsTraders/blob/master/doc/images/RsTraders%20-%20UserProfile.png)
