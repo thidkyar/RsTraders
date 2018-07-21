@@ -23,8 +23,10 @@ Main Page
 !["Main Page"](https://github.com/rafaelgavabarreto/RsTraders/blob/master/doc/images/RsTraders%20-%20Main%20Page.png)
 
 Favorites
-!["Favourites Page"](https://github.com/rafaelgavabarreto/RsTraders/blob/master/doc/images/RsTraders%20-%20Favorites.png)
+!["Favourites Page"](https://github.com/thidkyar/RsTraders/blob/master/doc/images/RsTrader%20-%20Favorites.png)
 
+Charts
+!["Charts Page"](https://github.com/thidkyar/RsTraders/blob/master/doc/images/RsTraders%20-%20Charts.png)
 
 User Profile
 !["User Profile"](https://github.com/thidkyar/RsTraders/blob/master/doc/images/RsTraders%20-%20UserProfile.png)
